@@ -1,5 +1,11 @@
 package manager;
 
+/**
+ * Singleton Class.
+ * Handles managing sound effects.
+ * @author Dave
+ *
+ */
 public class SFXManager extends AudioManager{
 	private static SFXManager instance;
 	

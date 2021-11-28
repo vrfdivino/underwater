@@ -6,6 +6,12 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * Singleton Class.
+ * Handles managing keyboard user inputs.
+ * @author Dave
+ *
+ */
 public class InputManager {
 	
 	private static InputManager instance;

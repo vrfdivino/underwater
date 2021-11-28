@@ -1,5 +1,10 @@
 package manager;
 
+/**
+ * Singleton Class.
+ * Handles managing game statistics.
+ * @author Dave
+ */
 public class GameManager {
 	private static GameManager instance;
 	

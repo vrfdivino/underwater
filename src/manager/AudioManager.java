@@ -5,6 +5,12 @@ import java.util.HashMap;
 
 import component.AudioPlayer;
 
+/**
+ * Singleton Class.
+ * Handles playing audio files.
+ * @author Dave
+ *
+ */
 public class AudioManager {
 	private static AudioManager instance;
 	

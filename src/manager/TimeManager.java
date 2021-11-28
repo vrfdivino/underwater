@@ -1,5 +1,11 @@
 package manager;
 
+/**
+ * Singleton Class
+ * Handles managing time.
+ * @author Dave
+ *
+ */
 public class TimeManager {
 	private static TimeManager instance;
 	

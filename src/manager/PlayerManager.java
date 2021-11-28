@@ -1,5 +1,10 @@
 package manager;
 
+/**
+ * Handles managing player status
+ * @author Dave
+ *
+ */
 public class PlayerManager {
 	private static PlayerManager instance;
 	

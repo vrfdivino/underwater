@@ -113,8 +113,9 @@ public class SplashScreen extends GameScene{
 	@Override //Write all logic for the scene here
 	public void update(GraphicsContext gc) { 		
 		this.onStartOfFrame();
-		this.updateGUI();
 		this.updateObjects();
+		
+		this.updateGUI();
 		
 		pane.requestFocus();
 	}
