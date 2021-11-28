@@ -33,11 +33,11 @@ public class Level_001 extends GameScene{
 		setAudioProperties();
 	}
 	
-	private void setObjectProperties() {
+	protected void setObjectProperties() {
 
 	}
 	
-	private void setGUIProperties() {
+	protected void setGUIProperties() {
 		label = new Label("This is the Main Game Scene!");
 		label.setAlignment(Pos.CENTER);
 		
@@ -45,7 +45,7 @@ public class Level_001 extends GameScene{
 		this.root.getChildren().add(this.pane);
 	}
 	
-	private void setAudioProperties() {
+	protected void setAudioProperties() {
 		AudioPlayer under_pressure = new AudioPlayer("resources/Audio/OST_2_UnderPressure.mp3", false);
 		AudioPlayer underwater = new AudioPlayer("resources/Audio/SFX_1_Underwater.mp3", true);
 		
@@ -64,5 +64,11 @@ public class Level_001 extends GameScene{
 	@Override
 	public void update(GraphicsContext gc) {					//Write all logic for this scene here
 		this.onStartOfFrame();
+	}
+
+	@Override
+	protected void updateGUI() {
+		// TODO Auto-generated method stub
+		
 	}
 }

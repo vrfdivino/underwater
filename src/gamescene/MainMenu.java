@@ -25,6 +25,24 @@ public class MainMenu extends GameScene{
 	}
 	
 	@Override
+	protected void setObjectProperties() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setGUIProperties() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setAudioProperties() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void update(GraphicsContext gc) {					//Write all logic for this scene here
 		
 	}
@@ -34,6 +52,14 @@ public class MainMenu extends GameScene{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	protected void updateGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 
 }

@@ -5,7 +5,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import parentclass.GameScene;
 
-//Only for initializing the game
+/**
+ * Handles Stage and Scene Management
+ * @author Dave
+ *
+ */
 public class GameStage {			
 	
 	public static final double WINDOW_WIDTH = 1000;
@@ -23,31 +27,39 @@ public class GameStage {
 		this.gameScene = new SplashScreen(this);	
 		this.gameScene.initializeProperties();
 		this.gc = this.gameScene.getGraphicsContext();
-		this.gameLoop = new GameLoop(this);
-		
+		this.gameLoop = new GameLoop(this);	
 	}
 	
 	public Stage getStage() {
 		return stage;
 	}
 	
+	public GameScene getGameScene() {
+		return this.gameScene;
+	}
+	
 	GraphicsContext getGraphicsContext() {
 		return this.gc;
 	}
 	
+	/**
+	 * Sets the stage. Should only be called once in Main
+	 * @param stage
+	 * @author Dave
+	 */
 	public void setStage(Stage stage) {
 		this.stage = stage;
 		this.stage.setTitle(GameStage.APP_NAME);
 		this.stage.setScene(this.gameScene.getScene());
 		
-		this.stage.setResizable(false);
-		
+		this.stage.setResizable(false);	
 	}
 	
-	public GameScene getGameScene() {
-		return this.gameScene;
-	}
-	
+	/**
+	 * Sets the GameScene. Used for switching between Scenes.
+	 * @author Dave
+	 * @param gameScene GameScene to switch with
+	 */
 	public void setGameScene(GameScene gameScene) {
 		this.gameScene.onExit();
 		
@@ -56,7 +68,7 @@ public class GameStage {
 		this.gameScene.initializeProperties();
 		
 		this.gc = gameScene.getGraphicsContext();
-		this.stage.setScene(this.gameScene.getScene());
+		this.stage.setScene(gameScene.getScene());
 	}
 	
 	void start() {

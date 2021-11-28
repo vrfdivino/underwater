@@ -41,17 +41,18 @@ public class SplashScreen extends GameScene{
 	
 	@Override
 	public void initializeProperties(){
-		//Call Layout Methods
 		this.setObjectProperties();
 		this.setGUIProperties();
 		this.setAudioProperties();
 	}
 	
-	private void setObjectProperties() {
+	@Override
+	protected void setObjectProperties() {
 		runnableObjectList.add(player);
 	}
 	
-	private void setGUIProperties() {
+	@Override
+	protected void setGUIProperties() {
 		//Initialize GUI
 		this.newGameButton = new MenuButton(this.gameStage, "/Menu/Sprites/Title_Texture_Button_NewGame_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_NewGame_Unselected-400.png", new Level_001(this.gameStage));
 		this.loadGameButton = new MenuButton(this.gameStage, "/Menu/Sprites/Title_Texture_Button_LoadGame_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_LoadGame_Unselected-400.png", new About(this.gameStage));
@@ -90,7 +91,8 @@ public class SplashScreen extends GameScene{
 		pane.getChildren().add(volumeVBox);
 	}
 	
-	private void setAudioProperties() {
+	@Override
+	protected void setAudioProperties() {
 		AudioPlayer call_of_the_sea = new AudioPlayer("resources/Audio/OST_1_CallOfTheSea.mp3", true);
 		
 		AUDIO_MANAGER.addAudioPlayer("Main Theme", call_of_the_sea);
@@ -117,7 +119,7 @@ public class SplashScreen extends GameScene{
 		pane.requestFocus();
 	}
 	
-	private void updateGUI() {
+	protected void updateGUI() {
 		this.volumeSlider.valueProperty().addListener(
 				(Observable observable) -> {
 				//Using x^4 as input for volume. This allows for a linear loudness experience
@@ -125,11 +127,5 @@ public class SplashScreen extends GameScene{
 				SFX_MANAGER.setVolume(volumeScaleFactor * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue());
 			}
 		);
-	}
-	
-	private void updateObjects() {
-		for (RunnableObject object: runnableObjectList) {
-			object.update(gc);
-		}
 	}
 }

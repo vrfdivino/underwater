@@ -24,7 +24,19 @@ public class About extends GameScene{
 		
 	}
 	
-	private void setAudioProperties() {
+	@Override
+	protected void setObjectProperties() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setGUIProperties() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	protected void setAudioProperties() {
 		AUDIO_MANAGER.playAudioPlayer("Main Theme");
 	}
 		
@@ -38,6 +50,14 @@ public class About extends GameScene{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	protected void updateGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 
 }

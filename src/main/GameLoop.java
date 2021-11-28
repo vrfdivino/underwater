@@ -17,9 +17,14 @@ public class GameLoop extends AnimationTimer {
 	
 	@Override
 	public void handle(long NanoTime) {		
+		onStartOfFrame();
 		updateGameScene();
 		updateTime();
 		updateInput();
+	}
+	
+	private void onStartOfFrame() {
+		INPUT_MANAGER.inputUpdate(this.gameStage.getGameScene().getScene());
 	}
 	
 	private void updateGameScene() {

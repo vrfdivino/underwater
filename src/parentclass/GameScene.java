@@ -41,12 +41,54 @@ public abstract class GameScene implements RunnableObject{
 		return this.gc;
 	}
 	
-	public abstract void initializeProperties();
-	
+	/**
+	 * To be called at the start of update method.
+	 * @author Dave
+	 */
 	protected void onStartOfFrame() {
-		INPUT_MANAGER.inputUpdate(this.scene);
 		gc.clearRect(0, 0, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 	}
 	
+	/**
+	 * To be called in update method
+	 * @author Dave
+	 */
+	protected void updateObjects() {
+		for (RunnableObject object: runnableObjectList) {
+			object.update(gc);
+		}
+	}
+	
+	/**
+	 * To be called in update method.
+	 * @author Dave
+	 */
+	protected abstract void updateGUI();
+	
+	/**
+	 * Removes GameObject from the runnableObjectList if they are destroyed.
+	 * To be called in update method.
+	 * @author Dave
+	 */
+	protected void checkDestroyedObjects() {
+		for (RunnableObject runnableObject: runnableObjectList) {
+			if (runnableObject instanceof GameObject) {
+				GameObject gameObject = (GameObject) runnableObject;
+				if (gameObject.isDestroyed()) {
+					runnableObjectList.remove(runnableObject);
+				}
+			}
+		}
+	}
+	
+	public abstract void initializeProperties();
+	protected abstract void setObjectProperties();
+	protected abstract void setGUIProperties();
+	protected abstract void setAudioProperties();
+	
+	/**
+	 * Do not call in update method. Called only when switching GameScenes.
+	 * @author Dave
+	 */
 	public abstract void onExit();
 }

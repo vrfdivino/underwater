@@ -27,6 +27,7 @@ public class GameObject implements RunnableObject {
 	protected Vector2 position = new Vector2();
 	protected double rotation = 0;
 	
+	protected boolean isDestroyed = false;
 	
 	public Collision getCollision() {
 		return this.collision;
@@ -35,6 +36,11 @@ public class GameObject implements RunnableObject {
 	public void destroy() {
 		this.animationPlayer.setVisible(false);
 		this.collision.setCollide(false);
+		this.isDestroyed = true;
+	}
+	
+	public boolean isDestroyed() {
+		return this.isDestroyed;
 	}
 	
 	@Override
