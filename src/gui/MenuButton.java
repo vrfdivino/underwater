@@ -59,11 +59,11 @@ public class MenuButton extends Button{
 	}
 	
 	public boolean isClicked() {
-		return this.isClicked;
+		return isClicked;
 	}
 	
 	private void setToClicked() {
-		this.isClicked = true;
+		isClicked = true;
 	}
 	
 	private void initializeButtonListeners() {

@@ -45,42 +45,42 @@ public class Collision {
 	}
 	
 	public boolean canCollide() {
-		return this.canCollide;
+		return canCollide;
 	}
 	
 	public Vector2 getPosition() {
-		return this.position;
+		return position;
 	}
 	
 	public Vector2 getSize() {
-		return this.size;
+		return size;
 	}
 	
 	public void setCollisions(String[] gameObjectClasses) {
-		this.collidesWith.clear();
+		collidesWith.clear();
 		for (int i = 0; i < gameObjectClasses.length; i++) {
 			this.collidesWith.add(gameObjectClasses[i]);
 		}
 	}
 	
 	public ArrayList<String> getCollisions() {
-		return this.collidesWith;
+		return collidesWith;
 	}
 	
 	public boolean overlaps(GameObject other) {
 		if (other.getCollision().canCollide() && collidesWith.contains(other.getClass().getName())) {
-			boolean noOverlap = this.position.x + this.size.x < other.getCollision().position.x ||
-					other.getCollision().position.x + other.getCollision().size.x < this.position.x ||
-					this.position.y + this.size.y < other.getCollision().position.y ||
-					other.getCollision().position.y + other.getCollision().size.y < this.position.y;
+			boolean noOverlap = position.x + size.x < other.getCollision().position.x ||
+					other.getCollision().position.x + other.getCollision().size.x < position.x ||
+					position.y + size.y < other.getCollision().position.y ||
+					other.getCollision().position.y + other.getCollision().size.y < position.y;
 			
 			if (!noOverlap) {
-				if (!this.overlaps.contains(other)) {
-					this.overlaps.add(other);
+				if (!overlaps.contains(other)) {
+					overlaps.add(other);
 				}
 			}	else {
-				if (this.overlaps.contains(other)) {
-					this.overlaps.remove(other);
+				if (overlaps.contains(other)) {
+					overlaps.remove(other);
 				}
 			}		
 			return !noOverlap;			
@@ -89,6 +89,6 @@ public class Collision {
 	}
 	
 	public ArrayList<GameObject> getOverlaps() {
-		return this.overlaps;
+		return overlaps;
 	}
 }

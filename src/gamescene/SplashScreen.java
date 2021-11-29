@@ -32,18 +32,19 @@ public class SplashScreen extends GameScene{
 	private MenuButton settingsButton;
 	
 	public SplashScreen(GameStage gameStage){
-		this.pane = new AnchorPane();
-		this.scene = new Scene(pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		this.gc = canvas.getGraphicsContext2D();
+		pane = new AnchorPane();
+		scene = new Scene(pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		gc = canvas.getGraphicsContext2D();
+		
 		this.gameStage = gameStage;
 	}
 	
 	@Override
 	public void initializeProperties(){
-		this.setObjectProperties();
-		this.setGUIProperties();
-		this.setAudioProperties();
+		setObjectProperties();
+		setGUIProperties();
+		setAudioProperties();
 	}
 	
 	@Override
@@ -54,17 +55,17 @@ public class SplashScreen extends GameScene{
 	@Override
 	protected void setGUIProperties() {
 		//Initialize GUI
-		this.newGameButton = new MenuButton(this.gameStage, "/Menu/Sprites/Title_Texture_Button_NewGame_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_NewGame_Unselected-400.png", new Level_001(this.gameStage));
-		this.loadGameButton = new MenuButton(this.gameStage, "/Menu/Sprites/Title_Texture_Button_LoadGame_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_LoadGame_Unselected-400.png", new About(this.gameStage));
-		this.settingsButton = new MenuButton(this.gameStage, "/Menu/Sprites/Title_Texture_Button_Settings_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_Settings_Unselected-400.png", new About(this.gameStage));
+		newGameButton = new MenuButton(gameStage, "/Menu/Sprites/Title_Texture_Button_NewGame_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_NewGame_Unselected-400.png", new Level_001(gameStage));
+		loadGameButton = new MenuButton(gameStage, "/Menu/Sprites/Title_Texture_Button_LoadGame_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_LoadGame_Unselected-400.png", new About(gameStage));
+		settingsButton = new MenuButton(gameStage, "/Menu/Sprites/Title_Texture_Button_Settings_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_Settings_Unselected-400.png", new About(gameStage));
 		
-		this.volumeSlider = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
-		this.volumeSlider.setMaxWidth(200);
-		this.volumeSlider.setValue(0.5);
+		volumeSlider = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
+		volumeSlider.setMaxWidth(200);
+		volumeSlider.setValue(0.5);
 		
-		this.sfxVolumeSlider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
-		this.sfxVolumeSlider.setMaxWidth(200);
-		this.sfxVolumeSlider.setValue(0.5);
+		sfxVolumeSlider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
+		sfxVolumeSlider.setMaxWidth(200);
+		sfxVolumeSlider.setValue(0.5);
 		
 		VBox volume = new VBox(new Label("Volume"), this.volumeSlider);
 		VBox sfxVolume = new VBox(new Label("Sound Effects"), this.sfxVolumeSlider);
@@ -76,9 +77,9 @@ public class SplashScreen extends GameScene{
 		volumeVBox.setAlignment(Pos.CENTER);
 		
 		//Set up GUI Layout
-		this.newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
-		this.loadGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
-		this.settingsButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
+		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
+		loadGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
+		settingsButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
 		
 		volumeVBox.setLayoutX(GameStage.WINDOW_WIDTH-300);
 		volumeVBox.setLayoutY(GameStage.WINDOW_HEIGHT-60);
@@ -105,23 +106,23 @@ public class SplashScreen extends GameScene{
 	
 	@Override
 	public void onExit() {
-		if (this.newGameButton.isClicked()) {
+		if (newGameButton.isClicked()) {
 			AUDIO_MANAGER.stopAll();
 		}
 	}
 	
 	@Override //Write all logic for the scene here
 	public void update(GraphicsContext gc) { 		
-		this.onStartOfFrame();
-		this.updateObjects();
+		onStartOfFrame();
+		updateObjects();
 		
-		this.updateGUI();
+		updateGUI();
 		
 		pane.requestFocus();
 	}
 	
 	protected void updateGUI() {
-		this.volumeSlider.valueProperty().addListener(
+		volumeSlider.valueProperty().addListener(
 				(Observable observable) -> {
 				//Using x^4 as input for volume. This allows for a linear loudness experience
 				AUDIO_MANAGER.setVolume(volumeScaleFactor * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue()); 

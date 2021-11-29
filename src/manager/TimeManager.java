@@ -24,17 +24,17 @@ public class TimeManager {
 	}
 	
 	private void setDeltaTime(double current_time) {
-		this.delta_time = ((current_time - last_time)/1000000)/1000;
-		this.last_time = current_time;
+		delta_time = ((current_time - last_time)/1000000)/1000;
+		last_time = current_time;
 	}
 	
 	public void updateTime(double current_time) {
-		this.setDeltaTime(current_time);
+		setDeltaTime(current_time);
 		
-		this.time_elapsed += this.delta_time;
+		time_elapsed += delta_time;
 	}
 	
 	public double getTimeElapsed() {
-		return this.time_elapsed;
+		return time_elapsed;
 	}
 }

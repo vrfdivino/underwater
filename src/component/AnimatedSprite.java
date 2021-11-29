@@ -85,23 +85,23 @@ public class AnimatedSprite {
 	}
 	
 	public Vector2 getPosition() {
-		return this.position;
+		return position;
 	}
 	
 	public Vector2 getSize() {
-		return this.size;
+		return size;
 	}
 	
 	public Vector2 getScale() {
-		return this.scale;
+		return scale;
 	}
 	
 	public double getRotation() {
-		return this.rotation;
+		return rotation;
 	}
 	
 	public int getCurrentFrame() {
-		return this.current_frame;
+		return current_frame;
 	}
 	
 	public void setFPS(int fps) {
@@ -110,34 +110,34 @@ public class AnimatedSprite {
 	}
 	
 	public void stop() {
-		this.isPlaying = false;
-		this.deltaFrame = 0;
-		this.frame_lapsed = 0;
-		this.current_frame = 0;
+		isPlaying = false;
+		deltaFrame = 0;
+		frame_lapsed = 0;
+		current_frame = 0;
 	}
 	
 	public void start() {
 		if (!isPlaying) {
-			this.isPlaying = true;
-			this.frame_lapsed = 0;
-			this.current_frame = 0;
+			isPlaying = true;
+			frame_lapsed = 0;
+			current_frame = 0;
 		}
 	}
 	
 	public void start(int frame) {
 		if (!isPlaying) {
-			this.isPlaying = true;
-			this.frame_lapsed = frame;
-			this.current_frame = frame;
+			isPlaying = true;
+			frame_lapsed = frame;
+			current_frame = frame;
 		}		
 	}
 	
 	public boolean isPlaying() {
-		return this.isPlaying;
+		return isPlaying;
 	}
 	
 	public boolean isVisible() {
-		return this.isVisible;
+		return isVisible;
 	}
 	
 	public void setVisible(boolean isVisible) {
@@ -149,7 +149,7 @@ public class AnimatedSprite {
 	}
 	
 	public boolean isHFlip() {
-		return this.isHFlip;
+		return isHFlip;
 	}
 	
 	public void setVFlip(boolean isVFlip) {
@@ -157,18 +157,18 @@ public class AnimatedSprite {
 	}
 	
 	public boolean isVFlip() {
-		return this.isVFlip;
+		return isVFlip;
 	}
 	
 	public void render(GraphicsContext gc) {
-		this.playFrames();
+		playFrames();
 		
 		double x_offset;
 		double y_offset;
 		double x_scale_factor;
 		double y_scale_factor;
 		
-		if (this.isHFlip()) {
+		if (isHFlip()) {
 			x_offset = this.size.x;
 			x_scale_factor = -1;
 		}
@@ -177,7 +177,7 @@ public class AnimatedSprite {
 			x_scale_factor = 1;
 		}
 		
-		if (this.isVFlip()) {
+		if (isVFlip()) {
 			y_offset = this.size.y;
 			y_scale_factor = -1;
 		}
@@ -187,19 +187,19 @@ public class AnimatedSprite {
 		}
 		
 		if (isVisible) {
-			gc.drawImage(textures.get(this.current_frame), 
-					this.position.x + x_offset - this.size.x/2, this.position.y + y_offset - this.size.y/2, 
-					this.size.x * this.scale.x * x_scale_factor, this.size.y * this.scale.y * y_scale_factor);
+			gc.drawImage(textures.get(current_frame), 
+					position.x + x_offset - size.x/2, position.y + y_offset - size.y/2, 
+					size.x * scale.x * x_scale_factor, size.y * scale.y * y_scale_factor);
 		}		
 	}
 	
 	private void playFrames() {
-		if (this.isPlaying) {
-			this.frame_lapsed += deltaFrame;
-			this.current_frame = (int) Math.floor(this.frame_lapsed);
-			if (this.current_frame >= frames) {
-				this.current_frame = 0;
-				this.frame_lapsed = 0;
+		if (isPlaying) {
+			frame_lapsed += deltaFrame;
+			current_frame = (int) Math.floor(frame_lapsed);
+			if (current_frame >= frames) {
+				current_frame = 0;
+				frame_lapsed = 0;
 			}
 		}
 	}

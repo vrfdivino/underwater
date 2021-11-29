@@ -24,11 +24,11 @@ public class GameLoop extends AnimationTimer {
 	}
 	
 	private void onStartOfFrame() {
-		INPUT_MANAGER.inputUpdate(this.gameStage.getGameScene().getScene());
+		INPUT_MANAGER.inputUpdate(gameStage.getGameScene().getScene());
 	}
 	
 	private void updateGameScene() {
-		this.gameStage.getGameScene().update(this.gameStage.getGraphicsContext());
+		gameStage.getGameScene().update(gameStage.getGraphicsContext());
 	}
 	
 	private void updateTime() {

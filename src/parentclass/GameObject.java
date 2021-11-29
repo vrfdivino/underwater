@@ -30,17 +30,17 @@ public class GameObject implements RunnableObject {
 	protected boolean isDestroyed = false;
 	
 	public Collision getCollision() {
-		return this.collision;
+		return collision;
 	}
 	
 	public void destroy() {
-		this.animationPlayer.setVisible(false);
-		this.collision.setCollide(false);
-		this.isDestroyed = true;
+		animationPlayer.setVisible(false);
+		collision.setCollide(false);
+		isDestroyed = true;
 	}
 	
 	public boolean isDestroyed() {
-		return this.isDestroyed;
+		return isDestroyed;
 	}
 	
 	@Override

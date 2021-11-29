@@ -12,10 +12,10 @@ public class MainMenu extends GameScene{
 	private Canvas canvas;
 	
 	public MainMenu(){
-		this.pane = new StackPane();
-		this.scene = new Scene(pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		this.gc = canvas.getGraphicsContext2D();
+		pane = new StackPane();
+		scene = new Scene(pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		gc = canvas.getGraphicsContext2D();
 	}
 	
 	@Override

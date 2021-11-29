@@ -34,11 +34,11 @@ public abstract class GameScene implements RunnableObject{
 	public void update(GraphicsContext gc) {}
 	
 	public Scene getScene(){
-		return this.scene;
+		return scene;
 	}
 	
 	public GraphicsContext getGraphicsContext() {
-		return this.gc;
+		return gc;
 	}
 	
 	/**

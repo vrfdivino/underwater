@@ -28,33 +28,33 @@ public class AudioManager {
 	}
 	
 	public void addAudioPlayer(String name, AudioPlayer audioPlayer) {
-		if (!this.audioPlayerList.containsKey(name)) {
-			this.audioPlayerList.put(name, audioPlayer);
-			this.audioPlayerList.get(name).setVolume(volume);
+		if (!audioPlayerList.containsKey(name)) {
+			audioPlayerList.put(name, audioPlayer);
+			audioPlayerList.get(name).setVolume(volume);
 		}
 	}
 	
 	public void removeAudioPlayer(String name) {
-		this.audioPlayerList.remove(name);
+		audioPlayerList.remove(name);
 	}
 	
 	public void playAudioPlayer(String name) {
-		this.audioPlayerList.get(name).play();
+		audioPlayerList.get(name).play();
 	}
 	
 	public void stopAudioPlayer(String name) {
-		this.audioPlayerList.get(name).stop();
+		audioPlayerList.get(name).stop();
 	}
 	
 	public void pauseAll() {
-		for (AudioPlayer audioPlayer: this.audioPlayerList.values()) {
+		for (AudioPlayer audioPlayer: audioPlayerList.values()) {
 			audioPlayer.pause();
 		}
 	}
 	
 	
 	public void stopAll() {
-		for (AudioPlayer audioPlayer: this.audioPlayerList.values()) {
+		for (AudioPlayer audioPlayer: audioPlayerList.values()) {
 			audioPlayer.stop();
 		}
 	}
@@ -64,27 +64,27 @@ public class AudioManager {
 	
 	public void setVolume(double volume) {
 		this.volume = volume;
-		for (AudioPlayer audioPlayer: this.audioPlayerList.values()) {
+		for (AudioPlayer audioPlayer: audioPlayerList.values()) {
 			audioPlayer.setVolume(volume);
 		}
 	}
 	
 	public double getVolume() {
-		return this.volume;
+		return volume;
 	}
 	
 	public double getVolumeOfAudioPlayer(String name) {
-		return this.audioPlayerList.get(name).getVolume();
+		return audioPlayerList.get(name).getVolume();
 	}
 	
 	public void setLoopOfAudioPlayer(String name, boolean canLoop) {
-		this.audioPlayerList.get(name).setLoop(canLoop);
+		audioPlayerList.get(name).setLoop(canLoop);
 	}
 	
 	public ArrayList<String> getPlayingAudioPlayerNames() {
 		ArrayList<String> playingAudioPlayerNames = new ArrayList<String>();
-		for (String audioPlayerName: this.audioPlayerList.keySet()) {
-			if (this.audioPlayerList.get(audioPlayerName).isPlaying()) {
+		for (String audioPlayerName: audioPlayerList.keySet()) {
+			if (audioPlayerList.get(audioPlayerName).isPlaying()) {
 				playingAudioPlayerNames.add(audioPlayerName);
 			}
 		}

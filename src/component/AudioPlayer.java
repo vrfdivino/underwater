@@ -10,70 +10,67 @@ public class AudioPlayer {
 	
 	private Media media;
 	private MediaPlayer mediaPlayer;
-	private Duration currentTime  = new Duration(0.0);
+
 	private boolean isPlaying = false;
 	
 	public AudioPlayer(String file){
-		this.setMedia(file);
-		this.setLoop(false);
+		setMedia(file);
+		setLoop(false);
 	}
 	
 	public AudioPlayer(String file, boolean canLoop){
-		this.setMedia(file);
-		this.setLoop(canLoop);
+		setMedia(file);
+		setLoop(canLoop);
 	}
 	
 	public void setMedia(String file) {
-		this.media = new Media(new File(file).toURI().toString());
-		this.mediaPlayer = new MediaPlayer(this.media);
+		media = new Media(new File(file).toURI().toString());
+		mediaPlayer = new MediaPlayer(media);
 	}
 	
 	public void play() {
-		this.currentTime = Duration.ZERO;
-		this.mediaPlayer.play();
-		this.isPlaying = true;
+		mediaPlayer.play();
+		isPlaying = true;
 	}
 	
 	public void stop() {
-		this.currentTime = this.mediaPlayer.getCurrentTime();
-		this.mediaPlayer.stop();
-		this.isPlaying = false;
+		mediaPlayer.stop();
+		isPlaying = false;
 	}
 	
 	public void pause() {
-		this.mediaPlayer.pause();
-		this.isPlaying = false;
+		mediaPlayer.pause();
+		isPlaying = false;
 	}
 	
 	public void restart() {
-		this.mediaPlayer.seek(Duration.ZERO);
-		this.isPlaying = true;
+		mediaPlayer.seek(Duration.ZERO);
+		isPlaying = true;
 	}
 	
 	public double getVolume() {
-		return this.mediaPlayer.getVolume();
+		return mediaPlayer.getVolume();
 	}
 	
 	public void setVolume(double volume) {
-		this.mediaPlayer.setVolume(volume);
+		mediaPlayer.setVolume(volume);
 	}
 	public boolean isPlaying() {
-		return this.isPlaying;
+		return isPlaying;
 	}
 	
 	public void setLoop(boolean canLoop) {
 		if (canLoop) {
-			this.mediaPlayer.setOnEndOfMedia(new Runnable() {
-		       public void run() {
+			mediaPlayer.setOnEndOfMedia(
+		       () -> {
 		    	   restart();
 		         }
-			});
+			);
 		}
 		else {
-			this.mediaPlayer.setOnEndOfMedia(new Runnable() {
-		       public void run() {
-		         }
-			});
+			mediaPlayer.setOnEndOfMedia(
+		       () -> {}
+			);
 		}
 	}
 }

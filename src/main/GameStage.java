@@ -24,10 +24,10 @@ public class GameStage {
 	private GameLoop gameLoop;
 	
 	GameStage() {
-		this.gameScene = new SplashScreen(this);	
-		this.gameScene.initializeProperties();
-		this.gc = this.gameScene.getGraphicsContext();
-		this.gameLoop = new GameLoop(this);	
+		gameScene = new SplashScreen(this);	
+		gameScene.initializeProperties();
+		gc = this.gameScene.getGraphicsContext();
+		gameLoop = new GameLoop(this);	
 	}
 	
 	public Stage getStage() {
@@ -35,11 +35,11 @@ public class GameStage {
 	}
 	
 	public GameScene getGameScene() {
-		return this.gameScene;
+		return gameScene;
 	}
 	
 	GraphicsContext getGraphicsContext() {
-		return this.gc;
+		return gc;
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class GameStage {
 	}
 	
 	void start() {
-		this.stage.show();
-		this.gameLoop.start();
+		stage.show();
+		gameLoop.start();
 	}
 }

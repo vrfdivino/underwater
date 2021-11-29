@@ -49,7 +49,7 @@ public class AnimationPlayer {
 	}
 	
 	public boolean isHFlip() {
-		return this.isHFlip;
+		return isHFlip;
 	}
 	
 	public void setVFlip(boolean isVFlip) {
@@ -61,11 +61,11 @@ public class AnimationPlayer {
 	}
 	
 	public boolean isVFlip() {
-		return this.isVFlip;
+		return isVFlip;
 	}
 	
 	public boolean isVisible() {
-		return this.isVisible;
+		return isVisible;
 	}
 	
 	public void setVisible(boolean isVisible) {
@@ -73,7 +73,7 @@ public class AnimationPlayer {
 	}
 	
 	public AnimatedSprite getAnimation(String name) {
-		return this.animations.get(name);
+		return animations.get(name);
 	}
 	
 	public String getCurrentAnimationName() {
@@ -81,6 +81,6 @@ public class AnimationPlayer {
 	}
 	
 	public void render(GraphicsContext gc) {
-		this.animations.get(current_animation).render(gc);
+		animations.get(current_animation).render(gc);
 	}
 }

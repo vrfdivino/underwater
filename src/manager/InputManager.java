@@ -36,7 +36,6 @@ public class InputManager {
 		
 		scene.setOnKeyPressed(
 			(KeyEvent e) -> {
-				
 				String code = e.getCode().toString();
 				if (!pressed.contains(code)) {
 					pressed.add(code);
@@ -46,12 +45,10 @@ public class InputManager {
 		);
 		
 		scene.setOnKeyReleased(
-			new EventHandler<KeyEvent>() {
-				public void handle(KeyEvent e) {
-					String code = e.getCode().toString();
-					pressed.remove(code);
-					justReleased.add(code);				
-				}
+			(KeyEvent e) -> {
+				String code = e.getCode().toString();
+				pressed.remove(code);
+				justReleased.add(code);				
 			}
 		);
 	}

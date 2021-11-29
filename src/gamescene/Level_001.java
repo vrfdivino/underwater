@@ -41,8 +41,8 @@ public class Level_001 extends GameScene{
 		label = new Label("This is the Main Game Scene!");
 		label.setAlignment(Pos.CENTER);
 		
-		this.pane.setRight(label);
-		this.root.getChildren().add(this.pane);
+		pane.setRight(label);
+		root.getChildren().add(this.pane);
 	}
 	
 	protected void setAudioProperties() {
@@ -63,7 +63,7 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	public void update(GraphicsContext gc) {					//Write all logic for this scene here
-		this.onStartOfFrame();
+		onStartOfFrame();
 	}
 
 	@Override

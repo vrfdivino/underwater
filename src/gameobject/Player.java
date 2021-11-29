@@ -52,7 +52,7 @@ public class Player extends GameObject{
 	}
 	
 	private void setSpritesAndAnimations() {
-		this.animationPlayer = new AnimationPlayer();
+		animationPlayer = new AnimationPlayer();
 		
 		//Get Image Resources
 		witchAnimSprites_idle_down[0] = new Image("/Player/Sprites/Witch_1.png");
@@ -65,24 +65,24 @@ public class Player extends GameObject{
 		for (int i = 0; i < 8; i++) this.witchAnimSprites_up[i] = new Image("/Player/Sprites/Witch_" + (i+25) + ".png");
 		
 		//Set ImageResources to AnimatedSprites
-		this.witchAnimSprite_idle_down = new AnimatedSprite(witchAnimSprites_idle_down, 12,  this.position, this.size);
-		this.witchAnimSprite_idle_right = new AnimatedSprite(witchAnimSprites_idle_right, 12,  this.position, this.size);
-		this.witchAnimSprite_idle_left = new AnimatedSprite(witchAnimSprites_idle_left, 12,  this.position, this.size);
-		this.witchAnimSprite_idle_up = new AnimatedSprite(witchAnimSprites_idle_up, 12,  this.position, this.size);
-		this.witchAnimSprite_down = new AnimatedSprite(witchAnimSprites_down, 12, this.position, this.size);
-		this.witchAnimSprite_right = new AnimatedSprite(witchAnimSprites_right, 12,  this.position, this.size);
-		this.witchAnimSprite_left = new AnimatedSprite(witchAnimSprites_left, 12,  this.position, this.size);
-		this.witchAnimSprite_up = new AnimatedSprite(witchAnimSprites_up, 12, this.position, this.size);
+		witchAnimSprite_idle_down = new AnimatedSprite(witchAnimSprites_idle_down, 12,  this.position, this.size);
+		witchAnimSprite_idle_right = new AnimatedSprite(witchAnimSprites_idle_right, 12,  this.position, this.size);
+		witchAnimSprite_idle_left = new AnimatedSprite(witchAnimSprites_idle_left, 12,  this.position, this.size);
+		witchAnimSprite_idle_up = new AnimatedSprite(witchAnimSprites_idle_up, 12,  this.position, this.size);
+		witchAnimSprite_down = new AnimatedSprite(witchAnimSprites_down, 12, this.position, this.size);
+		witchAnimSprite_right = new AnimatedSprite(witchAnimSprites_right, 12,  this.position, this.size);
+		witchAnimSprite_left = new AnimatedSprite(witchAnimSprites_left, 12,  this.position, this.size);
+		witchAnimSprite_up = new AnimatedSprite(witchAnimSprites_up, 12, this.position, this.size);
 		
 		//Add AnimatedSprites to animationPlayer
-		this.animationPlayer.addAnimation("IDLE_DOWN", this.witchAnimSprite_idle_down);
-		this.animationPlayer.addAnimation("IDLE_RIGHT", this.witchAnimSprite_idle_right);
-		this.animationPlayer.addAnimation("IDLE_LEFT", this.witchAnimSprite_idle_left);
-		this.animationPlayer.addAnimation("IDLE_UP", this.witchAnimSprite_idle_up);
-		this.animationPlayer.addAnimation("RUN_DOWN", this.witchAnimSprite_down);
-		this.animationPlayer.addAnimation("RUN_RIGHT", this.witchAnimSprite_right);
-		this.animationPlayer.addAnimation("RUN_LEFT", this.witchAnimSprite_left);
-		this.animationPlayer.addAnimation("RUN_UP", this.witchAnimSprite_up);
+		animationPlayer.addAnimation("IDLE_DOWN", this.witchAnimSprite_idle_down);
+		animationPlayer.addAnimation("IDLE_RIGHT", this.witchAnimSprite_idle_right);
+		animationPlayer.addAnimation("IDLE_LEFT", this.witchAnimSprite_idle_left);
+		animationPlayer.addAnimation("IDLE_UP", this.witchAnimSprite_idle_up);
+		animationPlayer.addAnimation("RUN_DOWN", this.witchAnimSprite_down);
+		animationPlayer.addAnimation("RUN_RIGHT", this.witchAnimSprite_right);
+		animationPlayer.addAnimation("RUN_LEFT", this.witchAnimSprite_left);
+		animationPlayer.addAnimation("RUN_UP", this.witchAnimSprite_up);
 	}
 	
 	@Override
@@ -90,7 +90,7 @@ public class Player extends GameObject{
 		//State Machine
 		switch(state) {							
 		case NORMAL:
-			this.normal();
+			normal();
 			break;
 		case SLOWED:
 			break;
@@ -104,60 +104,60 @@ public class Player extends GameObject{
 	}
 	
 	public void normal() {
-		this.getInput();
-		this.updatePosition();
+		getInput();
+		updatePosition();
 	}
 	
 	private void getInput() {
-		this.direction = new Vector2(INPUT_MANAGER.pressedInt("RIGHT") - INPUT_MANAGER.pressedInt("LEFT"),
-									 INPUT_MANAGER.pressedInt("DOWN") - INPUT_MANAGER.pressedInt("UP"));
+		direction = new Vector2(INPUT_MANAGER.pressedInt("RIGHT") - INPUT_MANAGER.pressedInt("LEFT"),
+								INPUT_MANAGER.pressedInt("DOWN") - INPUT_MANAGER.pressedInt("UP"));
 	}
 	
 	private void updatePosition() {
-		this.direction = direction.normalize();
-		this.velocity = direction.multiply(moveSpeed);
+		direction = direction.normalize();
+		velocity = direction.multiply(moveSpeed);
 		
-		this.position.add(velocity);
-		this.animationPlayer.setPosition(this.position);
+		position.add(velocity);
+		animationPlayer.setPosition(position);
 	}
 	
 	private void render(GraphicsContext gc) {
 		checkFlips();
 		
-		this.animationPlayer.render(gc);
+		animationPlayer.render(gc);
 	}
 	
 	private void checkFlips() {
 		
-		if (this.direction.x < 0) {
+		if (direction.x < 0) {
 			//this.animationPlayer.setHFlip(true);
-			this.animationPlayer.playAnimation("RUN_LEFT");
-		} else if(this.direction.x > 0) {
+			animationPlayer.playAnimation("RUN_LEFT");
+		} else if(direction.x > 0) {
 			//this.animationPlayer.setHFlip(false);
-			this.animationPlayer.playAnimation("RUN_RIGHT");
+			animationPlayer.playAnimation("RUN_RIGHT");
 		}
 		
-		if (this.direction.y < 0) {
+		if (direction.y < 0) {
 			//this.animationPlayer.setVFlip(false);
-			this.animationPlayer.playAnimation("RUN_UP");
-		}else if (this.direction.y > 0) {
+			animationPlayer.playAnimation("RUN_UP");
+		}else if (direction.y > 0) {
 			//this.animationPlayer.setVFlip(true);
-			this.animationPlayer.playAnimation("RUN_DOWN");
+			animationPlayer.playAnimation("RUN_DOWN");
 		}
 		
-		if (this.direction.x == 0 && this.direction.y == 0) {
-			switch(this.animationPlayer.getCurrentAnimationName()) {
+		if (direction.x == 0 && direction.y == 0) {
+			switch(animationPlayer.getCurrentAnimationName()) {
 			case "RUN_LEFT":
-				this.animationPlayer.playAnimation("IDLE_LEFT");
+				animationPlayer.playAnimation("IDLE_LEFT");
 				break;
 			case "RUN_RIGHT":
-				this.animationPlayer.playAnimation("IDLE_RIGHT");
+				animationPlayer.playAnimation("IDLE_RIGHT");
 				break;
 			case "RUN_UP":
-				this.animationPlayer.playAnimation("IDLE_UP");
+				animationPlayer.playAnimation("IDLE_UP");
 				break;
 			case "RUN_DOWN":
-				this.animationPlayer.playAnimation("IDLE_DOWN");
+				animationPlayer.playAnimation("IDLE_DOWN");
 				break;
 			}
 		}		
