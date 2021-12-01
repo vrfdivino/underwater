@@ -20,8 +20,11 @@ public class AnimationPlayer {
 	}
 	
 	public void playAnimation(String name) {
-		this.animations.get(name).start();
-		this.current_animation = name;
+		if (!this.current_animation.equals(name)) {
+			this.animations.get(current_animation).stop();
+			this.animations.get(name).start();
+			this.current_animation = name;
+		}
 	}
 	
 	public void setPosition(double x, double y) {

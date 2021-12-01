@@ -1,7 +1,6 @@
 package runnableobject;
 
 import javafx.scene.canvas.GraphicsContext;
-import main.GameStage;
 
 public interface RunnableObject {
 	/**

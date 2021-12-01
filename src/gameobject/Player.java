@@ -129,10 +129,10 @@ public class Player extends GameObject{
 	
 	private void checkFlips() {
 		
-		if (direction.x < 0) {
+		if (direction.x < 0 && direction.y == 0) {
 			//this.animationPlayer.setHFlip(true);
 			animationPlayer.playAnimation("RUN_LEFT");
-		} else if(direction.x > 0) {
+		} else if(direction.x > 0 && direction.y == 0) {
 			//this.animationPlayer.setHFlip(false);
 			animationPlayer.playAnimation("RUN_RIGHT");
 		}

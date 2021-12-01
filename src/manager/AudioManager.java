@@ -52,7 +52,6 @@ public class AudioManager {
 		}
 	}
 	
-	
 	public void stopAll() {
 		for (AudioPlayer audioPlayer: audioPlayerList.values()) {
 			audioPlayer.stop();

@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.GameStage;
 import parentclass.GameScene;
-import runnableobject.RunnableObject;
 
 public class SplashScreen extends GameScene{
 	private final double volumeScaleFactor = 1f;

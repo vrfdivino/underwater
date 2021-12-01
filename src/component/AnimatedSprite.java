@@ -43,7 +43,7 @@ public class AnimatedSprite {
 
 		this.frames = textures.length;
 		this.fps = fps;
-		this.deltaFrame = this.fps/GameStage.JAVA_FPS;
+		this.deltaFrame = fps/GameStage.JAVA_FPS;
 		for (int i = 0; i < textures.length; i++) {
 			this.textures.add(textures[i]);
 		}	
@@ -111,7 +111,6 @@ public class AnimatedSprite {
 	
 	public void stop() {
 		isPlaying = false;
-		deltaFrame = 0;
 		frame_lapsed = 0;
 		current_frame = 0;
 	}

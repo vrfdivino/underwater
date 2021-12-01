@@ -1,8 +1,6 @@
 package gui;
 
 import datatype.Vector2;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
@@ -17,7 +15,7 @@ public class MenuButton extends Button{
 	private boolean isClicked = false;
 	
 	private GameStage gameStage;
-	private GameScene gameScene;
+	private GameScene gameSceneToLoad;
 	private String buttonPressedStyle;
 	private String buttonFreeStyle;
 	
@@ -30,7 +28,7 @@ public class MenuButton extends Button{
 		setButtonFreeStyle();
 		initializeButtonListeners();
 		this.gameStage = gameStage;
-		this.gameScene = gameScene;
+		this.gameSceneToLoad = gameScene;
 	}
 	
 	private void setButtonPressedStyle() {
@@ -72,7 +70,7 @@ public class MenuButton extends Button{
 				if (event.getButton().equals(MouseButton.PRIMARY)) {
 					setButtonPressedStyle();
 					setToClicked();
-					gameStage.setGameScene(gameScene);	
+					gameStage.setGameScene(gameSceneToLoad);	
 				}
 			}
 		);
