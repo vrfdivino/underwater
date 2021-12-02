@@ -7,6 +7,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import main.GameStage;
 
+/**
+ * Handles a single animation
+ * @author Dave
+ *
+ */
 public class AnimatedSprite {
 	private double fps = 12;
 	private int current_frame = 0;
@@ -25,6 +30,16 @@ public class AnimatedSprite {
 	private boolean isVFlip = false;
 	private ArrayList<Image> textures = new ArrayList<Image>();
 	
+	/**
+	 * Creates a new AnimatedSprite
+	 * @param textures An array of Image objects
+	 * @param fps Determines the speed of the animation
+	 * @param x
+	 * @param y
+	 * @param width 
+	 * @param height
+	 * @author Dave
+	 */
 	public AnimatedSprite(Image[] textures, int fps, double x, double y, double width, double height) {
 		this.position.set(x, y);
 		this.size.set(width, height);
@@ -37,6 +52,14 @@ public class AnimatedSprite {
 		}
 	}
 	
+	/**
+	 * Creates a new AnimatedSprite
+	 * @param textures An array of Image objects
+	 * @param fps Determines the speed of the animation
+	 * @param position
+	 * @param size
+	 * @author Dave
+	 */
 	public AnimatedSprite(Image[] textures, int fps, Vector2 position, Vector2 size) {
 		this.position.set(position);
 		this.size.set(size);
@@ -49,6 +72,91 @@ public class AnimatedSprite {
 		}	
 	}
 	
+	/**
+	 * Stops and resets current frame to the first frame
+	 * @author Dave
+	 */
+	public void stop() {
+		isPlaying = false;
+		frame_lapsed = 0;
+		current_frame = 0;
+	}
+	
+	/**
+	 * Starts the AnimatedSprite at the specified frame. Defaults at the first frame.
+	 * @author Dave
+	 */
+	public void start() {
+		if (!isPlaying) {
+			isPlaying = true;
+			frame_lapsed = 0;
+			current_frame = 0;
+		}
+	}
+	
+	/**
+	 * Starts the AnimatedSprite at the specified frame. Defaults at the first frame.
+	 * @param frame
+	 * @author Dave
+	 */
+	public void start(int frame) {
+		if (!isPlaying) {
+			isPlaying = true;
+			frame_lapsed = frame;
+			current_frame = frame;
+		}		
+	}
+	/**
+	 * Renders the AnimatedSprite into the Canvas
+	 * @param gc GraphicsContext
+	 * @author Dave
+	 */
+	public void render(GraphicsContext gc) {
+		playFrames();
+		
+		double x_offset;
+		double y_offset;
+		double x_scale_factor;
+		double y_scale_factor;
+		
+		if (isHFlip()) {
+			x_offset = this.size.x;
+			x_scale_factor = -1;
+		}
+		else {
+			x_offset = 0;
+			x_scale_factor = 1;
+		}
+		
+		if (isVFlip()) {
+			y_offset = this.size.y;
+			y_scale_factor = -1;
+		}
+		else {
+			y_offset = 0;
+			y_scale_factor = 1;
+		}
+		
+		if (isVisible) {
+			gc.drawImage(textures.get(current_frame), 
+					position.x + x_offset - size.x/2, position.y + y_offset - size.y/2, 
+					size.x * scale.x * x_scale_factor, size.y * scale.y * y_scale_factor);
+		}		
+	}
+	
+	//Increments the frames
+	private void playFrames() {
+		if (isPlaying) {
+			frame_lapsed += deltaFrame;
+			current_frame = (int) Math.floor(frame_lapsed);
+			if (current_frame >= frames) {
+				current_frame = 0;
+				frame_lapsed = 0;
+			}
+		}
+	}
+	
+	//Setters
 	public void setPosition(double x, double y) {
 		this.position.set(x, y);
 	}
@@ -84,6 +192,20 @@ public class AnimatedSprite {
 		}	
 	}
 	
+	public void setFPS(int fps) {
+		this.fps = fps;
+		this.deltaFrame = fps/GameStage.JAVA_FPS;
+	}
+	
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+	
+	public void setHFlip(boolean isHFlip) {
+		this.isHFlip = isHFlip;
+	}
+	
+	//Getters
 	public Vector2 getPosition() {
 		return position;
 	}
@@ -104,47 +226,12 @@ public class AnimatedSprite {
 		return current_frame;
 	}
 	
-	public void setFPS(int fps) {
-		this.fps = fps;
-		this.deltaFrame = fps/GameStage.JAVA_FPS;
-	}
-	
-	public void stop() {
-		isPlaying = false;
-		frame_lapsed = 0;
-		current_frame = 0;
-	}
-	
-	public void start() {
-		if (!isPlaying) {
-			isPlaying = true;
-			frame_lapsed = 0;
-			current_frame = 0;
-		}
-	}
-	
-	public void start(int frame) {
-		if (!isPlaying) {
-			isPlaying = true;
-			frame_lapsed = frame;
-			current_frame = frame;
-		}		
-	}
-	
 	public boolean isPlaying() {
 		return isPlaying;
 	}
 	
 	public boolean isVisible() {
 		return isVisible;
-	}
-	
-	public void setVisible(boolean isVisible) {
-		this.isVisible = isVisible;
-	}
-	
-	public void setHFlip(boolean isHFlip) {
-		this.isHFlip = isHFlip;
 	}
 	
 	public boolean isHFlip() {
@@ -157,49 +244,5 @@ public class AnimatedSprite {
 	
 	public boolean isVFlip() {
 		return isVFlip;
-	}
-	
-	public void render(GraphicsContext gc) {
-		playFrames();
-		
-		double x_offset;
-		double y_offset;
-		double x_scale_factor;
-		double y_scale_factor;
-		
-		if (isHFlip()) {
-			x_offset = this.size.x;
-			x_scale_factor = -1;
-		}
-		else {
-			x_offset = 0;
-			x_scale_factor = 1;
-		}
-		
-		if (isVFlip()) {
-			y_offset = this.size.y;
-			y_scale_factor = -1;
-		}
-		else {
-			y_offset = 0;
-			y_scale_factor = 1;
-		}
-		
-		if (isVisible) {
-			gc.drawImage(textures.get(current_frame), 
-					position.x + x_offset - size.x/2, position.y + y_offset - size.y/2, 
-					size.x * scale.x * x_scale_factor, size.y * scale.y * y_scale_factor);
-		}		
-	}
-	
-	private void playFrames() {
-		if (isPlaying) {
-			frame_lapsed += deltaFrame;
-			current_frame = (int) Math.floor(frame_lapsed);
-			if (current_frame >= frames) {
-				current_frame = 0;
-				frame_lapsed = 0;
-			}
-		}
 	}
 }
