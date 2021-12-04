@@ -28,7 +28,7 @@ public class SplashScreen extends GameScene{
 	private Slider volumeSlider;
 	private Slider sfxVolumeSlider;
 	private MenuButton newGameButton;
-	private MenuButton loadGameButton;
+	// private MenuButton loadGameButton;
 	private MenuButton scoreboardButton;
 	private MenuButton settingsButton;
 	private MenuButton aboutButton;
