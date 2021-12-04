@@ -61,7 +61,9 @@ public class SplashScreen extends GameScene{
 		
 		
 		newGameButton  = new MenuButton(gameStage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
-		loadGameButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new About(gameStage));
+		
+		// TODO: I suggest to change this one to Scoreboard screen so that we will not use a web server anymore to display play history.
+		 loadGameButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new About(gameStage));
 
 		// TODO: Change texture for about and instruction buttons
 		aboutButton       = new MenuButton(gameStage, Assets.ABOUT_SELECTED,        Assets.ABOUT_UNSELECTED,        new About(gameStage));
