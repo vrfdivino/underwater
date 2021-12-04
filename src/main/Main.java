@@ -14,8 +14,9 @@ public class Main extends Application{
 		GameStage gameStage = new GameStage();		
 		
 		// PLEASE DO NOT EDIT UNTIL PRODUCTION
-		GameServer gameServer = new GameServer();
-		gameServer.listen();
+		// We can choose to add a web server or embed data in GUI.
+		// GameServer gameServer = new GameServer();
+		// gameServer.listen();
 		
 		gameStage.setStage(stage);
 		gameStage.start();

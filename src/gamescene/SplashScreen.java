@@ -29,6 +29,7 @@ public class SplashScreen extends GameScene{
 	private Slider sfxVolumeSlider;
 	private MenuButton newGameButton;
 	private MenuButton loadGameButton;
+	private MenuButton scoreboardButton;
 	private MenuButton settingsButton;
 	private MenuButton aboutButton;
 	private MenuButton instructionButton;
@@ -63,7 +64,9 @@ public class SplashScreen extends GameScene{
 		newGameButton  = new MenuButton(gameStage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
 		
 		// TODO: I suggest to change this one to Scoreboard screen so that we will not use a web server anymore to display play history.
-		 loadGameButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new About(gameStage));
+		// loadGameButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new About(gameStage));
+		scoreboardButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new Scoreboard(gameStage));
+		
 
 		// TODO: Change texture for about and instruction buttons
 		aboutButton       = new MenuButton(gameStage, Assets.ABOUT_SELECTED,        Assets.ABOUT_UNSELECTED,        new About(gameStage));
@@ -91,7 +94,8 @@ public class SplashScreen extends GameScene{
 		
 		//Set up GUI Layout
 		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 360);
-		loadGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
+		// loadGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
+		scoreboardButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
 		aboutButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
 		instructionButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
 		settingsButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 120);
@@ -102,7 +106,8 @@ public class SplashScreen extends GameScene{
 		//Add to node
 		pane.getChildren().add(canvas);
 		pane.getChildren().add(newGameButton);
-		pane.getChildren().add(loadGameButton);
+		// pane.getChildren().add(loadGameButton);
+		pane.getChildren().add(scoreboardButton);
 		pane.getChildren().add(aboutButton);
 		pane.getChildren().add(instructionButton);
 		pane.getChildren().add(settingsButton);

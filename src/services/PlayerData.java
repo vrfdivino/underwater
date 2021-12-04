@@ -22,8 +22,8 @@ public class PlayerData extends Data {
 		this.score = _score;
 	}
 	
-	String getName() { return this.name; };
-	int getScore() { return this.score; };
+	public String getName() { return this.name; };
+	public int getScore() { return this.score; };
 	int getId() { return this.id; };
 	HashMap<String, String> getJSON() {
 		

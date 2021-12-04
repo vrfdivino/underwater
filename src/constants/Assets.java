@@ -18,6 +18,10 @@ public class Assets {
 	// TODO: Change assets for back button
 	public static final String BACK_SELECTED    = "/Menu/Sprites/Title_Texture_Button_Settings_Selected-400.png";
 	public static final String BACK_UNSELECTED  = "/Menu/Sprites/Title_Texture_Button_Settings_Unselected-400.png";
+	
+	// TODO: Decide if we add scoreboard in GUI
+	public static final String SCOREBOARD_SELCTED    = "/Menu/Sprites/Title_Texture_Button_LoadGame_Selected-400.png";
+	public static final String SCOREBOARD_UNSELECTED  = "/Menu/Sprites/Title_Texture_Button_LoadGame_Unselected-400.png";
 
 	
 	public static final String CALL_OF_THE_SEA = "resources/Audio/OST_1_CallOfTheSea.mp3";
