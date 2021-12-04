@@ -1,6 +1,7 @@
 package gamescene;
 
 import component.AudioPlayer;
+import constants.Path;
 import gameobject.Player;
 import gui.MenuButton;
 import javafx.beans.Observable;
@@ -31,12 +32,14 @@ public class SplashScreen extends GameScene{
 	private MenuButton settingsButton;
 	
 	public SplashScreen(GameStage gameStage){
-		pane = new AnchorPane();
-		scene = new Scene(pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		
+		pane   = new AnchorPane();
+		scene  = new Scene(pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		gc = canvas.getGraphicsContext2D();
+		gc     = canvas.getGraphicsContext2D();
 		
 		this.gameStage = gameStage;
+		
 	}
 	
 	@Override
@@ -53,16 +56,19 @@ public class SplashScreen extends GameScene{
 	
 	@Override
 	protected void setGUIProperties() {
-		//Initialize GUI
-		newGameButton = new MenuButton(gameStage, "/Menu/Sprites/Title_Texture_Button_NewGame_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_NewGame_Unselected-400.png", new Level_001(gameStage));
-		loadGameButton = new MenuButton(gameStage, "/Menu/Sprites/Title_Texture_Button_LoadGame_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_LoadGame_Unselected-400.png", new About(gameStage));
-		settingsButton = new MenuButton(gameStage, "/Menu/Sprites/Title_Texture_Button_Settings_Selected-400.png", "/Menu/Sprites/Title_Texture_Button_Settings_Unselected-400.png", new About(gameStage));
 		
-		volumeSlider = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
+		
+		newGameButton  = new MenuButton(gameStage, Path.NEW_GAME_SELECTED,  Path.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
+		loadGameButton = new MenuButton(gameStage, Path.LOAD_GAME_SELECTED, Path.LOAD_GAME_UNSELECTED, new About(gameStage));
+		settingsButton = new MenuButton(gameStage, Path.SETTINGS_SELECTED,  Path.SETTINGS_UNSELECTED,  new About(gameStage));
+		// TODO: Add instruction and about CTA 
+		
+		volumeSlider    = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
+		sfxVolumeSlider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
+		
 		volumeSlider.setMaxWidth(200);
 		volumeSlider.setValue(0.5);
 		
-		sfxVolumeSlider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
 		sfxVolumeSlider.setMaxWidth(200);
 		sfxVolumeSlider.setValue(0.5);
 		
@@ -89,35 +95,42 @@ public class SplashScreen extends GameScene{
 		pane.getChildren().add(loadGameButton);
 		pane.getChildren().add(settingsButton);
 		pane.getChildren().add(volumeVBox);
+		
 	}
 	
 	@Override
 	protected void setAudioProperties() {
-		AudioPlayer call_of_the_sea = new AudioPlayer("resources/Audio/OST_1_CallOfTheSea.mp3", true);
 		
-		AUDIO_MANAGER.addAudioPlayer("Main Theme", call_of_the_sea);
+		String musicThemeName = "Maine Theme";
+		
+		AudioPlayer call_of_the_sea = new AudioPlayer(Path.CALL_OF_THE_SEA, true);
+		
+		AUDIO_MANAGER.addAudioPlayer(musicThemeName, call_of_the_sea);
 		AUDIO_MANAGER.setVolume(volumeScaleFactor * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue());
 		SFX_MANAGER.setVolume(volumeScaleFactor * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue());
 		
 		//Play AudioPlayers
-		AUDIO_MANAGER.playAudioPlayer("Main Theme");
+		AUDIO_MANAGER.playAudioPlayer(musicThemeName);
+		
 	}
 	
 	@Override
 	public void onExit() {
+		
 		if (newGameButton.isClicked()) {
 			AUDIO_MANAGER.stopAll();
 		}
+		
 	}
 	
 	@Override //Write all logic for the scene here
 	public void update(GraphicsContext gc) { 		
+		
 		onStartOfFrame();
-		updateObjects();
-		
+		updateObjects();	
 		updateGUI();
-		
 		pane.requestFocus();
+		
 	}
 	
 	protected void updateGUI() {

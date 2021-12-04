@@ -1,6 +1,7 @@
 package gamescene;
 
 import component.AudioPlayer;
+import constants.Path;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -18,6 +19,7 @@ public class Level_001 extends GameScene{
 	private Label label;
 
 	public Level_001(GameStage gameStage){
+		
 		this.root = new AnchorPane();
 		this.pane = new BorderPane();
 		this.scene = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
@@ -27,7 +29,7 @@ public class Level_001 extends GameScene{
 	}
 	
 	public void initializeProperties(){
-		//Insert Layout
+		
 		setObjectProperties();
 		setGUIProperties();
 		setAudioProperties();
@@ -38,22 +40,26 @@ public class Level_001 extends GameScene{
 	}
 	
 	protected void setGUIProperties() {
+		
 		label = new Label("This is the Main Game Scene!");
 		label.setAlignment(Pos.CENTER);
 		
 		pane.setRight(label);
 		root.getChildren().add(this.pane);
+		
 	}
 	
 	protected void setAudioProperties() {
-		AudioPlayer under_pressure = new AudioPlayer("resources/Audio/OST_2_UnderPressure.mp3", false);
-		AudioPlayer underwater = new AudioPlayer("resources/Audio/SFX_1_Underwater.mp3", true);
+		
+		AudioPlayer under_pressure = new AudioPlayer(Path.UNDER_PRESSURE, false);
+		AudioPlayer underwater = new AudioPlayer(Path.UNDERWATER, true);
 		
 		AUDIO_MANAGER.addAudioPlayer("Under Pressure", under_pressure);
 		SFX_MANAGER.addAudioPlayer("Underwater", underwater);
 		
 		AUDIO_MANAGER.playAudioPlayer("Under Pressure");
 		SFX_MANAGER.playAudioPlayer("Underwater");
+		
 	}
 	
 	@Override
