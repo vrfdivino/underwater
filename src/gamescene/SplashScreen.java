@@ -1,7 +1,7 @@
 package gamescene;
 
 import component.AudioPlayer;
-import constants.Path;
+import constants.Assets;
 import gameobject.Player;
 import gui.MenuButton;
 import javafx.beans.Observable;
@@ -30,6 +30,8 @@ public class SplashScreen extends GameScene{
 	private MenuButton newGameButton;
 	private MenuButton loadGameButton;
 	private MenuButton settingsButton;
+	private MenuButton aboutButton;
+	private MenuButton instructionButton;
 	
 	public SplashScreen(GameStage gameStage){
 		
@@ -58,10 +60,13 @@ public class SplashScreen extends GameScene{
 	protected void setGUIProperties() {
 		
 		
-		newGameButton  = new MenuButton(gameStage, Path.NEW_GAME_SELECTED,  Path.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
-		loadGameButton = new MenuButton(gameStage, Path.LOAD_GAME_SELECTED, Path.LOAD_GAME_UNSELECTED, new About(gameStage));
-		settingsButton = new MenuButton(gameStage, Path.SETTINGS_SELECTED,  Path.SETTINGS_UNSELECTED,  new About(gameStage));
-		// TODO: Add instruction and about CTA 
+		newGameButton  = new MenuButton(gameStage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
+		loadGameButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new About(gameStage));
+		settingsButton = new MenuButton(gameStage, Assets.SETTINGS_SELECTED,  Assets.SETTINGS_UNSELECTED,  new About(gameStage));
+		
+		// TODO: Change texture for about and instruction buttons
+		aboutButton       = new MenuButton(gameStage, Assets.ABOUT_SELECTED,        Assets.ABOUT_UNSELECTED,        new About(gameStage));
+		instructionButton = new MenuButton(gameStage, Assets.INSTRUCTION_SELECTED,  Assets.INSTRUCTION_UNSELECTED,  new Instruction(gameStage));
 		
 		volumeSlider    = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
 		sfxVolumeSlider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
@@ -82,9 +87,11 @@ public class SplashScreen extends GameScene{
 		volumeVBox.setAlignment(Pos.CENTER);
 		
 		//Set up GUI Layout
-		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
-		loadGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
-		settingsButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
+		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 360);
+		loadGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
+		aboutButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
+		instructionButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
+		settingsButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 120);
 		
 		volumeVBox.setLayoutX(GameStage.WINDOW_WIDTH-300);
 		volumeVBox.setLayoutY(GameStage.WINDOW_HEIGHT-60);
@@ -93,6 +100,8 @@ public class SplashScreen extends GameScene{
 		pane.getChildren().add(canvas);
 		pane.getChildren().add(newGameButton);
 		pane.getChildren().add(loadGameButton);
+		pane.getChildren().add(aboutButton);
+		pane.getChildren().add(instructionButton);
 		pane.getChildren().add(settingsButton);
 		pane.getChildren().add(volumeVBox);
 		
@@ -101,9 +110,9 @@ public class SplashScreen extends GameScene{
 	@Override
 	protected void setAudioProperties() {
 		
-		String musicThemeName = "Maine Theme";
+		String musicThemeName = "Main Theme";
 		
-		AudioPlayer call_of_the_sea = new AudioPlayer(Path.CALL_OF_THE_SEA, true);
+		AudioPlayer call_of_the_sea = new AudioPlayer(Assets.CALL_OF_THE_SEA, true);
 		
 		AUDIO_MANAGER.addAudioPlayer(musicThemeName, call_of_the_sea);
 		AUDIO_MANAGER.setVolume(volumeScaleFactor * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue());

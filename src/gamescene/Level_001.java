@@ -1,7 +1,7 @@
 package gamescene;
 
 import component.AudioPlayer;
-import constants.Path;
+import constants.Assets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -51,8 +51,8 @@ public class Level_001 extends GameScene{
 	
 	protected void setAudioProperties() {
 		
-		AudioPlayer under_pressure = new AudioPlayer(Path.UNDER_PRESSURE, false);
-		AudioPlayer underwater = new AudioPlayer(Path.UNDERWATER, true);
+		AudioPlayer under_pressure = new AudioPlayer(Assets.UNDER_PRESSURE, false);
+		AudioPlayer underwater = new AudioPlayer(Assets.UNDERWATER, true);
 		
 		AUDIO_MANAGER.addAudioPlayer("Under Pressure", under_pressure);
 		SFX_MANAGER.addAudioPlayer("Underwater", underwater);
