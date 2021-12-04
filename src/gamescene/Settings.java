@@ -12,14 +12,14 @@ import javafx.scene.layout.VBox;
 import main.GameStage;
 import parentclass.GameScene;
 
-public class About extends GameScene {
+public class Settings extends GameScene {
 	
 	private BorderPane root;
 	private VBox instructionBox;
 	private Label title;
 	private MenuButton backButton;
 	
-	About(GameStage gameStage) {
+	Settings(GameStage gameStage) {
 		
 		this.root   = new BorderPane();
 		this.scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
@@ -62,7 +62,7 @@ public class About extends GameScene {
 	@Override
 	protected void setGUIProperties() {
 		
-		this.title = new Label("About screen");
+		this.title = new Label("Settings screen");
 		// TODO: Instruction goes here
 		
 		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));

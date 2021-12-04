@@ -62,11 +62,12 @@ public class SplashScreen extends GameScene{
 		
 		newGameButton  = new MenuButton(gameStage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
 		loadGameButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new About(gameStage));
-		settingsButton = new MenuButton(gameStage, Assets.SETTINGS_SELECTED,  Assets.SETTINGS_UNSELECTED,  new About(gameStage));
-		
+
 		// TODO: Change texture for about and instruction buttons
 		aboutButton       = new MenuButton(gameStage, Assets.ABOUT_SELECTED,        Assets.ABOUT_UNSELECTED,        new About(gameStage));
 		instructionButton = new MenuButton(gameStage, Assets.INSTRUCTION_SELECTED,  Assets.INSTRUCTION_UNSELECTED,  new Instruction(gameStage));
+		
+		settingsButton = new MenuButton(gameStage, Assets.SETTINGS_SELECTED,  Assets.SETTINGS_UNSELECTED,  new Settings(gameStage));
 		
 		volumeSlider    = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
 		sfxVolumeSlider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
