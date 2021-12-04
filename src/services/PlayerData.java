@@ -1,5 +1,7 @@
 package services;
 
+import java.util.HashMap;
+
 public class PlayerData extends Data {
 	private int id;
 	private String name;
@@ -23,4 +25,14 @@ public class PlayerData extends Data {
 	String getName() { return this.name; };
 	int getScore() { return this.score; };
 	int getId() { return this.id; };
+	HashMap<String, String> getJSON() {
+		
+		HashMap<String,String> player = new HashMap<String, String>();
+		
+		player.put("id", String.valueOf(this.id));
+		player.put("name", this.name);
+		player.put("score", String.valueOf(this.score));
+		
+		return player;
+	}
 }
