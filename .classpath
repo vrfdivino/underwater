@@ -15,5 +15,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/sqlite-jdbc"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/java-json"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/JavaLibs/JavaJSON/java-json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
