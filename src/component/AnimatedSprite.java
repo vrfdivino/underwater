@@ -73,7 +73,7 @@ public class AnimatedSprite {
 	}
 	
 	/**
-	 * Stops and resets current frame to the first frame
+	 * Stops the AnimatedSprite and resets current frame to the first frame
 	 * @author Dave
 	 */
 	public void stop() {
@@ -205,6 +205,10 @@ public class AnimatedSprite {
 		this.isHFlip = isHFlip;
 	}
 	
+	public void setVFlip(boolean isVFlip) {
+		this.isVFlip = isVFlip;
+	}
+	
 	//Getters
 	public Vector2 getPosition() {
 		return position;
@@ -236,10 +240,6 @@ public class AnimatedSprite {
 	
 	public boolean isHFlip() {
 		return isHFlip;
-	}
-	
-	public void setVFlip(boolean isVFlip) {
-		this.isVFlip = isVFlip;
 	}
 	
 	public boolean isVFlip() {

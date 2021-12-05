@@ -23,6 +23,7 @@ public class AnimationPlayer {
 	 * Adds a new AnimatedSprite with an identifier
 	 * @param name Identifier of the AnimatedSprite to add
 	 * @param animation The AnimatedSprite to add
+	 * @author Dave
 	 */
 	public void addAnimation(String name, AnimatedSprite animation) {
 		this.animations.put(name, animation);
