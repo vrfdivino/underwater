@@ -1,5 +1,9 @@
 package constants;
 
+import javax.imageio.ImageIO;
+
+import javafx.scene.image.Image;
+
 public class Assets {
 	
 	public static final String ICON = "/Misc/AnchorIcon.png";
@@ -33,5 +37,13 @@ public class Assets {
 	public static final String CALL_OF_THE_SEA = "resources/Audio/OST_1_CallOfTheSea.mp3";
 	public static final String UNDER_PRESSURE  = "resources/Audio/OST_2_UnderPressure.mp3";
 	public static final String UNDERWATER      = "resources/Audio/SFX_1_Underwater.mp3";
+	
+	public static final String BG = "/Menu/Graphics/bg.png";
+	public static final Image LOGO = new Image("/Menu/Graphics/logo.png");
+	
+	public static final Image ABOUT_US_TITLE = new Image("/Menu/Graphics/about-us-title.png");
+	public static final Image ABOUT_US_CONTENT = new Image("/Menu/Graphics/about-us-content.png");
+	public static final Image INSTRUCTIONS_TITLE = new Image("/Menu/Graphics/instructions-title.png");
+	public static final Image INSTRUCTIONS_CONTENT = new Image("/Menu/Graphics/instructions-content.png");
 		
 }
