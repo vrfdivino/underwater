@@ -1,7 +1,9 @@
 package gamescene;
 
+import component.AnimatedSprite;
 import component.AudioPlayer;
 import constants.Assets;
+import datatype.Vector2;
 import gameobject.Player;
 import gui.MenuButton;
 import javafx.beans.Observable;
@@ -11,6 +13,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,17 +25,24 @@ public class SplashScreen extends GameScene{
 	private AnchorPane pane;
 	
 	//Game Objects
-	private Player player = new Player(500, 500);
+	
+	private AnimatedSprite background;
+	private AnimatedSprite title;
 	
 	//GUI Objects
 	private Slider volumeSlider;
 	private Slider sfxVolumeSlider;
 	private MenuButton newGameButton;
-	// private MenuButton loadGameButton;
 	private MenuButton scoreboardButton;
-	private MenuButton settingsButton;
 	private MenuButton aboutButton;
 	private MenuButton instructionButton;
+	
+	//Gui Properties
+	private Vector2 title_vel = Vector2.ZERO;
+	private double title_max_spd = 2;
+	private Vector2 title_dir = Vector2.ZERO;
+	private Vector2 point_1 = new Vector2(GameStage.WINDOW_WIDTH, 250+32);
+	private Vector2 point_2 = new Vector2(GameStage.WINDOW_WIDTH, 250+24);
 	
 	public SplashScreen(GameStage gameStage){
 		
@@ -54,25 +64,20 @@ public class SplashScreen extends GameScene{
 	
 	@Override
 	protected void setObjectProperties() {
-		runnableObjectList.add(player);
 	}
 	
 	@Override
 	protected void setGUIProperties() {
 		
+		//Backround and Title
+		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_001)}, 1, new Vector2(GameStage.WINDOW_WIDTH/2, GameStage.WINDOW_HEIGHT/2), new Vector2(1024, 1024));
+		title = new AnimatedSprite(new Image[] {new Image(Assets.TITLECARD)}, 1, new Vector2(GameStage.WINDOW_HEIGHT/2, -186), new Vector2(720, 364));
 		
-		newGameButton  = new MenuButton(gameStage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
-		
-		// TODO: I suggest to change this one to Scoreboard screen so that we will not use a web server anymore to display play history.
-		// loadGameButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new About(gameStage));
-		scoreboardButton = new MenuButton(gameStage, Assets.LOAD_GAME_SELECTED, Assets.LOAD_GAME_UNSELECTED, new Scoreboard(gameStage));
-		
-
-		// TODO: Change texture for about and instruction buttons
-		aboutButton       = new MenuButton(gameStage, Assets.ABOUT_SELECTED,        Assets.ABOUT_UNSELECTED,        new About(gameStage));
-		instructionButton = new MenuButton(gameStage, Assets.INSTRUCTION_SELECTED,  Assets.INSTRUCTION_UNSELECTED,  new Instruction(gameStage));
-		
-		settingsButton = new MenuButton(gameStage, Assets.SETTINGS_SELECTED,  Assets.SETTINGS_UNSELECTED,  new Settings(gameStage));
+		//Buttons
+		newGameButton  = new MenuButton(gameStage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_PRESSED, Assets.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
+		scoreboardButton = new MenuButton(gameStage, Assets.SCOREBOARD_SELECTED, Assets.SCOREBOARD_PRESSED, Assets.SCOREBOARD_UNSELECTED, new Scoreboard(gameStage));
+		aboutButton       = new MenuButton(gameStage,  Assets.ABOUT_SELECTED, Assets.ABOUT_PRESSED, Assets.ABOUT_UNSELECTED,        new About(gameStage));
+		instructionButton = new MenuButton(gameStage,  Assets.INSTRUCTION_SELECTED, Assets.INSTRUCTION_PRESSED, Assets.INSTRUCTION_UNSELECTED,  new Instruction(gameStage));
 		
 		volumeSlider    = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
 		sfxVolumeSlider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
@@ -94,11 +99,9 @@ public class SplashScreen extends GameScene{
 		
 		//Set up GUI Layout
 		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 360);
-		// loadGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
 		scoreboardButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
 		aboutButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
 		instructionButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
-		settingsButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 120);
 		
 		volumeVBox.setLayoutX(GameStage.WINDOW_WIDTH-300);
 		volumeVBox.setLayoutY(GameStage.WINDOW_HEIGHT-60);
@@ -106,13 +109,10 @@ public class SplashScreen extends GameScene{
 		//Add to node
 		pane.getChildren().add(canvas);
 		pane.getChildren().add(newGameButton);
-		// pane.getChildren().add(loadGameButton);
 		pane.getChildren().add(scoreboardButton);
 		pane.getChildren().add(aboutButton);
 		pane.getChildren().add(instructionButton);
-		pane.getChildren().add(settingsButton);
 		pane.getChildren().add(volumeVBox);
-		
 	}
 	
 	@Override
@@ -142,15 +142,17 @@ public class SplashScreen extends GameScene{
 	
 	@Override //Write all logic for the scene here
 	public void update(GraphicsContext gc) { 		
-		
 		onStartOfFrame();
-		updateObjects();	
 		updateGUI();
+		updateObjects();	
 		pane.requestFocus();
 		
 	}
 	
 	protected void updateGUI() {
+		background.render(gc);
+		animateTitle();
+		
 		volumeSlider.valueProperty().addListener(
 				(Observable observable) -> {
 				//Using x^4 as input for volume. This allows for a linear loudness experience
@@ -158,5 +160,14 @@ public class SplashScreen extends GameScene{
 				SFX_MANAGER.setVolume(volumeScaleFactor * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue());
 			}
 		);
+	}
+	
+	private void animateTitle() {
+		if (title.getPosition().y > point_1.y)	title_dir = Vector2.UP;
+		if (title.getPosition().y < point_2.y) 	title_dir = Vector2.DOWN;
+
+		title_vel.moveTowards(title_vel, new Vector2(title_max_spd * title_dir.x * TIME_MANAGER.getDeltaTime(), title_max_spd * title_dir.y), 5 * TIME_MANAGER.getDeltaTime());
+		title.getPosition().add(title_vel);
+		title.render(gc);
 	}
 }

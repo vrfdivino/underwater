@@ -75,7 +75,7 @@ public class Scoreboard extends GameScene {
 	protected void setGUIProperties() {
 		
 		this.title = new Label("Scoreboard");
-		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
+		this.backButton = new MenuButton(gameStage,  Assets.BACK_SELECTED, Assets.BACK_PRESSED, Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
 		
 		this.scoreboard = new VBox();
 

@@ -11,6 +11,7 @@ public class Player extends GameObject{
 	private static enum STATES {NORMAL, SLOWED, STUNNED, DAMAGED};
 	private STATES state = STATES.NORMAL;
 	
+	/*
 	private Image[] witchAnimSprites_idle_down = new Image[1];
 	private Image[] witchAnimSprites_idle_right = new Image[1];
 	private Image[] witchAnimSprites_idle_left = new Image[1];
@@ -29,8 +30,11 @@ public class Player extends GameObject{
 	private AnimatedSprite witchAnimSprite_idle_right;
 	private AnimatedSprite witchAnimSprite_idle_left;
 	private AnimatedSprite witchAnimSprite_idle_up;
+	*/
+	private Image[] diverAnimSprites = new Image[9];
+	private AnimatedSprite diverAnimSprite;
 	
-	private double moveSpeed = 5;
+	private double move_speed = 5;
 	
 	private Vector2 direction = new Vector2();
 	private Vector2 velocity = new Vector2();
@@ -47,13 +51,20 @@ public class Player extends GameObject{
 	
 	private void setTransformations(double x, double y) {
 		this.position.set(x, y);
-		this.size.set(200, 200);
+		this.size.set(256, 1696);
 		this.rotation = 0;
 	}
 	
 	private void setSpritesAndAnimations() {
 		animationPlayer = new AnimationPlayer();
 		
+		for (int i = 0; i < 9; i++) {
+			diverAnimSprites[i] = new Image("/Player/Sprites/Diver" + (i+1) + ".png");
+		}
+		
+		diverAnimSprite = new AnimatedSprite(diverAnimSprites, 12, position, size);
+		animationPlayer.addAnimation("IDLE", diverAnimSprite);
+		/*
 		//Get Image Resources
 		witchAnimSprites_idle_down[0] = new Image("/Player/Sprites/Witch_1.png");
 		witchAnimSprites_idle_right[0] = new Image("/Player/Sprites/Witch_9.png");
@@ -83,6 +94,31 @@ public class Player extends GameObject{
 		animationPlayer.addAnimation("RUN_RIGHT", this.witchAnimSprite_right);
 		animationPlayer.addAnimation("RUN_LEFT", this.witchAnimSprite_left);
 		animationPlayer.addAnimation("RUN_UP", this.witchAnimSprite_up);
+		animationPlayer.setAlpha(1);
+		*/
+	}
+	public void setPosition(double x, double y) {
+		this.position.set(x, y);
+	}
+	
+	public void setPosition(Vector2 position) {
+		this.position.set(position);
+	}
+	
+	public void setVelocity(double x, double y) {
+		this.velocity.set(x, y);
+	}
+	
+	public void setVelocity(Vector2 velocity) {
+		this.velocity.set(velocity);
+	}
+	
+	public Vector2 getPosition() {
+		return position;
+	}
+	
+	public Vector2 getVelocity() {
+		return velocity;
 	}
 	
 	@Override
@@ -115,20 +151,21 @@ public class Player extends GameObject{
 	
 	private void updatePosition() {
 		direction = direction.normalize();
-		velocity = direction.multiply(moveSpeed);
-		
+
+		velocity.moveTowards(velocity, new Vector2(direction.x * move_speed, direction.y * move_speed), 5 * TIME_MANAGER.getDeltaTime());
+
 		position.add(velocity);
 		animationPlayer.setPosition(position);
 	}
 	
 	private void render(GraphicsContext gc) {
-		checkFlips();
-		
+		//checkFlips();
+		animationPlayer.playAnimation("IDLE");
 		animationPlayer.render(gc);
 	}
 	
-	private void checkFlips() {
-		
+	//private void checkFlips() {
+		/*
 		if (direction.x < 0 && direction.y == 0) {
 			//this.animationPlayer.setHFlip(true);
 			animationPlayer.playAnimation("RUN_LEFT");
@@ -160,6 +197,7 @@ public class Player extends GameObject{
 				animationPlayer.playAnimation("IDLE_DOWN");
 				break;
 			}
-		}		
-	}
+		}	
+		*/	
+	//}
 }

@@ -1,9 +1,9 @@
 package gamescene;
 
-import java.util.ArrayList;
-
+import component.AnimatedSprite;
 import component.AudioPlayer;
 import constants.Assets;
+import datatype.Vector2;
 import gameobject.Player;
 import gui.MenuButton;
 import javafx.geometry.Pos;
@@ -11,24 +11,25 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.GameStage;
-import javafx.scene.Node;
 import parentclass.GameScene;
 
 public class Level_001 extends GameScene{
 	
-	// private AnchorPane root;
 	private BorderPane pane;
 	
-	private Label label;
+	//GUI Elements
+	private AnimatedSprite background;
+	private double bg_scroll_speed = 36;
+	
 	private HBox statusBar;
 	private MenuButton backButton;
 	
-	private Player player = new Player(500, 500);
+	private Player player = new Player(100, -450);
 	private int timeLeft = 60;
 	private Label timeCount;
 	private int timeElapsed;
@@ -58,12 +59,13 @@ public class Level_001 extends GameScene{
 	
 	protected void setGUIProperties() {
 		
+		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_002)}, 1, new Vector2(1024/2, 3072/2), new Vector2(1024, 3072));
+		
 		// JUST A TEMPORARY LAYOUT
 		
-		label = new Label("This is the Main Game Scene!");
-		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
+		this.backButton = new MenuButton(gameStage,  Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
 		VBox metaBox = new VBox();
-		metaBox.getChildren().addAll(label, this.backButton);
+		metaBox.getChildren().addAll(this.backButton);
 		
 		HBox statusBar = this.buildStatusBar();
 		
@@ -74,7 +76,6 @@ public class Level_001 extends GameScene{
 				
 		this.pane.setCenter(this.canvas);
 		this.pane.setTop(top);
-		// root.getChildren().add(this.pane);
 		
 	}
 	
@@ -117,22 +118,58 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	public void onExit() {
-		
+		AUDIO_MANAGER.stopAll();
+		SFX_MANAGER.stopAll();
 	}
 	
 	@Override //Write all logic for the scene here
 	public void update(GraphicsContext gc) { 		
 		
 		onStartOfFrame();
-		updateObjects();	
 		updateGUI();
+		updateObjects();
+		limitPlayerMovement();
 		pane.requestFocus();
 		
 	}
 	@Override
 	protected void updateGUI() {
-		// TODO Auto-generated method stub
+		updateTimer();
+		scrollBackground();
+	}
+	
+	private void limitPlayerMovement() {
+		if (player.getPosition().x <= 64) {
+			player.setPosition(new Vector2(64, player.getPosition().y));
+			player.setVelocity(new Vector2(0,player.getVelocity().y));
+		}
+		if (player.getPosition().x >= 965) {
+			player.setPosition(new Vector2(965, player.getPosition().y));
+			player.setVelocity(new Vector2(0,player.getVelocity().y));
+		}
 		
+		if (player.getPosition().y <= -610) {
+			player.setPosition(new Vector2(player.getPosition().x, -610));
+			player.setVelocity(new Vector2(player.getVelocity().x, 0));
+		}
+		if (player.getPosition().y >= 155) {
+			player.setPosition(new Vector2(player.getPosition().x, 155));
+			player.setVelocity(new Vector2(player.getVelocity().x, 0));
+		}
+		
+		System.out.println(player.getPosition().x);
+		
+	}
+	
+	private void scrollBackground() {
+		background.getPosition().add(new Vector2(0, -bg_scroll_speed * TIME_MANAGER.getDeltaTime()));
+		if (background.getPosition().y <= -585) {
+			background.setPosition(new Vector2(background.getPosition().x, -585));
+		}
+		background.render(gc);
+	}
+	
+	private void updateTimer() {
 		int timeElapsed = (int) TIME_MANAGER.getTimeElapsed();
 		
 		if (this.timeElapsed != timeElapsed) {
@@ -141,6 +178,6 @@ public class Level_001 extends GameScene{
 		}
 		
 		this.timeCount.setText("0:" + this.timeLeft);
-		System.out.println(this.timeLeft);
+		//System.out.println(this.timeLeft);
 	}
 }

@@ -16,7 +16,7 @@ public class AudioPlayer {
 	private Media media;
 	private MediaPlayer mediaPlayer;
 
-	private boolean isPlaying = false;
+	private boolean is_playing = false;
 	
 	/**
 	 * Creates a new AudioPlayer. Doesn't loop by default.
@@ -48,22 +48,22 @@ public class AudioPlayer {
 	
 	public void play() {
 		mediaPlayer.play();
-		isPlaying = true;
+		is_playing = true;
 	}
 	
 	public void stop() {
 		mediaPlayer.stop();
-		isPlaying = false;
+		is_playing = false;
 	}
 	
 	public void pause() {
 		mediaPlayer.pause();
-		isPlaying = false;
+		is_playing = false;
 	}
 	
 	public void restart() {
 		mediaPlayer.seek(Duration.ZERO);
-		isPlaying = true;
+		is_playing = true;
 	}
 	
 	public void setLoop(boolean canLoop) {
@@ -92,6 +92,6 @@ public class AudioPlayer {
 	}
 	
 	public boolean isPlaying() {
-		return isPlaying;
+		return is_playing;
 	}
 }

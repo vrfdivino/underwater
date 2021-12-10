@@ -57,6 +57,7 @@ public class AudioManager {
 			audioPlayer.stop();
 		}
 	}
+	
 	public void restartAudioPlayer(String name) {
 		this.audioPlayerList.get(name).restart();
 	}

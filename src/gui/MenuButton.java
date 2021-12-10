@@ -9,23 +9,25 @@ import main.GameStage;
 import parentclass.GameScene;
 
 public class MenuButton extends Button{
-	private final int HEIGHT = 40;
-	private final int WIDTH = 328;
+	private final int HEIGHT = 56;
+	private final int WIDTH = 360;
 	
 	private boolean isClicked = false;
 	
 	private GameStage gameStage;
 	private GameScene gameSceneToLoad;
+	private String buttonHoverStyle;
 	private String buttonPressedStyle;
-	private String buttonFreeStyle;
+	private String buttonReleasedStyle;
 	
-	public MenuButton(GameStage gameStage, String pressedPath, String freePath, GameScene gameScene) {
+	public MenuButton(GameStage gameStage, String hoverPath, String pressedPath, String releasedPath, GameScene gameScene) {
+		buttonHoverStyle = "-fx-background-color: transparent; -fx-background-image: url('"+ hoverPath +"');";
 		buttonPressedStyle = "-fx-background-color: transparent; -fx-background-image: url('"+ pressedPath +"');";
-		buttonFreeStyle = "-fx-background-color: transparent; -fx-background-image: url('"+ freePath +"');";
+		buttonReleasedStyle = "-fx-background-color: transparent; -fx-background-image: url('"+ releasedPath +"');";
 		
 		setPrefWidth(WIDTH);
 		setPrefHeight(HEIGHT);
-		setButtonFreeStyle();
+		setButtonReleasedStyle();
 		initializeButtonListeners();
 		this.gameStage = gameStage;
 		this.gameSceneToLoad = gameScene;
@@ -36,13 +38,13 @@ public class MenuButton extends Button{
 		setPrefHeight(HEIGHT);
 	}
 	
-	private void setButtonFreeStyle() {
-		setStyle(buttonFreeStyle);
+	private void setButtonHoverStyle() {
+		setStyle(buttonHoverStyle);
 		setPrefHeight(HEIGHT);
 	}
 	
 	private void setButtonReleasedStyle() {
-		setStyle(buttonFreeStyle);
+		setStyle(buttonReleasedStyle);
 		setPrefHeight(HEIGHT);
 	}
 	
@@ -68,9 +70,7 @@ public class MenuButton extends Button{
 		setOnMousePressed(
 			(MouseEvent event) -> {
 				if (event.getButton().equals(MouseButton.PRIMARY)) {
-					setButtonPressedStyle();
-					setToClicked();
-					gameStage.setGameScene(gameSceneToLoad);	
+					setButtonPressedStyle();	
 				}
 			}
 		);
@@ -79,20 +79,20 @@ public class MenuButton extends Button{
 				(MouseEvent event) -> {
 				if (event.getButton().equals(MouseButton.PRIMARY)) {
 					setButtonReleasedStyle();
+					setToClicked();
+					gameStage.setGameScene(gameSceneToLoad);
 				}
 			}
 		);
 		
 		setOnMouseEntered(
 				(MouseEvent event) -> {
-				setButtonPressedStyle();
-				setEffect(new DropShadow());
+				setButtonHoverStyle();
 			}
 		);
 		
 		setOnMouseExited(
 				(MouseEvent event) -> {
-				setEffect(null);
 				setButtonReleasedStyle();
 			}
 		);

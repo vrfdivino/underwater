@@ -5,6 +5,7 @@ public class Vector2 {
 	public static final Vector2 RIGHT = new Vector2(1, 0);
 	public static final Vector2 UP = new Vector2(0, -1);
 	public static final Vector2 DOWN = new Vector2(0, 1);
+	public static final Vector2 ZERO = new Vector2(0, 0);
 	
 	public double x;
 	public double y;
@@ -54,7 +55,6 @@ public class Vector2 {
 			this.multiply(1/currentLength);		//Set length to 1
 			this.multiply(L);  					//Set length to L
 		}
-		
 	}
 	
 	public double getLength() {
@@ -79,5 +79,46 @@ public class Vector2 {
 			return new Vector2(0, 0);
 		}
 		return new Vector2(this.x/length, this.y/length);
+	}
+	
+	public Vector2 moveTowards(Vector2 current_pos, Vector2 target_pos, double delta) {
+		Vector2 final_pos = new Vector2(target_pos.x - current_pos.x, target_pos.y - current_pos.y);
+		Vector2 direction = final_pos.normalize();
+		if (direction.x > 0) {
+			if (direction.y > 0) {
+				if (current_pos.x + (delta * direction.x) <= target_pos.x && current_pos.y + (delta * direction.y) <= target_pos.y) {
+					final_pos = new Vector2(current_pos.x + (delta * direction.x), current_pos.y + (delta * direction.y));
+				} else {
+					final_pos = target_pos;
+				}
+			}
+			else {
+				if (current_pos.x + (delta * direction.x) <= target_pos.x && current_pos.y + (delta * direction.y) >= target_pos.y) {
+					final_pos = new Vector2(current_pos.x + (delta * direction.x), current_pos.y + (delta * direction.y));
+				} else {
+					final_pos = target_pos;
+				}
+			}
+
+		} else {
+			if (direction.y > 0) {
+				if (current_pos.x + (delta * direction.x) >= target_pos.x && current_pos.y + (delta * direction.y) <= target_pos.y) {
+					final_pos = new Vector2(current_pos.x + (delta * direction.x), current_pos.y + (delta * direction.y));
+				} else {
+					final_pos = target_pos;
+				}
+			}
+			else {
+				if (current_pos.x + (delta * direction.x) >= target_pos.x && current_pos.y + (delta * direction.y) >= target_pos.y) {
+					final_pos = new Vector2(current_pos.x + (delta * direction.x), current_pos.y + (delta * direction.y));
+				} else {
+					final_pos = target_pos;
+				}
+			}
+		}
+
+		x = final_pos.x;
+		y = final_pos.y;
+		return final_pos;
 	}
 }

@@ -37,4 +37,8 @@ public class TimeManager {
 	public double getTimeElapsed() {
 		return time_elapsed;
 	}
+	
+	public double getDeltaTime() {
+		return delta_time;
+	}
 }

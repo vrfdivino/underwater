@@ -1,7 +1,9 @@
 package main;
 
+import constants.Assets;
 import gamescene.SplashScreen;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import parentclass.GameScene;
 
@@ -12,8 +14,8 @@ import parentclass.GameScene;
  */
 public class GameStage {			
 	
-	public static final double WINDOW_WIDTH = 1000;
-	public static final double WINDOW_HEIGHT = 1000;
+	public static final double WINDOW_WIDTH = 1024;
+	public static final double WINDOW_HEIGHT = 1024;
 	public static final String APP_NAME = "Under Pressure";
 	public static final double JAVA_FPS = 60.0;
 	
@@ -48,6 +50,7 @@ public class GameStage {
 	 * @author Dave
 	 */
 	public void setStage(Stage stage) {
+		stage.getIcons().add(new Image(Assets.ICON));
 		this.stage = stage;
 		this.stage.setTitle(GameStage.APP_NAME);
 		this.stage.setScene(this.gameScene.getScene());

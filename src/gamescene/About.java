@@ -68,7 +68,7 @@ public class About extends GameScene {
 	protected void setGUIProperties() {
 		
 		this.title = new Label("About screen");
-		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
+		this.backButton = new MenuButton(gameStage, Assets.BACK_PRESSED, Assets.BACK_SELECTED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
 		
 		this.aboutBox = new VBox();
 

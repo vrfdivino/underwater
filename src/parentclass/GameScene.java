@@ -33,14 +33,6 @@ public abstract class GameScene implements RunnableObject{
 	@Override
 	public void update(GraphicsContext gc) {}
 	
-	public Scene getScene(){
-		return scene;
-	}
-	
-	public GraphicsContext getGraphicsContext() {
-		return gc;
-	}
-	
 	/**
 	 * To be called at the start of update method.
 	 * @author Dave
@@ -91,4 +83,14 @@ public abstract class GameScene implements RunnableObject{
 	 * @author Dave
 	 */
 	public abstract void onExit();
+	
+	//Getters
+	public Scene getScene(){
+		return scene;
+	}
+	
+	public GraphicsContext getGraphicsContext() {
+		return gc;
+	}
+	
 }

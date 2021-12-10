@@ -12,12 +12,14 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class AnimationPlayer {
 	
+	private double alpha = 1.0;
 	private Vector2 position = new Vector2();
-	private boolean isVisible = true;
-	private boolean isHFlip = false;
-	private boolean isVFlip = false;
+	private boolean is_playing = false;
+	private boolean is_visible = true;
+	private boolean is_hflip = false;
+	private boolean is_vflip = false;
 	private HashMap<String, AnimatedSprite> animations = new HashMap<String, AnimatedSprite>();
-	private String current_animation;
+	private String current_animation = "";
 	
 	/**
 	 * Adds a new AnimatedSprite with an identifier
@@ -27,7 +29,7 @@ public class AnimationPlayer {
 	 */
 	public void addAnimation(String name, AnimatedSprite animation) {
 		this.animations.put(name, animation);
-		this.current_animation = name;
+		current_animation = name;
 	}
 	
 	/**
@@ -36,10 +38,12 @@ public class AnimationPlayer {
 	 * @author Dave
 	 */
 	public void playAnimation(String name) {
-		if (!this.current_animation.equals(name)) {
+		
+		if (!this.current_animation.equals(name) || !is_playing) {
 			this.animations.get(current_animation).stop();
 			this.animations.get(name).start();
 			this.current_animation = name;
+			is_playing = true;
 		}
 	}
 	
@@ -69,37 +73,48 @@ public class AnimationPlayer {
 		}
 	}
 	
-	public void setHFlip(boolean isHFlip) {
-		this.isHFlip = isHFlip;
+	public void setHFlip(boolean is_hflip) {
+		this.is_hflip = is_hflip;
 		
 		for (AnimatedSprite animation : animations.values()) {
-			animation.setHFlip(isHFlip);
+			animation.setHFlip(is_hflip);
 		}
 	}
 	
-	public void setVFlip(boolean isVFlip) {
-		this.isVFlip = isVFlip;
+	public void setVFlip(boolean is_vflip) {
+		this.is_vflip = is_vflip;
 		
 		for (AnimatedSprite animation : animations.values()) {
-			animation.setVFlip(isVFlip);
+			animation.setVFlip(is_vflip);
 		}
 	}
 	
-	public void setVisible(boolean isVisible) {
-		this.isVisible = isVisible;
+	public void setVisible(boolean is_visible) {
+		this.is_visible = is_visible;
+	}
+	
+	public void setAlpha(double alpha) {
+		this.alpha = alpha;
+		for (AnimatedSprite animation: animations.values()) {
+			animation.setAlpha(alpha);
+		}
 	}
 	
 	//Getters
+	public Vector2 getPosition() {
+		return position;
+	}
+	
 	public boolean isHFlip() {
-		return isHFlip;
+		return is_hflip;
 	}
 	
 	public boolean isVFlip() {
-		return isVFlip;
+		return is_vflip;
 	}
 	
 	public boolean isVisible() {
-		return isVisible;
+		return is_visible;
 	}
 	
 	public AnimatedSprite getAnimation(String name) {
@@ -108,5 +123,9 @@ public class AnimationPlayer {
 	
 	public String getCurrentAnimationName() {
 		return current_animation;
+	}
+	
+	public double getAlpha() {
+		return alpha;
 	}
 }
