@@ -75,7 +75,7 @@ public class Instruction extends GameScene {
 		
 		// TODO: Instruction goes here
 		
-		this.backButton = new MenuButton(gameStage, Assets.BACK_PRESSED, Assets.BACK_SELECTED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
+		this.backButton = new MenuButton(gameStage,  Assets.BACK_SELECTED,  Assets.BACK_PRESSED, Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
 		
 		this.instructionBox = new VBox();
 		

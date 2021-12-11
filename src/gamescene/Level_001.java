@@ -157,14 +157,14 @@ public class Level_001 extends GameScene{
 			player.setVelocity(new Vector2(player.getVelocity().x, 0));
 		}
 		
-		System.out.println(player.getPosition().x);
+		//System.out.println(player.getPosition().x);
 		
 	}
 	
 	private void scrollBackground() {
 		background.getPosition().add(new Vector2(0, -bg_scroll_speed * TIME_MANAGER.getDeltaTime()));
-		if (background.getPosition().y <= -585) {
-			background.setPosition(new Vector2(background.getPosition().x, -585));
+		if (background.getPosition().y <= -565) {
+			background.setPosition(new Vector2(background.getPosition().x, -565));
 		}
 		background.render(gc);
 	}
