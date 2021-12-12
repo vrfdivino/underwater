@@ -33,13 +33,13 @@ public class AnimatedSprite {
 	private ArrayList<Image> textures = new ArrayList<Image>();
 	
 	/**
-	 * Creates a new AnimatedSprite
-	 * @param textures An array of Image objects
-	 * @param fps Determines the speed of the animation
-	 * @param x
-	 * @param y
-	 * @param width 
-	 * @param height
+	 * Creates a new AnimatedSprite.
+	 * @param textures ( Image[] ) An array of Image objects
+	 * @param fps ( int ) Determines the speed of the animation
+	 * @param x ( double )
+	 * @param y ( double )
+	 * @param width ( double )
+	 * @param height ( double )
 	 * @author Dave
 	 */
 	public AnimatedSprite(Image[] textures, int fps, double x, double y, double width, double height) {
@@ -55,11 +55,11 @@ public class AnimatedSprite {
 	}
 	
 	/**
-	 * Creates a new AnimatedSprite
-	 * @param textures An array of Image objects
-	 * @param fps Determines the speed of the animation
-	 * @param position
-	 * @param size
+	 * Creates a new AnimatedSprite.
+	 * @param textures ( Image[] ) An array of Image objects
+	 * @param fps ( int ) Determines the speed of the animation
+	 * @param position ( Vector2 )
+	 * @param size ( Vector2 )
 	 * @author Dave
 	 */
 	public AnimatedSprite(Image[] textures, int fps, Vector2 position, Vector2 size) {
@@ -75,7 +75,7 @@ public class AnimatedSprite {
 	}
 	
 	/**
-	 * Stops the AnimatedSprite and resets current frame to the first frame
+	 * Stops the AnimatedSprite and resets current frame to the first frame.
 	 * @author Dave
 	 */
 	public void stop() {
@@ -98,7 +98,7 @@ public class AnimatedSprite {
 	
 	/**
 	 * Starts the AnimatedSprite at the specified frame. Defaults at the first frame.
-	 * @param frame
+	 * @param frame ( int )
 	 * @author Dave
 	 */
 	public void start(int frame) {
@@ -109,8 +109,8 @@ public class AnimatedSprite {
 		}		
 	}
 	/**
-	 * Renders the AnimatedSprite into the Canvas
-	 * @param gc GraphicsContext
+	 * Renders the AnimatedSprite into the Canvas.
+	 * @param gc ( GraphicsContext )
 	 * @author Dave
 	 */
 	public void render(GraphicsContext gc) {
@@ -121,6 +121,7 @@ public class AnimatedSprite {
 		double x_scale_factor;
 		double y_scale_factor;
 		
+		//Flips the Image accordingly
 		if (isHflip()) {
 			x_offset = this.size.x;
 			x_scale_factor = -1;
@@ -141,6 +142,7 @@ public class AnimatedSprite {
 		
 		gc.setGlobalAlpha(alpha);
 		
+		//Draws the Image if Visible
 		if (is_visible) {
 			gc.drawImage(textures.get(current_frame), 
 					position.x + x_offset - size.x/2, position.y + y_offset - size.y/2, 
@@ -191,6 +193,11 @@ public class AnimatedSprite {
 		this.rotation = rotation;
 	}
 	
+	/**
+	 * Specifies the set of Images to play in the animation.
+	 * @param textures ( Image[] )
+	 * @author Dave
+	 */
 	public void setTextures(Image[] textures) {
 		this.frames = textures.length;
 		for (int i = 0; i < textures.length; i++) {

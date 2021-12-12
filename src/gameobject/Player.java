@@ -2,7 +2,6 @@ package gameobject;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
-import component.Collision;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -35,13 +34,16 @@ public class Player extends GameObject{
 		this.setCollision();
 	}
 	
+	/*
+	 * Setters and Getters
+	 */
+	
 	private void setTransformations(double x, double y) {
-		
 		this.size.set(256, 1696);
 		this.rotation = 0;
 		this.position.set(x, y);
 	}
-	
+	//Setters
 	private void setCollision() {
 		collision.setCollide(true);
 		collision.setOrigin(new Vector2(-(size.x/2) + 80, (size.y/2) - 230));
@@ -60,6 +62,7 @@ public class Player extends GameObject{
 		animationPlayer.addAnimation("IDLE", diverAnimSpriteIdle);
 		animationPlayer.addAnimation("MOVE", diverAnimSprite);
 	}
+	
 	public void setPosition(double x, double y) {
 		this.position.set(x, y);
 	}
@@ -76,6 +79,7 @@ public class Player extends GameObject{
 		this.velocity.set(velocity);
 	}
 	
+	//Getters
 	public Vector2 getPosition() {
 		return position;
 	}
@@ -83,6 +87,10 @@ public class Player extends GameObject{
 	public Vector2 getVelocity() {
 		return velocity;
 	}
+	
+	/*
+	 * update() and coroutines only below
+	 */
 	
 	@Override
 	public void update(GraphicsContext gc) {
@@ -102,6 +110,18 @@ public class Player extends GameObject{
 		render(gc);
 	}
 	
+	private void render(GraphicsContext gc) {
+		checkAnimation();
+		
+		animationPlayer.render(gc);
+		if (!collision.isColliding()) {
+			collision.renderCollision(gc);
+		}else {
+			collision.renderCollision(gc, Color.DARKORANGE, 0.5);
+			destroyCollidingObjects();
+		}
+	}
+	
 	public void normal() {
 		getInput();
 		updatePosition();
@@ -119,27 +139,19 @@ public class Player extends GameObject{
 
 		position.add(velocity);
 		animationPlayer.setPosition(position);
-		
-		
 	}
 	
 	private void updateCollision() {
 		collision.setPosition(position);
 		collision_pos = collision.getPosition();
-		//System.out.println(collision.isColliding());
-		//System.out.println("Player Collision: (" + collision.getPosition().x + ", " + collision.getPosition().y + ")");
 	}
 	
-	private void render(GraphicsContext gc) {
-		checkAnimation();
-		
-		animationPlayer.render(gc);
-		if (!collision.isColliding()) {
-			//collision.renderCollision(gc);
-		}else {
-			//collision.renderCollision(gc, Color.DARKORANGE, 0.5);
+
+	
+	private void destroyCollidingObjects() {
+		for (GameObject other: collision.getOverlaps()) {
+			other.destroy();
 		}
-		
 	}
 	
 	private void checkAnimation() {

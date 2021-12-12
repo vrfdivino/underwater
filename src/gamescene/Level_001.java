@@ -31,20 +31,17 @@ public class Level_001 extends GameScene{
 	//GUI Elements
 	private AnimatedSprite background;
 	private double bg_scroll_speed = 36;
-	
-	private HBox statusBar;
+
 	private MenuButton backButton;
 	
-	private Player player = new Player(100, -450);
-	private AnglerFish enemy = new AnglerFish(400, 200);
 	private int timeLeft = 60;
 	private Label timeCount;
 	private int timeElapsed;
 	
+	private Player player = new Player(100, -450);
 
 	public Level_001(GameStage gameStage){
 		
-		// this.root = new AnchorPane();
 		this.pane = new BorderPane();
 		this.scene = new Scene(this.pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
@@ -52,24 +49,25 @@ public class Level_001 extends GameScene{
 		this.gameStage = gameStage;
 	}
 	
-	public void initializeProperties(){
+	@Override
+	protected void initOtherProperties() {
+		// TODO Auto-generated method stub
 		
-		setObjectProperties();
-		setGUIProperties();
-		setAudioProperties();
 	}
 	
-	protected void setObjectProperties() {
+	@Override
+	protected void initObjectProperties() {
+		AnglerFish enemy = new AnglerFish(800, 200);
+		
 		runnableObjectList.add(player);
 		runnableObjectList.add(enemy);
 		
 	}
 	
-	protected void setGUIProperties() {
+	@Override
+	protected void initGUIProperties() {
 		
 		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_002)}, 1, new Vector2(1024/2, 3072/2), new Vector2(1024, 3072));
-		
-		// JUST A TEMPORARY LAYOUT
 		
 		this.backButton = new MenuButton(gameStage,  Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
 		VBox metaBox = new VBox();
@@ -140,17 +138,20 @@ public class Level_001 extends GameScene{
 
 	}
 	
-	protected void setAudioProperties() {
+	@Override
+	protected void initAudioProperties() {
 		
 		AudioPlayer under_pressure = new AudioPlayer(Assets.UNDER_PRESSURE, false);
 		AudioPlayer underwater = new AudioPlayer(Assets.UNDERWATER, true);
+		AudioPlayer splash = new AudioPlayer(Assets.SPLASH);
 		
 		AUDIO_MANAGER.addAudioPlayer("Under Pressure", under_pressure);
 		SFX_MANAGER.addAudioPlayer("Underwater", underwater);
+		SFX_MANAGER.addAudioPlayer("Splash", splash);
 		
 		AUDIO_MANAGER.playAudioPlayer("Under Pressure");
 		SFX_MANAGER.playAudioPlayer("Underwater");
-		
+		SFX_MANAGER.playAudioPlayer("Splash");
 	}
 	
 	@Override
@@ -168,6 +169,7 @@ public class Level_001 extends GameScene{
 		limitPlayerMovement();
 		
 		checkObjectCollisions();
+		checkDestroyedObjects();
 		
 		pane.requestFocus();
 		

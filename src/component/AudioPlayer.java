@@ -20,7 +20,7 @@ public class AudioPlayer {
 	
 	/**
 	 * Creates a new AudioPlayer. Doesn't loop by default.
-	 * @param file The path to the media file
+	 * @param file ( String ) The path to the media file
 	 * @author Dave
 	 */
 	public AudioPlayer(String file){
@@ -29,8 +29,8 @@ public class AudioPlayer {
 	}
 	/**
 	 * Creates a new AudioPlayer. Doesn't loop by default.
-	 * @param file The path to the media file
-	 * @param canLoop Sets if the audio should loop. 
+	 * @param file ( String ) The path to the media file
+	 * @param canLoop ( boolean ) Sets if the audio should loop. 
 	 */
 	public AudioPlayer(String file, boolean canLoop){
 		setMedia(file);
@@ -39,7 +39,7 @@ public class AudioPlayer {
 	
 	/**
 	 * Sets a new audio file to the current AudioPlayer
-	 * @param file The path to the media file
+	 * @param file ( boolean ) The path to the media file
 	 */
 	public void setMedia(String file) {
 		media = new Media(new File(file).toURI().toString());

@@ -55,15 +55,20 @@ public class SplashScreen extends GameScene{
 	}
 	
 	@Override
-	public void initializeProperties(){
-		setObjectProperties();
-		setGUIProperties();
-		setAudioProperties();
+	protected void initObjectProperties() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void initOtherProperties() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
-	protected void setGUIProperties() {
-		title_vel.set(new Vector2(0, 0));
+	protected void initGUIProperties() {
+		//title_vel.set(new Vector2(0, 0));
 		
 		
 		//Backround and Title
@@ -113,7 +118,7 @@ public class SplashScreen extends GameScene{
 	}
 	
 	@Override
-	protected void setAudioProperties() {
+	protected void initAudioProperties() {
 		
 		String musicThemeName = "Main Theme";
 		
@@ -166,11 +171,5 @@ public class SplashScreen extends GameScene{
 		title_vel.moveTowards(title_vel, new Vector2(title_max_spd * title_dir.x, title_max_spd * title_dir.y), 5 * TIME_MANAGER.getDeltaTime());
 		title.getPosition().add(title_vel);
 		title.render(gc);
-	}
-
-	@Override
-	protected void setObjectProperties() {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -65,6 +65,11 @@ public class Vector2 {
 		return Math.toDegrees(Math.atan2(this.x, this.y));
 	}
 	
+	/**
+	 * Gets the current length of the Vector2 and sets it at the specified angle in degrees
+	 * @param angleDegrees double
+	 * @author Dave
+	 */
 	public void setAngle(double angleDegrees) {
 		double L = this.getLength();
 		double angleRadians = Math.toRadians(angleDegrees);
@@ -72,6 +77,11 @@ public class Vector2 {
 		this.y = L * Math.sin(angleRadians);
 	}
 	
+	/**
+	 * Returns the normalized value of the Vector2. Primarily used for setting directions
+	 * @return ( Vector2 ) Normalized Vector2
+	 * @author Dave
+	 */
 	public Vector2 normalize() {
 		double length = this.getLength();
 		
@@ -81,9 +91,21 @@ public class Vector2 {
 		return new Vector2(this.x/length, this.y/length);
 	}
 	
+	/**
+	 * Moves the vector from the specified current position towards the target position at delta increments. 
+	 * Primarily used for getting smooth movements when paired with speed and acceleration.
+	 * @param current_pos Vector2
+	 * @param target_pos Vector2
+	 * @param delta double
+	 * @return ( Vector2 ) Next vector2 value towards target position 
+	 * @author Dave
+	 */
 	public Vector2 moveTowards(Vector2 current_pos, Vector2 target_pos, double delta) {
-		Vector2 final_pos = new Vector2(target_pos.x - current_pos.x, target_pos.y - current_pos.y);
-		Vector2 direction = final_pos.normalize();
+		Vector2 origin_pos = new Vector2(target_pos.x - current_pos.x, target_pos.y - current_pos.y);
+		Vector2 final_pos = new Vector2();
+		Vector2 direction = origin_pos.normalize();
+		
+		//Check if next delta increment will overshoot. If overshoot then the final position will be the target position.
 		if (direction.x > 0) {
 			if (direction.y > 0) {
 				if (current_pos.x + (delta * direction.x) <= target_pos.x && current_pos.y + (delta * direction.y) <= target_pos.y) {

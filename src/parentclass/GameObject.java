@@ -44,6 +44,7 @@ public class GameObject implements RunnableObject {
 	
 	public void destroy() {
 		animationPlayer.setVisible(false);
+		collision.setCollide(false);
 		isDestroyed = true;
 	}
 	

@@ -23,9 +23,9 @@ public class AnimationPlayer {
 	private String current_animation = "";
 	
 	/**
-	 * Adds a new AnimatedSprite with an identifier
-	 * @param name Identifier of the AnimatedSprite to add
-	 * @param animation The AnimatedSprite to add
+	 * Adds a new AnimatedSprite with an identifier.
+	 * @param name ( String ) Identifier of the AnimatedSprite to add
+	 * @param animation ( AnimatedSprite ) The AnimatedSprite to add
 	 * @author Dave
 	 */
 	public void addAnimation(String name, AnimatedSprite animation) {
@@ -34,8 +34,8 @@ public class AnimationPlayer {
 	}
 	
 	/**
-	 * Plays the specified AnimatedSprite
-	 * @param name Name of the AnimatedSprite
+	 * Plays the specified AnimatedSprite.
+	 * @param name ( String ) Name of the AnimatedSprite
 	 * @author Dave
 	 */
 	public void playAnimation(String name) {
@@ -50,7 +50,7 @@ public class AnimationPlayer {
 	
 	/**
 	 * Renders the current AnimatedSprite into the canvas
-	 * @param gc The GraphicsContext of the current scene 
+	 * @param gc (GraphicsContext) The GraphicsContext of the current scene 
 	 * @author Dave
 	 */
 	public void render(GraphicsContext gc) {

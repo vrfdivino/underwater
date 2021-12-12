@@ -63,16 +63,26 @@ public abstract class GameScene implements RunnableObject{
 	 * @author Dave
 	 */
 	protected void checkDestroyedObjects() {
+		ArrayList<RunnableObject> toRemoveList = new ArrayList<RunnableObject>(); 
 		for (RunnableObject runnableObject: runnableObjectList) {
 			if (runnableObject instanceof GameObject) {
 				GameObject gameObject = (GameObject) runnableObject;
 				if (gameObject.isDestroyed()) {
-					runnableObjectList.remove(runnableObject);
+					toRemoveList.add(runnableObject);
 				}
 			}
 		}
+		
+		//Solve ConcurrentModificationException
+		for (RunnableObject runnableObject: toRemoveList) {
+			runnableObjectList.remove(runnableObject);
+		}
 	}
 	
+	/**
+	 * Checks the collision for each GameObject if it collides with other GameObjects
+	 * @author Dave
+	 */
 	protected void checkObjectCollisions() {
 		for (RunnableObject runnableObject: runnableObjectList) {
 			if (runnableObject instanceof GameObject) {
@@ -80,7 +90,6 @@ public abstract class GameScene implements RunnableObject{
 				for (RunnableObject anotherObject: runnableObjectList) {
 					GameObject other = (GameObject) anotherObject;
 					if (other != gameObject) {
-						//System.out.println(gameObject + ", " + other);
 						gameObject.collidesWith(other);
 					}
 				}
@@ -88,10 +97,24 @@ public abstract class GameScene implements RunnableObject{
 		}
 	}
 	
-	public abstract void initializeProperties();
-	protected abstract void setObjectProperties();
-	protected abstract void setGUIProperties();
-	protected abstract void setAudioProperties();
+	/**
+	 * Initializes the scene properties. Called only after switching GameScenes
+	 * @author Dave
+	 */
+	public void initializeProperties() {
+		initOtherProperties();
+		initObjectProperties();
+		initGUIProperties();
+		initAudioProperties();
+	}
+	
+	/**
+	 * 
+	 */
+	protected abstract void initOtherProperties();
+	protected abstract void initObjectProperties();
+	protected abstract void initGUIProperties();
+	protected abstract void initAudioProperties();
 	
 	/**
 	 * Do not call in update method. Called only when switching GameScenes.

@@ -5,6 +5,7 @@ import component.AnimationPlayer;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import main.GameStage;
 import parentclass.GameObject;
 
@@ -27,6 +28,10 @@ public class AnglerFish extends GameObject{
 		setCollision();
 	}
 	
+	/*
+	 * Setters and Getters
+	 */
+	
 	private void setTransformations(double x, double y) {
 		this.position.set(x, y);
 		this.size.set(256, 256);
@@ -46,13 +51,29 @@ public class AnglerFish extends GameObject{
 		collision.setCollide(true);
 		collision.setOrigin(new Vector2(-(size.x/2) + 40, -(size.y/2) + 60));
 		collision.setSize(new Vector2(140, 140));
+		collision.setCollisions(new String[] {Player.class.getName()});
 	}
+	
+	/*
+	 * update() and Coroutines only below 
+	 */
 	
 	@Override
 	public void update(GraphicsContext gc) {
 		updatePosition();
 		updateCollision();
 		render(gc);
+	}
+	
+	private void render(GraphicsContext gc) {
+		animationPlayer.playAnimation("MOVE");
+		animationPlayer.setPosition(position);
+		animationPlayer.render(gc);
+		if (!collision.isColliding()) {
+			collision.renderCollision(gc);
+		} else {
+			collision.renderCollision(gc, Color.DARKORANGE, 0.5);
+		}
 	}
 	
 	private void updatePosition() {
@@ -62,24 +83,18 @@ public class AnglerFish extends GameObject{
 			dir_x = 1;
 			position.x = 0;
 			animationPlayer.setHFlip(true);
+			collision.setOrigin(new Vector2(-(size.x/2) + 70, -(size.y/2) + 60));
 		}
 		
 		if (position.x > GameStage.WINDOW_WIDTH) {
 			dir_x = -1;
 			position.x = GameStage.WINDOW_WIDTH;
 			animationPlayer.setHFlip(false);
+			collision.setOrigin(new Vector2(-(size.x/2) + 40, -(size.y/2) + 60));
 		}
 	}
 	
 	private void updateCollision() {
 		collision.setPosition(position);
-		//System.out.println("Angler Collision: (" + collision.getPosition().x + ", " + collision.getPosition().y + ")");
-	}
-	
-	private void render(GraphicsContext gc) {
-		animationPlayer.playAnimation("MOVE");
-		animationPlayer.setPosition(position);
-		animationPlayer.render(gc);
-		//collision.renderCollision(gc);
 	}
 }

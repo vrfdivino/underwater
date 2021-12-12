@@ -38,39 +38,21 @@ public class About extends GameScene {
 		
 		this.gameStage = gameStage;
 	}
-
-	@Override
-	protected void updateGUI() {
-		// TODO Auto-generated method stub
-
-	}
 	
-	@Override //Write all logic for the scene here
-	public void update(GraphicsContext gc) { 		
-		
-		this.onStartOfFrame();
-		this.updateObjects();	
-		this.updateGUI();
-		root.requestFocus();
+	@Override
+	protected void initOtherProperties() {
+		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void initializeProperties() {
-		// TODO Auto-generated method stub
-		
-		this.setGUIProperties();
-
-	}
-
-	@Override
-	protected void setObjectProperties() {
+	protected void initObjectProperties() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void setGUIProperties() {
+	protected void initGUIProperties() {
 		
 		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
 		
@@ -83,13 +65,6 @@ public class About extends GameScene {
 		this.title.setFitHeight(80d);
 		this.title.setPreserveRatio(true);
 		this.aboutBox.getChildren().add(this.title);
-		
-//		this.aboutBox.getChildren().add(this.title);
-//		for(Node component: this.buildAbout()) {
-//			this.aboutBox.getChildren().add(component);
-//		}
-
-		
 
 		ImageView content = new ImageView(Assets.ABOUT_US_CONTENT);
 		content.setFitHeight(280d);
@@ -105,6 +80,7 @@ public class About extends GameScene {
 		
 	}
 	
+	/*
 	private ArrayList<Node> buildAbout() {
 		
 		ArrayList<Node> components = new ArrayList<Node>();
@@ -127,18 +103,32 @@ public class About extends GameScene {
 		
 		return components;
 		
-	}
+	}*/
 
 	@Override
-	protected void setAudioProperties() {
+	protected void initAudioProperties() {
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override //Write all logic for the scene here
+	public void update(GraphicsContext gc) { 		
+		this.onStartOfFrame();
+		this.updateObjects();	
+		this.updateGUI();
+		root.requestFocus();
+		
+	}
+	
+	@Override
+	protected void updateGUI() {
+		// TODO Auto-generated method stub
 
+	}
+	
 	@Override
 	public void onExit() {
 		// TODO Auto-generated method stub
 
 	}
-
 }

@@ -58,21 +58,19 @@ public class Scoreboard extends GameScene {
 	}
 	
 	@Override
-	public void initializeProperties() {
+	protected void initOtherProperties() {
 		// TODO Auto-generated method stub
 		
-		this.setGUIProperties();
-
 	}
 
 	@Override
-	protected void setObjectProperties() {
+	protected void initObjectProperties() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void setGUIProperties() {
+	protected void initGUIProperties() {
 		
 		this.title = new Label("Scoreboard");
 		this.backButton = new MenuButton(gameStage,  Assets.BACK_SELECTED, Assets.BACK_PRESSED, Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
@@ -111,7 +109,7 @@ public class Scoreboard extends GameScene {
 	}
 
 	@Override
-	protected void setAudioProperties() {
+	protected void initAudioProperties() {
 		// TODO Auto-generated method stub
 
 	}
@@ -121,5 +119,4 @@ public class Scoreboard extends GameScene {
 		// TODO Auto-generated method stub
 
 	}
-
 }

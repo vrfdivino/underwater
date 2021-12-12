@@ -1,7 +1,5 @@
 package constants;
 
-import javax.imageio.ImageIO;
-
 import javafx.scene.image.Image;
 
 public class Assets {
@@ -44,7 +42,9 @@ public class Assets {
 
 	public static final String CALL_OF_THE_SEA = "resources/Audio/OST_1_CallOfTheSea.mp3";
 	public static final String UNDER_PRESSURE  = "resources/Audio/OST_2_UnderPressure.mp3";
+	
 	public static final String UNDERWATER      = "resources/Audio/SFX_1_Underwater.mp3";
+	public static final String SPLASH  		   = "resources/Audio/SFX_2_Splash.mp3";
 	
 	public static final String BG = "/Menu/Graphics/bg.png";
 	public static final Image LOGO = new Image("/Menu/Graphics/logo.png");

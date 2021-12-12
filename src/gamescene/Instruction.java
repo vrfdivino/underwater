@@ -55,21 +55,19 @@ public class Instruction extends GameScene {
 	}
 	
 	@Override
-	public void initializeProperties() {
+	protected void initOtherProperties() {
 		// TODO Auto-generated method stub
 		
-		this.setGUIProperties();
-
 	}
 
 	@Override
-	protected void setObjectProperties() {
+	protected void initObjectProperties() {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
-	protected void setGUIProperties() {
+	protected void initGUIProperties() {
 		
 //		this.title = new Label("Instruction screen");
 		
@@ -103,7 +101,7 @@ public class Instruction extends GameScene {
 		this.root.setStyle("-fx-background-image: url('" + Assets.BG + "');-fx-background-size: 1000, 1000;-fx-background-repeat: no-repeat;");
 		
 	}
-	
+	/*
 	private ArrayList<Node> buildInstruction() {
 		
 		ArrayList<Node> components = new ArrayList<Node>();
@@ -116,10 +114,10 @@ public class Instruction extends GameScene {
 		
 		return components;
 		
-	}
+	}*/
 
 	@Override
-	protected void setAudioProperties() {
+	protected void initAudioProperties() {
 		// TODO Auto-generated method stub
 
 	}
@@ -129,5 +127,7 @@ public class Instruction extends GameScene {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }
