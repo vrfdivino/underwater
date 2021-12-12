@@ -8,10 +8,18 @@ public class Assets {
 	
 	public static final String ICON = "/Misc/AnchorIcon.png";
 	
+	//Font
+	public static final String SQUARED = "file:resources/Fonts/5squared-pixel.ttf";
+	
 	//Backgrounds
 	public static final String BACKGROUND_001 = "/Menu/Sprites/SplashScreen_Background.png";
 	public static final String BACKGROUND_002 = "/Game/Game_Background.png";
 	public static final String TITLECARD = "/Menu/Sprites/SplashScreen_Title.png";
+	
+	//In Game
+	public static final String TIMER = "/Game/Timer.png";
+	public static final String POINTS = "/Game/PTS.png";
+	public static final String HP = "/Game/HP.png";
 	
 	//Buttons
 	public static final String NEW_GAME_SELECTED    = "/Menu/Sprites/SplashScreen_Newgame_Selected.png";

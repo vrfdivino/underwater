@@ -7,15 +7,20 @@ import datatype.Vector2;
 import gameobject.AnglerFish;
 import gameobject.Player;
 import gui.MenuButton;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import main.GameStage;
 import parentclass.GameScene;
 
@@ -86,22 +91,51 @@ public class Level_001 extends GameScene{
 		
 		HBox statusBar = new HBox();
 		
-		Label timeLabel = new Label("Time: ");
-		this.timeCount = new Label("1:00");
-		HBox timeBox = new HBox();
-		timeBox.getChildren().addAll(timeLabel, this.timeCount);
+		//Label timeLabel = new Label("Time: ");
+		StackPane timerPane = new StackPane();
+		Image timerImage = new Image(Assets.TIMER);
+		ImageView timer = new ImageView(timerImage);
+		timeCount = new Label();
+		timeCount.setTextFill(Color.web("#f1f2b6", 1.0));
+		timeCount.setText("01:00");
+		timeCount.setFont(Font.loadFont(Assets.SQUARED, 30));
+		StackPane.setMargin(timeCount, new Insets(0, -90, 0, 0));
+		timerPane.getChildren().add(timer);
+		timerPane.getChildren().add(timeCount);
+		//HBox timeBox = new HBox();
+		//timeBox.getChildren().addAll(timeLabel, this.timeCount);
 		
-		Label scoreLabel = new Label("Score: ");
-		Label scoreCount = new Label("999");
-		HBox scoreBox = new HBox();
-		scoreBox.getChildren().addAll(scoreLabel, scoreCount);
+		StackPane hpPane = new StackPane();
+		Image hpImage = new Image(Assets.HP);
+		ImageView hp = new ImageView(hpImage);
+		Label hpLabel = new Label();
+		hpLabel.setTextFill(Color.web("#f1f2b6", 1.0));
+		hpLabel.setText("140");
+		hpLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
+		StackPane.setMargin(hpLabel, new Insets(0, -90, 0, 0));
+		hpPane.getChildren().add(hp);
+		hpPane.getChildren().add(hpLabel);
+		//Label scoreLabel = new Label("Score: ");
+		//Label scoreCount = new Label("999");
+		//HBox scoreBox = new HBox();
+		//scoreBox.getChildren().addAll(scoreLabel, scoreCount);
 		
-		Label strengthLabel = new Label("Strength: ");
-		Label strengthCount = new Label("140");
-		HBox strengthBox = new HBox();
-		strengthBox.getChildren().addAll(strengthLabel, strengthCount);
+		StackPane scorePane = new StackPane();
+		Image scoreImage = new Image(Assets.POINTS);
+		ImageView score = new ImageView(scoreImage);
+		Label scoreLabel = new Label();
+		scoreLabel.setTextFill(Color.web("#f1f2b6", 1.0));
+		scoreLabel.setText("00");
+		scoreLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
+		StackPane.setMargin(scoreLabel, new Insets(0, -100, 0, 0));
+		scorePane.getChildren().add(score);
+		scorePane.getChildren().add(scoreLabel);
+		//Label strengthLabel = new Label("Strength: ");
+		//Label strengthCount = new Label("140");
+		//HBox strengthBox = new HBox();
+		//strengthBox.getChildren().addAll(strengthLabel, strengthCount);
 		
-		statusBar.getChildren().addAll(timeBox, scoreBox, strengthBox);
+		statusBar.getChildren().addAll(timerPane, hpPane, scorePane);
 		return statusBar;
 
 	}
@@ -183,7 +217,14 @@ public class Level_001 extends GameScene{
 			this.timeElapsed = timeElapsed;
 		}
 		
-		this.timeCount.setText("0:" + this.timeLeft);
+		if (timeLeft <= 0) {
+			this.timeCount.setText("00:00");
+		}else if (timeLeft >= 10) {
+			this.timeCount.setText("00:" + this.timeLeft);
+		} else {
+			this.timeCount.setText("00:0" + this.timeLeft);
+		}
+		
 		//System.out.println(this.timeLeft);
 	}
 }

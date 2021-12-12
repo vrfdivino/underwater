@@ -53,7 +53,7 @@ public class AnglerFish extends GameObject{
 	}
 	
 	private void updatePosition() {
-		//position.add(new Vector2(-10 * TIME_MANAGER.getDeltaTime(),0));
+		position.add(new Vector2(-125 * TIME_MANAGER.getDeltaTime(),0));
 	}
 	
 	private void updateCollision() {
