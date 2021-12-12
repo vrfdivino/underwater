@@ -5,12 +5,15 @@ import component.AnimationPlayer;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import main.GameStage;
 import parentclass.GameObject;
 
 public class AnglerFish extends GameObject{
 	
 	private Image[] anglerFishMoveSprites = new Image[8];
 	private AnimatedSprite anglerFishMove;
+	
+	private int dir_x = -1;
 	
 	public AnglerFish(double x, double y) {
 		setTransformations(x, y);
@@ -53,7 +56,19 @@ public class AnglerFish extends GameObject{
 	}
 	
 	private void updatePosition() {
-		position.add(new Vector2(-125 * TIME_MANAGER.getDeltaTime(),0));
+		position.add(new Vector2(125 * dir_x * TIME_MANAGER.getDeltaTime(),0));
+		
+		if (position.x < 0)	{
+			dir_x = 1;
+			position.x = 0;
+			animationPlayer.setHFlip(true);
+		}
+		
+		if (position.x > GameStage.WINDOW_WIDTH) {
+			dir_x = -1;
+			position.x = GameStage.WINDOW_WIDTH;
+			animationPlayer.setHFlip(false);
+		}
 	}
 	
 	private void updateCollision() {
@@ -65,6 +80,6 @@ public class AnglerFish extends GameObject{
 		animationPlayer.playAnimation("MOVE");
 		animationPlayer.setPosition(position);
 		animationPlayer.render(gc);
-		collision.renderCollision(gc);
+		//collision.renderCollision(gc);
 	}
 }

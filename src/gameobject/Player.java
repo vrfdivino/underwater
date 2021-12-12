@@ -135,9 +135,9 @@ public class Player extends GameObject{
 		
 		animationPlayer.render(gc);
 		if (!collision.isColliding()) {
-			collision.renderCollision(gc);
+			//collision.renderCollision(gc);
 		}else {
-			collision.renderCollision(gc, Color.DARKORANGE, 0.5);
+			//collision.renderCollision(gc, Color.DARKORANGE, 0.5);
 		}
 		
 	}
