@@ -1,5 +1,6 @@
 package component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import datatype.Vector2;
@@ -123,6 +124,14 @@ public class AnimationPlayer {
 	
 	public String getCurrentAnimationName() {
 		return current_animation;
+	}
+	
+	public ArrayList<String> getAllAnimationNames() {
+		ArrayList<String> animNames = new ArrayList<String>();
+		
+		for (String name: animations.keySet())	animNames.add(name);
+		
+		return animNames;
 	}
 	
 	public double getAlpha() {

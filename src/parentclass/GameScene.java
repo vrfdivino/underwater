@@ -73,6 +73,21 @@ public abstract class GameScene implements RunnableObject{
 		}
 	}
 	
+	protected void checkObjectCollisions() {
+		for (RunnableObject runnableObject: runnableObjectList) {
+			if (runnableObject instanceof GameObject) {
+				GameObject gameObject = (GameObject) runnableObject;
+				for (RunnableObject anotherObject: runnableObjectList) {
+					GameObject other = (GameObject) anotherObject;
+					if (other != gameObject) {
+						//System.out.println(gameObject + ", " + other);
+						gameObject.collidesWith(other);
+					}
+				}
+			}
+		}
+	}
+	
 	public abstract void initializeProperties();
 	protected abstract void setObjectProperties();
 	protected abstract void setGUIProperties();

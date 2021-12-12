@@ -2,6 +2,7 @@ package gameobject;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
+import component.Collision;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -11,26 +12,8 @@ public class Player extends GameObject{
 	private static enum STATES {NORMAL, SLOWED, STUNNED, DAMAGED};
 	private STATES state = STATES.NORMAL;
 	
-	/*
-	private Image[] witchAnimSprites_idle_down = new Image[1];
-	private Image[] witchAnimSprites_idle_right = new Image[1];
-	private Image[] witchAnimSprites_idle_left = new Image[1];
-	private Image[] witchAnimSprites_idle_up = new Image[1];
+	private AnimatedSprite diverAnimSpriteIdle;
 	
-	private Image[] witchAnimSprites_down = new Image[8];
-	private Image[] witchAnimSprites_right = new Image[8];
-	private Image[] witchAnimSprites_left = new Image[8];
-	private Image[] witchAnimSprites_up = new Image[8];
-	
-	private AnimatedSprite witchAnimSprite_down;
-	private AnimatedSprite witchAnimSprite_right;
-	private AnimatedSprite witchAnimSprite_left;
-	private AnimatedSprite witchAnimSprite_up;
-	private AnimatedSprite witchAnimSprite_idle_down;
-	private AnimatedSprite witchAnimSprite_idle_right;
-	private AnimatedSprite witchAnimSprite_idle_left;
-	private AnimatedSprite witchAnimSprite_idle_up;
-	*/
 	private Image[] diverAnimSprites = new Image[9];
 	private AnimatedSprite diverAnimSprite;
 	
@@ -42,60 +25,37 @@ public class Player extends GameObject{
 	public Player(double x, double y) {
 		this.setTransformations(x, y);
 		this.setSpritesAndAnimations();
+		this.setCollision();
 	}
 	
 	public Player(Vector2 position) {
 		this.setTransformations(position.x, position.y);
 		this.setSpritesAndAnimations();
+		this.setCollision();
 	}
 	
 	private void setTransformations(double x, double y) {
-		this.position.set(x, y);
+		
 		this.size.set(256, 1696);
 		this.rotation = 0;
+		this.position.set(x, y);
+	}
+	
+	private void setCollision() {
+		collision = new Collision(true, new Vector2(-(size.x/2) + 80, (size.y/2) - 230), new Vector2(100, 190));
+		collision.setCollisions(new String[] {AnglerFish.class.getName()});
 	}
 	
 	private void setSpritesAndAnimations() {
 		animationPlayer = new AnimationPlayer();
 		
-		for (int i = 0; i < 9; i++) {
-			diverAnimSprites[i] = new Image("/Player/Sprites/Diver" + (i+1) + ".png");
-		}
+		diverAnimSpriteIdle = new AnimatedSprite(new Image[] {new Image("/Player/Sprites/Diver1.png")}, 1, position, size);
+		for (int i = 0; i < 9; i++) diverAnimSprites[i] = new Image("/Player/Sprites/Diver" + (i+1) + ".png");
 		
 		diverAnimSprite = new AnimatedSprite(diverAnimSprites, 12, position, size);
-		animationPlayer.addAnimation("IDLE", diverAnimSprite);
-		/*
-		//Get Image Resources
-		witchAnimSprites_idle_down[0] = new Image("/Player/Sprites/Witch_1.png");
-		witchAnimSprites_idle_right[0] = new Image("/Player/Sprites/Witch_9.png");
-		witchAnimSprites_idle_left[0] = new Image("/Player/Sprites/Witch_17.png");
-		witchAnimSprites_idle_up[0] = new Image("/Player/Sprites/Witch_25.png");
-		for (int i = 0; i < 8; i++) this.witchAnimSprites_down[i] = new Image("/Player/Sprites/Witch_" + (i+1) + ".png");
-		for (int i = 0; i < 8; i++) this.witchAnimSprites_right[i] = new Image("/Player/Sprites/Witch_" + (i+9) + ".png");
-		for (int i = 0; i < 8; i++) this.witchAnimSprites_left[i] = new Image("/Player/Sprites/Witch_" + (i+17) + ".png");
-		for (int i = 0; i < 8; i++) this.witchAnimSprites_up[i] = new Image("/Player/Sprites/Witch_" + (i+25) + ".png");
 		
-		//Set ImageResources to AnimatedSprites
-		witchAnimSprite_idle_down = new AnimatedSprite(witchAnimSprites_idle_down, 12,  this.position, this.size);
-		witchAnimSprite_idle_right = new AnimatedSprite(witchAnimSprites_idle_right, 12,  this.position, this.size);
-		witchAnimSprite_idle_left = new AnimatedSprite(witchAnimSprites_idle_left, 12,  this.position, this.size);
-		witchAnimSprite_idle_up = new AnimatedSprite(witchAnimSprites_idle_up, 12,  this.position, this.size);
-		witchAnimSprite_down = new AnimatedSprite(witchAnimSprites_down, 12, this.position, this.size);
-		witchAnimSprite_right = new AnimatedSprite(witchAnimSprites_right, 12,  this.position, this.size);
-		witchAnimSprite_left = new AnimatedSprite(witchAnimSprites_left, 12,  this.position, this.size);
-		witchAnimSprite_up = new AnimatedSprite(witchAnimSprites_up, 12, this.position, this.size);
-		
-		//Add AnimatedSprites to animationPlayer
-		animationPlayer.addAnimation("IDLE_DOWN", this.witchAnimSprite_idle_down);
-		animationPlayer.addAnimation("IDLE_RIGHT", this.witchAnimSprite_idle_right);
-		animationPlayer.addAnimation("IDLE_LEFT", this.witchAnimSprite_idle_left);
-		animationPlayer.addAnimation("IDLE_UP", this.witchAnimSprite_idle_up);
-		animationPlayer.addAnimation("RUN_DOWN", this.witchAnimSprite_down);
-		animationPlayer.addAnimation("RUN_RIGHT", this.witchAnimSprite_right);
-		animationPlayer.addAnimation("RUN_LEFT", this.witchAnimSprite_left);
-		animationPlayer.addAnimation("RUN_UP", this.witchAnimSprite_up);
-		animationPlayer.setAlpha(1);
-		*/
+		animationPlayer.addAnimation("IDLE", diverAnimSpriteIdle);
+		animationPlayer.addAnimation("MOVE", diverAnimSprite);
 	}
 	public void setPosition(double x, double y) {
 		this.position.set(x, y);
@@ -136,12 +96,13 @@ public class Player extends GameObject{
 			break;
 		}
 		
-		this.render(gc);
+		render(gc);
 	}
 	
 	public void normal() {
 		getInput();
 		updatePosition();
+		updateCollision();
 	}
 	
 	private void getInput() {
@@ -151,53 +112,28 @@ public class Player extends GameObject{
 	
 	private void updatePosition() {
 		direction = direction.normalize();
-
 		velocity.moveTowards(velocity, new Vector2(direction.x * move_speed, direction.y * move_speed), 5 * TIME_MANAGER.getDeltaTime());
 
 		position.add(velocity);
 		animationPlayer.setPosition(position);
 	}
 	
-	private void render(GraphicsContext gc) {
-		//checkFlips();
-		animationPlayer.playAnimation("IDLE");
-		animationPlayer.render(gc);
+	private void updateCollision() {
+		collision.setPosition(position);
+		
+		//System.out.println(collision.isColliding());
+		System.out.println("Player Collision: (" + collision.getPosition().x + ", " + collision.getPosition().y + ")");
 	}
 	
-	//private void checkFlips() {
-		/*
-		if (direction.x < 0 && direction.y == 0) {
-			//this.animationPlayer.setHFlip(true);
-			animationPlayer.playAnimation("RUN_LEFT");
-		} else if(direction.x > 0 && direction.y == 0) {
-			//this.animationPlayer.setHFlip(false);
-			animationPlayer.playAnimation("RUN_RIGHT");
-		}
+	private void render(GraphicsContext gc) {
+		checkAnimation();
 		
-		if (direction.y < 0) {
-			//this.animationPlayer.setVFlip(false);
-			animationPlayer.playAnimation("RUN_UP");
-		}else if (direction.y > 0) {
-			//this.animationPlayer.setVFlip(true);
-			animationPlayer.playAnimation("RUN_DOWN");
-		}
-		
-		if (direction.x == 0 && direction.y == 0) {
-			switch(animationPlayer.getCurrentAnimationName()) {
-			case "RUN_LEFT":
-				animationPlayer.playAnimation("IDLE_LEFT");
-				break;
-			case "RUN_RIGHT":
-				animationPlayer.playAnimation("IDLE_RIGHT");
-				break;
-			case "RUN_UP":
-				animationPlayer.playAnimation("IDLE_UP");
-				break;
-			case "RUN_DOWN":
-				animationPlayer.playAnimation("IDLE_DOWN");
-				break;
-			}
-		}	
-		*/	
-	//}
+		animationPlayer.render(gc);
+		collision.renderCollision(gc);
+	}
+	
+	private void checkAnimation() {
+		if (velocity.x == 0 && velocity.y == 0) animationPlayer.playAnimation("IDLE");
+		else animationPlayer.playAnimation("MOVE");
+	}
 }

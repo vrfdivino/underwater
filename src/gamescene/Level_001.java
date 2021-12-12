@@ -4,6 +4,7 @@ import component.AnimatedSprite;
 import component.AudioPlayer;
 import constants.Assets;
 import datatype.Vector2;
+import gameobject.AnglerFish;
 import gameobject.Player;
 import gui.MenuButton;
 import javafx.geometry.Pos;
@@ -30,6 +31,7 @@ public class Level_001 extends GameScene{
 	private MenuButton backButton;
 	
 	private Player player = new Player(100, -450);
+	private AnglerFish enemy = new AnglerFish(400, 200);
 	private int timeLeft = 60;
 	private Label timeCount;
 	private int timeElapsed;
@@ -53,8 +55,8 @@ public class Level_001 extends GameScene{
 	}
 	
 	protected void setObjectProperties() {
-		this.runnableObjectList.add(this.player);
-
+		runnableObjectList.add(enemy);
+		runnableObjectList.add(player);
 	}
 	
 	protected void setGUIProperties() {
@@ -129,6 +131,9 @@ public class Level_001 extends GameScene{
 		updateGUI();
 		updateObjects();
 		limitPlayerMovement();
+		
+		checkObjectCollisions();
+		
 		pane.requestFocus();
 		
 	}

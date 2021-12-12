@@ -25,7 +25,6 @@ public class SplashScreen extends GameScene{
 	private AnchorPane pane;
 	
 	//Game Objects
-	
 	private AnimatedSprite background;
 	private AnimatedSprite title;
 	
@@ -63,11 +62,9 @@ public class SplashScreen extends GameScene{
 	}
 	
 	@Override
-	protected void setObjectProperties() {
-	}
-	
-	@Override
 	protected void setGUIProperties() {
+		title_vel.set(new Vector2(0, 0));
+		
 		
 		//Backround and Title
 		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_001)}, 1, new Vector2(GameStage.WINDOW_WIDTH/2, GameStage.WINDOW_HEIGHT/2), new Vector2(1024, 1024));
@@ -100,8 +97,8 @@ public class SplashScreen extends GameScene{
 		//Set up GUI Layout
 		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 360);
 		scoreboardButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
-		aboutButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
-		instructionButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
+		aboutButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
+		instructionButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
 		
 		volumeVBox.setLayoutX(GameStage.WINDOW_WIDTH-300);
 		volumeVBox.setLayoutY(GameStage.WINDOW_HEIGHT-60);
@@ -110,8 +107,8 @@ public class SplashScreen extends GameScene{
 		pane.getChildren().add(canvas);
 		pane.getChildren().add(newGameButton);
 		pane.getChildren().add(scoreboardButton);
-		pane.getChildren().add(aboutButton);
 		pane.getChildren().add(instructionButton);
+		pane.getChildren().add(aboutButton);
 		pane.getChildren().add(volumeVBox);
 	}
 	
@@ -166,8 +163,14 @@ public class SplashScreen extends GameScene{
 		if (title.getPosition().y > point_1.y)	title_dir = Vector2.UP;
 		if (title.getPosition().y < point_2.y) 	title_dir = Vector2.DOWN;
 
-		title_vel.moveTowards(title_vel, new Vector2(title_max_spd * title_dir.x * TIME_MANAGER.getDeltaTime(), title_max_spd * title_dir.y), 5 * TIME_MANAGER.getDeltaTime());
+		title_vel.moveTowards(title_vel, new Vector2(title_max_spd * title_dir.x, title_max_spd * title_dir.y), 5 * TIME_MANAGER.getDeltaTime());
 		title.getPosition().add(title_vel);
 		title.render(gc);
+	}
+
+	@Override
+	protected void setObjectProperties() {
+		// TODO Auto-generated method stub
+		
 	}
 }
