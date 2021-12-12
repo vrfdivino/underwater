@@ -17,6 +17,8 @@ public class Collision {
 	private ArrayList<String> collides_with = new ArrayList<String>();
 	private ArrayList<GameObject> overlaps = new ArrayList<GameObject>();
 	
+	public Vector2 test_value = new Vector2(100, 0);
+	
 	public Collision(boolean can_collide, double x, double y, double width, double height) {
 		this.setCollide(can_collide);
 		this.setOrigin(x,y);
@@ -28,19 +30,21 @@ public class Collision {
 		this.setOrigin(position);
 		this.setSize(size);
 	}
-
+	
+	public Collision() {}
+	
+	public void subTest(Vector2 value) {
+		test_value = new Vector2(test_value.x - value.x, test_value.y - value.y);
+	}
+	
 	public boolean overlaps(GameObject other) {
 			
 		if (can_collide && other.getCollision().canCollide() && collides_with.contains(other.getClass().getName())) {
-			boolean noOverlap = position.x < other.getCollision().position.x ||
+			boolean noOverlap = position.x + size.x < other.getCollision().position.x ||
 					other.getCollision().position.x + other.getCollision().size.x < position.x ||
 					position.y + size.y < other.getCollision().position.y ||
 					other.getCollision().position.y + other.getCollision().size.y < position.y;
-			
-			//System.out.println(other);
-			//System.out.println(other.getCollision().getPosition().x + " > " + position.x);
-			//System.out.println(position.x < other.getCollision().position.x);
-			
+
 			if (!noOverlap) {
 				if (!overlaps.contains(other)) {
 					overlaps.add(other);
@@ -53,8 +57,6 @@ public class Collision {
 			is_colliding = !noOverlap;
 			return !noOverlap;			
 		}
-		
-		
 
 		is_colliding = false;
 		return false;
@@ -73,11 +75,11 @@ public class Collision {
 	}
 	
 	public void setPosition(double x, double y) {
-		this.position.set(x + origin.x, y + origin.y);
+		this.position = new Vector2(x + origin.x, y + origin.y);
 	}
 	
 	public void setPosition(Vector2 position) {
-		this.position.set(position.x + origin.x, position.y + origin.y);
+		this.position = new Vector2(position.x + origin.x, position.y + origin.y);
 	}
 	
 	public void setOrigin(double x, double y) {

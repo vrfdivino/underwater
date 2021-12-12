@@ -6,6 +6,7 @@ import component.Collision;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import parentclass.GameObject;
 
 public class Player extends GameObject{
@@ -42,7 +43,9 @@ public class Player extends GameObject{
 	}
 	
 	private void setCollision() {
-		collision = new Collision(true, new Vector2(-(size.x/2) + 80, (size.y/2) - 230), new Vector2(100, 190));
+		collision.setCollide(true);
+		collision.setOrigin(new Vector2(-(size.x/2) + 80, (size.y/2) - 230));
+		collision.setSize( new Vector2(100, 190));
 		collision.setCollisions(new String[] {AnglerFish.class.getName()});
 	}
 	
@@ -116,20 +119,27 @@ public class Player extends GameObject{
 
 		position.add(velocity);
 		animationPlayer.setPosition(position);
+		
+		
 	}
 	
 	private void updateCollision() {
 		collision.setPosition(position);
-		
+		collision_pos = collision.getPosition();
 		//System.out.println(collision.isColliding());
-		System.out.println("Player Collision: (" + collision.getPosition().x + ", " + collision.getPosition().y + ")");
+		//System.out.println("Player Collision: (" + collision.getPosition().x + ", " + collision.getPosition().y + ")");
 	}
 	
 	private void render(GraphicsContext gc) {
 		checkAnimation();
 		
 		animationPlayer.render(gc);
-		collision.renderCollision(gc);
+		if (!collision.isColliding()) {
+			collision.renderCollision(gc);
+		}else {
+			collision.renderCollision(gc, Color.DARKORANGE, 0.5);
+		}
+		
 	}
 	
 	private void checkAnimation() {

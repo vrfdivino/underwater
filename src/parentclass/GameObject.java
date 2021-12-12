@@ -21,7 +21,8 @@ public class GameObject implements RunnableObject {
 	protected TimeManager TIME_MANAGER = TimeManager.getInstance();
 	
 	protected AnimationPlayer animationPlayer;
-	protected Collision collision;
+	protected Collision collision = new Collision();
+	protected Vector2 collision_pos;
 	
 	protected Vector2 size = new Vector2();
 	protected Vector2 position = new Vector2();
@@ -33,8 +34,11 @@ public class GameObject implements RunnableObject {
 		return collision;
 	}
 	
+	public Vector2 getCollisionPosition() {
+		return collision_pos;
+	}
+	
 	public void collidesWith(GameObject other) {
-		System.out.println(this + " " + collision + " > " + other + " " + other.getCollision());
 		collision.overlaps(other);
 	}
 	

@@ -2,7 +2,6 @@ package gameobject;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
-import component.Collision;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -41,23 +40,30 @@ public class AnglerFish extends GameObject{
 	}
 	
 	private void setCollision() {
-		collision = new Collision(true, new Vector2(-(size.x/2) + 40, -(size.y/2) + 60), new Vector2(140, 140));
+		collision.setCollide(true);
+		collision.setOrigin(new Vector2(-(size.x/2) + 40, -(size.y/2) + 60));
+		collision.setSize(new Vector2(140, 140));
 	}
 	
 	@Override
 	public void update(GraphicsContext gc) {
-		
+		updatePosition();
 		updateCollision();
 		render(gc);
 	}
 	
+	private void updatePosition() {
+		//position.add(new Vector2(-10 * TIME_MANAGER.getDeltaTime(),0));
+	}
+	
 	private void updateCollision() {
 		collision.setPosition(position);
-		System.out.println("Angler Collision: (" + collision.getPosition().x + ", " + collision.getPosition().y + ")");
+		//System.out.println("Angler Collision: (" + collision.getPosition().x + ", " + collision.getPosition().y + ")");
 	}
 	
 	private void render(GraphicsContext gc) {
 		animationPlayer.playAnimation("MOVE");
+		animationPlayer.setPosition(position);
 		animationPlayer.render(gc);
 		collision.renderCollision(gc);
 	}

@@ -55,8 +55,9 @@ public class Level_001 extends GameScene{
 	}
 	
 	protected void setObjectProperties() {
-		runnableObjectList.add(enemy);
 		runnableObjectList.add(player);
+		runnableObjectList.add(enemy);
+		
 	}
 	
 	protected void setGUIProperties() {
