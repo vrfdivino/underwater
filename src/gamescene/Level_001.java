@@ -57,10 +57,10 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initObjectProperties() {
-		AnglerFish enemy = new AnglerFish(800, 200);
+		//AnglerFish enemy = new AnglerFish(800, 200);
 		
 		runnableObjectList.add(player);
-		runnableObjectList.add(enemy);
+		//runnableObjectList.add(enemy);
 		
 	}
 	
@@ -73,7 +73,7 @@ public class Level_001 extends GameScene{
 		VBox metaBox = new VBox();
 		metaBox.getChildren().addAll(this.backButton);
 		
-		HBox statusBar = this.buildStatusBar();
+		HBox statusBar = buildStatusBar();
 		
 		metaBox.setAlignment(Pos.CENTER);
 		statusBar.setAlignment(Pos.CENTER);

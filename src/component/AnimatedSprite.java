@@ -6,6 +6,7 @@ import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import main.GameStage;
+import manager.TimeManager;
 
 /**
  * Handles a single animation
@@ -13,11 +14,12 @@ import main.GameStage;
  *
  */
 public class AnimatedSprite {
+	private TimeManager TIME_MANAGER = TimeManager.getInstance();
+	
 	private double fps = 12;
 	private int current_frame = 0;
 	private int frames = 0;
-	private double delta_frame = 0;
-	private double frames_lapsed = 0;
+	private double delta = 0;
 	
 	private boolean is_playing = false;
 	private boolean is_visible = true;
@@ -48,7 +50,6 @@ public class AnimatedSprite {
 		
 		this.frames = textures.length;
 		this.fps = fps;
-		this.delta_frame = this.fps/GameStage.JAVA_FPS;
 		for (int i = 0; i < textures.length; i++) {
 			this.textures.add(textures[i]);
 		}
@@ -68,7 +69,6 @@ public class AnimatedSprite {
 
 		this.frames = textures.length;
 		this.fps = fps;
-		this.delta_frame = fps/GameStage.JAVA_FPS;
 		for (int i = 0; i < textures.length; i++) {
 			this.textures.add(textures[i]);
 		}	
@@ -80,7 +80,7 @@ public class AnimatedSprite {
 	 */
 	public void stop() {
 		is_playing = false;
-		frames_lapsed = 0;
+		delta = 0;
 		current_frame = 0;
 	}
 	
@@ -91,7 +91,7 @@ public class AnimatedSprite {
 	public void start() {
 		if (!is_playing) {
 			is_playing = true;
-			frames_lapsed = 0;
+			delta = 0;
 			current_frame = 0;
 		}
 	}
@@ -104,7 +104,7 @@ public class AnimatedSprite {
 	public void start(int frame) {
 		if (!is_playing) {
 			is_playing = true;
-			frames_lapsed = frame;
+			delta = frame;
 			current_frame = frame;
 		}		
 	}
@@ -155,11 +155,11 @@ public class AnimatedSprite {
 	//Increments the frames
 	private void playFrames() {
 		if (is_playing) {
-			frames_lapsed += delta_frame;
-			current_frame = (int) Math.floor(frames_lapsed);
+			delta += fps * TIME_MANAGER.getDeltaTime();
+			current_frame = (int) Math.floor(delta);
 			if (current_frame >= frames) {
 				current_frame = 0;
-				frames_lapsed = 0;
+				delta = 0;
 			}
 		}
 	}
@@ -207,7 +207,6 @@ public class AnimatedSprite {
 	
 	public void setFPS(int fps) {
 		this.fps = fps;
-		this.delta_frame = fps/GameStage.JAVA_FPS;
 	}
 	
 	public void setVisible(boolean is_visible) {
