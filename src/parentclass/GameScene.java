@@ -82,7 +82,7 @@ public abstract class GameScene implements RunnableObject{
 					
 					// deduct strength of the player 
 					PLAYER_MANAGER.setStrength(20);
-					GAME_MANAGER.setHp();
+					PLAYER_MANAGER.setHp(1);
 				}
 			}
 		}

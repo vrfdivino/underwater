@@ -247,7 +247,7 @@ public class Level_001 extends GameScene{
 	}
 	
 	private void updateHp() {
-		hpLabel.setText(String.valueOf(GAME_MANAGER.getHp()));
+		hpLabel.setText(String.valueOf(PLAYER_MANAGER.getHp()));
 	}
 	
 	private void spawnInitialEnemies() {
@@ -257,5 +257,14 @@ public class Level_001 extends GameScene{
 			int y =r.nextInt(400) + 200;
 			runnableObjectList.add(new AnglerFish(x,y));
 		}
+	}
+	
+	private void checkIfEndGame() {
+		
+		// end game here
+		if(PLAYER_MANAGER.getHp() == 0 && GAME_MANAGER.getTimeLeft() == 0) {
+			// push to end game screen
+			
+		} 
 	}
 } 
