@@ -10,7 +10,10 @@ import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
+import component.AnimatedSprite;
 import constants.Assets;
+import constants.Layout;
+import datatype.Vector2;
 import gui.MenuButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -22,10 +25,10 @@ import parentclass.GameScene;
 public class About extends GameScene {
 	
 	private BorderPane root;
-	private VBox aboutBox;
+	private VBox layout;
 	private MenuButton backButton;
-	private ImageView logo;
-	private ImageView title;
+	private AnimatedSprite title;
+	private AnimatedSprite background;
 	
 	About(GameStage gameStage) {
 		
@@ -33,8 +36,6 @@ public class About extends GameScene {
 		this.scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 		this.gc     = canvas.getGraphicsContext2D();
-		this.logo = new ImageView(Assets.LOGO);
-		this.title = new ImageView(Assets.ABOUT_US_TITLE);
 		
 		this.gameStage = gameStage;
 	}
@@ -54,56 +55,18 @@ public class About extends GameScene {
 	@Override
 	protected void initGUIProperties() {
 		
+		this.background = Layout.STATIC_BACKGROUND;
+		this.title = Layout.STATIC_TITLE;
 		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
+		this.layout = new VBox();
 		
-		this.aboutBox = new VBox();
+		this.layout.getChildren().add(this.backButton);
+		this.layout.setAlignment(Pos.CENTER);
 		
-		this.logo.setFitHeight(100d);
-		this.logo.setPreserveRatio(true);
-		this.aboutBox.getChildren().add(this.logo);
-		
-		this.title.setFitHeight(80d);
-		this.title.setPreserveRatio(true);
-		this.aboutBox.getChildren().add(this.title);
-
-		ImageView content = new ImageView(Assets.ABOUT_US_CONTENT);
-		content.setFitHeight(280d);
-		content.setPreserveRatio(true);
-		this.aboutBox.getChildren().add(content);
-		
-		this.aboutBox.getChildren().add(this.backButton);
-		
-		this.aboutBox.setAlignment(Pos.CENTER);
-		this.aboutBox.setSpacing(50d);
-		this.root.setCenter(this.aboutBox);
-		this.root.setStyle("-fx-background-image: url('" + Assets.BG + "');-fx-background-size: 1000, 1000;-fx-background-repeat: no-repeat;");
-		
+		this.root.getChildren().add(this.canvas);		
+		this.root.setCenter(this.layout);
 	}
-	
-	/*
-	private ArrayList<Node> buildAbout() {
-		
-		ArrayList<Node> components = new ArrayList<Node>();
-		
-		// The DEVELOPERS
-		Label developer1 = new Label("Dave Jimenez");
-		Label developer2 = new Label("Vonzzzzz Divino");
-		HBox developers = new HBox();
-		developers.setAlignment(Pos.CENTER);
-		developers.getChildren().addAll(developer1, developer2);
-		components.add(developers);
-		
-		// The REFERENCES, API USED
-		Label guiRef = new Label("JavaFX: https://openjfx.io");
-		Label jdbcRef = new Label("JDBC: https://www.oracle.com/java/technologies/javase/javase-tech-database.html");
-		HBox references = new HBox();
-		references.getChildren().addAll(guiRef, jdbcRef);
-		references.setAlignment(Pos.CENTER);
-		components.add(references);
-		
-		return components;
-		
-	}*/
+
 
 	@Override
 	protected void initAudioProperties() {
@@ -123,6 +86,8 @@ public class About extends GameScene {
 	@Override
 	protected void updateGUI() {
 		// TODO Auto-generated method stub
+		this.background.render(gc);
+		this.title.render(gc);
 
 	}
 	
@@ -131,4 +96,5 @@ public class About extends GameScene {
 		// TODO Auto-generated method stub
 
 	}
+	
 }
