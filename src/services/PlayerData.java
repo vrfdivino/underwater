@@ -7,7 +7,7 @@ public class PlayerData extends Data {
 	private String name;
 	private int score;
 	
-	PlayerData(String name) {
+	public PlayerData(String name) {
 		this.name  = name;
 		this.score = 0;
 	}

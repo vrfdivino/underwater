@@ -1,6 +1,7 @@
 package main;
 
 import constants.Assets;
+import gamescene.EndScreen;
 import gamescene.SplashScreen;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -26,7 +27,8 @@ public class GameStage {
 	private GameLoop gameLoop;
 	
 	GameStage() {
-		gameScene = new SplashScreen(this);	
+		gameScene = new SplashScreen(this);
+//		gameScene = new EndScreen(this); // for testing of the end screen only
 		gameScene.initializeProperties();
 		gc = this.gameScene.getGraphicsContext();
 		gameLoop = new GameLoop(this);	
