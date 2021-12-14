@@ -64,11 +64,12 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initObjectProperties() {
-//		AnglerFish enemy = new AnglerFish(800, 200);
-		
+		//AnglerFish enemy = new AnglerFish(800, 200);
+		//AnglerFish enemy2 = new AnglerFish(900, 300);
 		
 		runnableObjectList.add(player);
-//		runnableObjectList.add(enemy);
+		//runnableObjectList.add(enemy);
+		//runnableObjectList.add(enemy2);
 		spawnInitialEnemies();
 		
 	}

@@ -10,7 +10,6 @@ import parentclass.GameObject;
 
 public class Collision {
 	private boolean can_collide = true;
-	private boolean is_colliding = false;
 	private Vector2 position = Vector2.ZERO;
 	private Vector2 origin = new Vector2();
 	private Vector2 size = new Vector2();
@@ -129,7 +128,7 @@ public class Collision {
 	 * @author Dave
 	 */
 	public boolean overlaps(GameObject other) {
-		
+		//System.out.println(other + "\n");
 		if (can_collide && other.getCollision().canCollide() && collides_with.contains(other.getClass().getName())) {
 			//Checks if there is no Overlap with the other collision object
 			boolean noOverlap = position.x + size.x < other.getCollision().position.x ||
@@ -148,11 +147,9 @@ public class Collision {
 					overlaps.remove(other);
 				}
 			}
-			is_colliding = !noOverlap;
 			return !noOverlap;			
 		}
 
-		is_colliding = false;
 		return false;
 	}
 	
@@ -173,7 +170,10 @@ public class Collision {
 	}
 	
 	public boolean isColliding() {
-		return is_colliding;
+		if (!overlaps.isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean canCollide() {

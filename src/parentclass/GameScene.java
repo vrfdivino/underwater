@@ -104,11 +104,14 @@ public abstract class GameScene implements RunnableObject{
 				for (RunnableObject anotherObject: runnableObjectList) {
 					GameObject other = (GameObject) anotherObject;
 					if (other != gameObject) {
+						//System.out.println(gameObject + " COLLIDING WITH " + other);
 						gameObject.collidesWith(other);
 					}
 				}
 			}
 		}
+		
+		//System.out.println("End of Check \n");
 	}
 	
 	/**
