@@ -3,6 +3,7 @@ package gamescene;
 import component.AnimatedSprite;
 import component.AudioPlayer;
 import constants.Assets;
+import constants.Layout;
 import datatype.Vector2;
 import gameobject.Player;
 import gui.MenuButton;
@@ -72,7 +73,8 @@ public class SplashScreen extends GameScene{
 		
 		
 		//Backround and Title
-		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_001)}, 1, new Vector2(GameStage.WINDOW_WIDTH/2, GameStage.WINDOW_HEIGHT/2), new Vector2(1024, 1024));
+//		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_001)}, 1, new Vector2(GameStage.WINDOW_WIDTH/2, GameStage.WINDOW_HEIGHT/2), new Vector2(1024, 1024));
+		background = Layout.STATIC_BACKGROUND;
 		title = new AnimatedSprite(new Image[] {new Image(Assets.TITLECARD)}, 1, new Vector2(GameStage.WINDOW_HEIGHT/2, -186), new Vector2(720, 364));
 		
 		//Buttons

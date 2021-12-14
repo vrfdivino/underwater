@@ -1,7 +1,9 @@
 package parentclass;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import gameobject.AnglerFish;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -47,6 +49,14 @@ public abstract class GameScene implements RunnableObject{
 	 */
 	protected void updateObjects() {
 		for (RunnableObject object: runnableObjectList) {
+			// update speed of AnglerFish randomly
+			// below condition is not final, it should be random, not every spawn
+			// just a simulation
+			if(object instanceof AnglerFish && GAME_MANAGER.doSpawn()) {
+				Random r = new Random();
+				((AnglerFish) object).setSpeed(r.nextInt(125) + r.nextInt(500));
+			}
+			
 			object.update(gc);
 		}
 	}
@@ -69,6 +79,10 @@ public abstract class GameScene implements RunnableObject{
 				GameObject gameObject = (GameObject) runnableObject;
 				if (gameObject.isDestroyed()) {
 					toRemoveList.add(runnableObject);
+					
+					// deduct strength of the player 
+					PLAYER_MANAGER.setStrength(20);
+					PLAYER_MANAGER.setHp(1);
 				}
 			}
 		}
@@ -129,6 +143,10 @@ public abstract class GameScene implements RunnableObject{
 	
 	public GraphicsContext getGraphicsContext() {
 		return gc;
+	}
+	
+	protected void updateTimer() {
+		GAME_MANAGER.updateTimer((int) TIME_MANAGER.getTimeElapsed());
 	}
 	
 }
