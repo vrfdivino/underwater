@@ -49,6 +49,14 @@ public abstract class GameScene implements RunnableObject{
 	 */
 	protected void updateObjects() {
 		for (RunnableObject object: runnableObjectList) {
+			// update speed of AnglerFish randomly
+			// below condition is not final, it should be random, not every spawn
+			// just a simulation
+			if(object instanceof AnglerFish && GAME_MANAGER.doSpawn()) {
+				Random r = new Random();
+				((AnglerFish) object).setSpeed(r.nextInt(125) + r.nextInt(500));
+			}
+			
 			object.update(gc);
 		}
 	}

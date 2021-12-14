@@ -1,5 +1,7 @@
 package gameobject;
 
+import java.util.Random;
+
 import component.AnimatedSprite;
 import component.AnimationPlayer;
 import datatype.Vector2;
@@ -15,6 +17,8 @@ public class AnglerFish extends GameObject{
 	private AnimatedSprite anglerFishMove;
 	
 	private int dir_x = -1;
+	
+	private int speed = 125;
 	
 	public AnglerFish(double x, double y) {
 		setTransformations(x, y);
@@ -40,10 +44,8 @@ public class AnglerFish extends GameObject{
 	
 	private void setSpritesAndAnimations() {
 		animationPlayer = new AnimationPlayer();
-		
 		for (int i = 0; i < 8; i++)	anglerFishMoveSprites[i] = new Image("/Enemy/Sprites/AnglerFish" + (i + 1) + ".png");
 		anglerFishMove = new AnimatedSprite(anglerFishMoveSprites, 12, position, size);
-
 		animationPlayer.addAnimation("MOVE", anglerFishMove);
 	}
 	
@@ -77,7 +79,7 @@ public class AnglerFish extends GameObject{
 	}
 	
 	private void updatePosition() {
-		position.add(new Vector2(125 * dir_x * TIME_MANAGER.getDeltaTime(),0));
+		position.add(new Vector2(speed * dir_x * TIME_MANAGER.getDeltaTime(),0));
 		
 		if (position.x < 0)	{
 			dir_x = 1;
@@ -96,5 +98,9 @@ public class AnglerFish extends GameObject{
 	
 	private void updateCollision() {
 		collision.setPosition(position);
+	}
+	
+	public void setSpeed(int newSpeed) {
+		this.speed = newSpeed;
 	}
 }
