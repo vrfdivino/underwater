@@ -181,6 +181,7 @@ public class Level_001 extends GameScene{
 		checkDestroyedObjects();
 		
 		spawnEnemy();
+		checkIfEndGame();
 		
 		pane.requestFocus();
 		
@@ -262,8 +263,9 @@ public class Level_001 extends GameScene{
 	private void checkIfEndGame() {
 		
 		// end game here
-		if(PLAYER_MANAGER.getHp() == 0 && GAME_MANAGER.getTimeLeft() == 0) {
+		if(PLAYER_MANAGER.getHp() == 0 || GAME_MANAGER.getTimeLeft() == 0) {
 			// push to end game screen
+			gameStage.setGameScene(new EndScreen(gameStage));
 			
 		} 
 	}
