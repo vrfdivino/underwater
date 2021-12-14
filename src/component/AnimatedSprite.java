@@ -22,6 +22,9 @@ public class AnimatedSprite {
 	
 	private boolean is_playing = false;
 	private boolean is_visible = true;
+	private boolean is_loop = true;
+	private boolean can_loop = true;
+	private boolean is_finished = false;
 	
 	private double alpha = 1.0;
 	
@@ -79,6 +82,7 @@ public class AnimatedSprite {
 	 */
 	public void stop() {
 		is_playing = false;
+		can_loop = true;
 		delta = 0;
 		current_frame = 0;
 	}
@@ -90,6 +94,7 @@ public class AnimatedSprite {
 	public void start() {
 		if (!is_playing) {
 			is_playing = true;
+			can_loop = true;
 			delta = 0;
 			current_frame = 0;
 		}
@@ -113,42 +118,43 @@ public class AnimatedSprite {
 	 * @author Dave
 	 */
 	public void render(GraphicsContext gc) {
+		if (can_loop) {
+			double x_offset;
+			double y_offset;
+			double x_scale_factor;
+			double y_scale_factor;
+			
+			//Flips the Image accordingly
+			if (isHflip()) {
+				x_offset = this.size.x;
+				x_scale_factor = -1;
+			}
+			else {
+				x_offset = 0;
+				x_scale_factor = 1;
+			}
+			
+			if (isVflip()) {
+				y_offset = this.size.y;
+				y_scale_factor = -1;
+			}
+			else {
+				y_offset = 0;
+				y_scale_factor = 1;
+			}
+			
+			gc.setGlobalAlpha(alpha);
+			
+			//Draws the Image if Visible
+			if (is_visible) {
+				gc.drawImage(textures.get(current_frame), 
+						position.x + x_offset - size.x/2, position.y + y_offset - size.y/2, 
+						size.x * scale.x * x_scale_factor, size.y * scale.y * y_scale_factor);
+			}
+			
+			gc.setGlobalAlpha(1.0);
+		}
 		playFrames();
-		
-		double x_offset;
-		double y_offset;
-		double x_scale_factor;
-		double y_scale_factor;
-		
-		//Flips the Image accordingly
-		if (isHflip()) {
-			x_offset = this.size.x;
-			x_scale_factor = -1;
-		}
-		else {
-			x_offset = 0;
-			x_scale_factor = 1;
-		}
-		
-		if (isVflip()) {
-			y_offset = this.size.y;
-			y_scale_factor = -1;
-		}
-		else {
-			y_offset = 0;
-			y_scale_factor = 1;
-		}
-		
-		gc.setGlobalAlpha(alpha);
-		
-		//Draws the Image if Visible
-		if (is_visible) {
-			gc.drawImage(textures.get(current_frame), 
-					position.x + x_offset - size.x/2, position.y + y_offset - size.y/2, 
-					size.x * scale.x * x_scale_factor, size.y * scale.y * y_scale_factor);
-		}
-		
-		gc.setGlobalAlpha(1.0);
 	}
 	
 	//Increments the frames
@@ -159,6 +165,12 @@ public class AnimatedSprite {
 			if (current_frame >= frames) {
 				current_frame = 0;
 				delta = 0;
+				
+				if (!is_loop) {
+					can_loop = false;
+					is_finished = true;
+					is_playing = false;
+				}
 			}
 		}
 	}
@@ -224,6 +236,10 @@ public class AnimatedSprite {
 		this.alpha = alpha;
 	}
 	
+	public void setLoop(boolean is_loop) {
+		this.is_loop = is_loop;
+	}
+	
 	//Getters
 	public Vector2 getPosition() {
 		return position;
@@ -267,5 +283,13 @@ public class AnimatedSprite {
 	
 	public double getAlpha() {
 		return alpha;
+	}
+	
+	public boolean canLoop() {
+		return can_loop;
+	}
+	
+	public boolean isFinished() {
+		return is_finished;
 	}
 }

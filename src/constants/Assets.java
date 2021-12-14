@@ -45,6 +45,7 @@ public class Assets {
 	
 	public static final String UNDERWATER      = "resources/Audio/SFX_1_Underwater.mp3";
 	public static final String SPLASH  		   = "resources/Audio/SFX_2_Splash.mp3";
+	public static final String HIT             = "resources/Audio/SFX_3_DrownHit.mp3";
 	
 	public static final String BG = "/Menu/Graphics/bg.png";
 	public static final Image LOGO = new Image("/Menu/Graphics/logo.png");

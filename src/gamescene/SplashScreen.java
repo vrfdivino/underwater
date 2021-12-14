@@ -102,10 +102,10 @@ public class SplashScreen extends GameScene{
 		volumeVBox.setAlignment(Pos.CENTER);
 		
 		//Set up GUI Layout
-		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 360);
-		scoreboardButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 300);
-		aboutButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 180);
-		instructionButton.setLayout(GameStage.WINDOW_WIDTH/2 - 328/2, GameStage.WINDOW_HEIGHT - 240);
+		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 360);
+		scoreboardButton.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 300);
+		aboutButton.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 180);
+		instructionButton.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 240);
 		
 		volumeVBox.setLayoutX(GameStage.WINDOW_WIDTH-300);
 		volumeVBox.setLayoutY(GameStage.WINDOW_HEIGHT-60);

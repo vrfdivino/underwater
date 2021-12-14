@@ -161,6 +161,12 @@ public class Collision {
 		return overlaps;
 	}
 	
+	public void removeOverlap(GameObject other) {
+		if (overlaps.contains(other)) {
+			overlaps.remove(other);
+		}
+	}
+	
 	/**
 	 * Returns the Collision Masks.
 	 * @return ( ArrayList ) ArrayList of String

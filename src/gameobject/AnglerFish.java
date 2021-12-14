@@ -56,6 +56,10 @@ public class AnglerFish extends GameObject{
 		collision.setCollisions(new String[] {Player.class.getName()});
 	}
 	
+	public void setSpeed(int newSpeed) {
+		this.speed = newSpeed;
+	}
+	
 	/*
 	 * update() and Coroutines only below 
 	 */
@@ -72,9 +76,12 @@ public class AnglerFish extends GameObject{
 		animationPlayer.setPosition(position);
 		animationPlayer.render(gc);
 		if (!collision.isColliding()) {
-			collision.renderCollision(gc);
+			//collision.renderCollision(gc);
 		} else {
-			collision.renderCollision(gc, Color.DARKORANGE, 0.5);
+			// deduct strength of the player 
+			//PLAYER_MANAGER.setStrength(20);
+			PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - 30);
+			//collision.renderCollision(gc, Color.DARKORANGE, 0.5);
 		}
 	}
 	
@@ -98,9 +105,5 @@ public class AnglerFish extends GameObject{
 	
 	private void updateCollision() {
 		collision.setPosition(position);
-	}
-	
-	public void setSpeed(int newSpeed) {
-		this.speed = newSpeed;
 	}
 }

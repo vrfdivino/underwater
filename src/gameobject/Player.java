@@ -1,7 +1,11 @@
 package gameobject;
 
+import java.util.ArrayList;
+
 import component.AnimatedSprite;
 import component.AnimationPlayer;
+import component.AudioPlayer;
+import constants.Assets;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -13,6 +17,9 @@ public class Player extends GameObject{
 	private STATES state = STATES.NORMAL;
 	
 	private AnimatedSprite diverAnimSpriteIdle;
+	
+	private Image[] diverAnimHitSprites = new Image[4];
+	private AnimatedSprite diverAnimHitSprite;
 	
 	private Image[] diverAnimSprites = new Image[9];
 	private AnimatedSprite diverAnimSprite;
@@ -26,12 +33,16 @@ public class Player extends GameObject{
 		this.setTransformations(x, y);
 		this.setSpritesAndAnimations();
 		this.setCollision();
+		
+		SFX_MANAGER.addAudioPlayer("HIT", new AudioPlayer(Assets.HIT));
 	}
 	
 	public Player(Vector2 position) {
 		this.setTransformations(position.x, position.y);
 		this.setSpritesAndAnimations();
 		this.setCollision();
+		
+		SFX_MANAGER.addAudioPlayer("HIT", new AudioPlayer(Assets.HIT));
 	}
 	
 	/*
@@ -54,11 +65,19 @@ public class Player extends GameObject{
 	private void setSpritesAndAnimations() {
 		animationPlayer = new AnimationPlayer();
 		
+		diverAnimHitSprites[0] = new Image("/Player/Sprites/Diver10.png");
+		diverAnimHitSprites[1] = new Image("/Player/Sprites/Diver1.png");
+		diverAnimHitSprites[2] = new Image("/Player/Sprites/Diver10.png");
+		diverAnimHitSprites[3] = new Image("/Player/Sprites/Diver1.png");
+		
 		diverAnimSpriteIdle = new AnimatedSprite(new Image[] {new Image("/Player/Sprites/Diver1.png")}, 1, position, size);
 		for (int i = 0; i < 9; i++) diverAnimSprites[i] = new Image("/Player/Sprites/Diver" + (i+1) + ".png");
-		
+		 
+		diverAnimHitSprite = new AnimatedSprite(diverAnimHitSprites, 12 , position, size);
+		diverAnimHitSprite.setLoop(false);
 		diverAnimSprite = new AnimatedSprite(diverAnimSprites, 12, position, size);
 		
+		animationPlayer.addAnimation("HIT", diverAnimHitSprite);
 		animationPlayer.addAnimation("IDLE", diverAnimSpriteIdle);
 		animationPlayer.addAnimation("MOVE", diverAnimSprite);
 	}
@@ -115,9 +134,14 @@ public class Player extends GameObject{
 		
 		animationPlayer.render(gc);
 		if (!collision.isColliding()) {
-			collision.renderCollision(gc);
+			// collision.renderCollision(gc);
+			//System.out.println("Not Colliding");
 		}else {
-			collision.renderCollision(gc, Color.DARKORANGE, 0.5);
+			//System.out.println(collision.getOverlaps());
+			SFX_MANAGER.stopAudioPlayer("HIT");
+			SFX_MANAGER.playAudioPlayer("HIT");
+			animationPlayer.playAnimation("HIT");
+			//collision.renderCollision(gc, Color.DARKORANGE, 0.5);
 			destroyCollidingObjects();
 		}
 	}
@@ -146,16 +170,25 @@ public class Player extends GameObject{
 		collision_pos = collision.getPosition();
 	}
 	
-
 	
 	private void destroyCollidingObjects() {
+		ArrayList<GameObject> toRemoveList = new ArrayList<GameObject>();
+		
 		for (GameObject other: collision.getOverlaps()) {
+			toRemoveList.add(other);
+		}
+		
+		//Solves ConcurrentModificationError
+		for (GameObject other: toRemoveList) {
+			collision.removeOverlap(other);
 			other.destroy();
 		}
 	}
 	
 	private void checkAnimation() {
-		if (velocity.x == 0 && velocity.y == 0) animationPlayer.playAnimation("IDLE");
+		//System.out.println(animationPlayer.getAnimation("HIT").isPlaying());
+		if (animationPlayer.getAnimation("HIT").isPlaying()) animationPlayer.playAnimation("HIT");
+		else if (velocity.x == 0 && velocity.y == 0) animationPlayer.playAnimation("IDLE");
 		else animationPlayer.playAnimation("MOVE");
 	}
 }

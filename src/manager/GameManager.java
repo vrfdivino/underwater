@@ -18,7 +18,7 @@ public class GameManager {
 	private static GameManager instance;
 	
 	private Random r = new Random();
-	private int hp = r.nextInt(140) + 60;
+	//private int hp = r.nextInt(140) + 60;
 
 	private int timeLeft = 60;
 	private int timeElapsed;
@@ -35,7 +35,7 @@ public class GameManager {
 		
 		return instance;
 	}
-	
+	/*
 	public int getHp() {
 		return this.hp;
 	}
@@ -43,7 +43,7 @@ public class GameManager {
 	public void setHp() {
 		this.hp--;
 	}
-	
+	*/
 	public void updateTimer(int timeElapsed) {
 		
 		if (this.timeElapsed != timeElapsed) {
@@ -55,6 +55,8 @@ public class GameManager {
 			} else {
 				this.doSpawn = false;
 			}
+			System.out.println(doSpawn);
+			System.out.println(this.timeElapsed);
 		}
 //		
 //		if (timeLeft <= 0) {
@@ -72,6 +74,8 @@ public class GameManager {
 	
 	public void resetTimeLeft() {
 		this.timeLeft = 60;
+		this.timeElapsed = 0;
+		nextSpawn = timeLeft - spawnInterval;
 	}
 	
 	public void spawnEnemy(ArrayList<RunnableObject> runnableObjectList) {

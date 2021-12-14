@@ -57,8 +57,8 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initOtherProperties() {
-		// TODO Auto-generated method stub
 		GAME_MANAGER.resetTimeLeft();
+		PLAYER_MANAGER.setHp(500);
 		
 	}
 	
@@ -118,7 +118,7 @@ public class Level_001 extends GameScene{
 		ImageView hp = new ImageView(hpImage);
 		this.hpLabel = new Label();
 		hpLabel.setTextFill(Color.web("#f1f2b6", 1.0));
-		hpLabel.setText(String.valueOf(GAME_MANAGER.getHp()));
+		hpLabel.setText(String.valueOf(PLAYER_MANAGER.getHp()));
 		hpLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
 		StackPane.setMargin(hpLabel, new Insets(0, -90, 0, 0));
 		hpPane.getChildren().add(hp);
@@ -150,7 +150,6 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initAudioProperties() {
-		
 		AudioPlayer under_pressure = new AudioPlayer(Assets.UNDER_PRESSURE, false);
 		AudioPlayer underwater = new AudioPlayer(Assets.UNDERWATER, true);
 		AudioPlayer splash = new AudioPlayer(Assets.SPLASH);
@@ -264,7 +263,7 @@ public class Level_001 extends GameScene{
 	private void checkIfEndGame() {
 		
 		// end game here
-		if(PLAYER_MANAGER.getHp() == 0 || GAME_MANAGER.getTimeLeft() == 0) {
+		if(PLAYER_MANAGER.getHp() <= 0 || GAME_MANAGER.getTimeLeft() <= 0) {
 			// push to end game screen
 			gameStage.setGameScene(new EndScreen(gameStage));
 			

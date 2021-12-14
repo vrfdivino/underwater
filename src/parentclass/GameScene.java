@@ -79,10 +79,6 @@ public abstract class GameScene implements RunnableObject{
 				GameObject gameObject = (GameObject) runnableObject;
 				if (gameObject.isDestroyed()) {
 					toRemoveList.add(runnableObject);
-					
-					// deduct strength of the player 
-					PLAYER_MANAGER.setStrength(20);
-					PLAYER_MANAGER.setHp(1);
 				}
 			}
 		}
