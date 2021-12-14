@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import main.GameStage;
 import manager.TimeManager;
 
 /**
