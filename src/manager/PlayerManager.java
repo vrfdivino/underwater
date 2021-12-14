@@ -8,6 +8,8 @@ package manager;
 public class PlayerManager {
 	private static PlayerManager instance;
 	
+	private int strength = 200;
+	
 	private PlayerManager() {}
 	
 	public static PlayerManager getInstance() {
@@ -16,5 +18,10 @@ public class PlayerManager {
 		}
 		
 		return instance;
+	}
+	
+	public void setStrength(int factor) {
+		this.strength -= factor;
+		System.out.println("Current strength of the player: " + this.strength);
 	}
 }
