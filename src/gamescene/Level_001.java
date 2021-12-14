@@ -1,5 +1,7 @@
 package gamescene;
 
+import java.util.Random;
+
 import component.AnimatedSprite;
 import component.AudioPlayer;
 import constants.Assets;
@@ -38,6 +40,8 @@ public class Level_001 extends GameScene{
 	private Label timeCount;
 	private int timeElapsed;
 	
+	private Label hpLabel;
+	
 	private Player player = new Player(100, -450);
 
 	public Level_001(GameStage gameStage){
@@ -57,10 +61,13 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initObjectProperties() {
-		//AnglerFish enemy = new AnglerFish(800, 200);
+//		AnglerFish enemy = new AnglerFish(800, 200);
+//		AnglerFish enemy2 = new AnglerFish(400, 100);
+		
 		
 		runnableObjectList.add(player);
-		//runnableObjectList.add(enemy);
+//		runnableObjectList.add(enemy);
+//		runnableObjectList.add(enemy2);
 		
 	}
 	
@@ -106,9 +113,9 @@ public class Level_001 extends GameScene{
 		StackPane hpPane = new StackPane();
 		Image hpImage = new Image(Assets.HP);
 		ImageView hp = new ImageView(hpImage);
-		Label hpLabel = new Label();
+		this.hpLabel = new Label();
 		hpLabel.setTextFill(Color.web("#f1f2b6", 1.0));
-		hpLabel.setText("140");
+		hpLabel.setText(String.valueOf(GAME_MANAGER.getHp()));
 		hpLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
 		StackPane.setMargin(hpLabel, new Insets(0, -90, 0, 0));
 		hpPane.getChildren().add(hp);
@@ -171,6 +178,8 @@ public class Level_001 extends GameScene{
 		checkObjectCollisions();
 		checkDestroyedObjects();
 		
+		spawnEnemy();
+		
 		pane.requestFocus();
 		
 	}
@@ -178,6 +187,8 @@ public class Level_001 extends GameScene{
 	protected void updateGUI() {
 		updateTimer();
 		scrollBackground();
+		
+		updateHp();
 	}
 	
 	private void limitPlayerMovement() {
@@ -228,5 +239,9 @@ public class Level_001 extends GameScene{
 		}
 		
 		//System.out.println(this.timeLeft);
+	}
+	
+	private void updateHp() {
+		hpLabel.setText(String.valueOf(GAME_MANAGER.getHp()));
 	}
 }

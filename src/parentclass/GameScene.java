@@ -69,6 +69,8 @@ public abstract class GameScene implements RunnableObject{
 				GameObject gameObject = (GameObject) runnableObject;
 				if (gameObject.isDestroyed()) {
 					toRemoveList.add(runnableObject);
+					
+					GAME_MANAGER.setHp();
 				}
 			}
 		}
@@ -131,4 +133,11 @@ public abstract class GameScene implements RunnableObject{
 		return gc;
 	}
 	
+	
+	protected void spawnEnemy() {
+		if (runnableObjectList.size() < 4) {
+			runnableObjectList.add(GAME_MANAGER.spawnEnemy());	
+			System.out.println(runnableObjectList.size());
+		}
+	}
 }
