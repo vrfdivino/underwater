@@ -36,9 +36,11 @@ public class Level_001 extends GameScene{
 
 	private MenuButton backButton;
 	
-	private int timeLeft = 60;
+//	private int timeLeft = 60;
 	private Label timeCount;
-	private int timeElapsed;
+//	private int timeElapsed;
+//	private int spawnInterval = 3;
+//	private int nextSpawn = timeLeft - spawnInterval;
 	
 	private Label hpLabel;
 	
@@ -56,18 +58,18 @@ public class Level_001 extends GameScene{
 	@Override
 	protected void initOtherProperties() {
 		// TODO Auto-generated method stub
+		GAME_MANAGER.resetTimeLeft();
 		
 	}
 	
 	@Override
 	protected void initObjectProperties() {
 //		AnglerFish enemy = new AnglerFish(800, 200);
-//		AnglerFish enemy2 = new AnglerFish(400, 100);
 		
 		
 		runnableObjectList.add(player);
 //		runnableObjectList.add(enemy);
-//		runnableObjectList.add(enemy2);
+		spawnInitialEnemies();
 		
 	}
 	
@@ -189,6 +191,7 @@ public class Level_001 extends GameScene{
 		scrollBackground();
 		
 		updateHp();
+		updateTimerLabel();
 	}
 	
 	private void limitPlayerMovement() {
@@ -222,26 +225,37 @@ public class Level_001 extends GameScene{
 		background.render(gc);
 	}
 	
-	private void updateTimer() {
-		int timeElapsed = (int) TIME_MANAGER.getTimeElapsed();
+	private void updateTimerLabel() {
 		
-		if (this.timeElapsed != timeElapsed) {
-			--this.timeLeft;
-			this.timeElapsed = timeElapsed;
-		}
+		int timeLeft = GAME_MANAGER.getTimeLeft();
 		
 		if (timeLeft <= 0) {
 			this.timeCount.setText("00:00");
 		}else if (timeLeft >= 10) {
-			this.timeCount.setText("00:" + this.timeLeft);
+			this.timeCount.setText("00:" + timeLeft);
 		} else {
-			this.timeCount.setText("00:0" + this.timeLeft);
+			this.timeCount.setText("00:0" + timeLeft);
 		}
 		
 		//System.out.println(this.timeLeft);
 	}
 	
+	private void spawnEnemy() {
+		if(GAME_MANAGER.doSpawn()) {
+			GAME_MANAGER.spawnEnemy(runnableObjectList);
+		}
+	}
+	
 	private void updateHp() {
 		hpLabel.setText(String.valueOf(GAME_MANAGER.getHp()));
 	}
-}
+	
+	private void spawnInitialEnemies() {
+		Random r = new Random();
+		for(int i = 0; i < 7; i++) {
+			int x = r.nextInt(800) + 200;
+			int y =r.nextInt(400) + 200;
+			runnableObjectList.add(new AnglerFish(x,y));
+		}
+	}
+} 

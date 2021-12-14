@@ -1,7 +1,9 @@
 package parentclass;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import gameobject.AnglerFish;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -133,11 +135,8 @@ public abstract class GameScene implements RunnableObject{
 		return gc;
 	}
 	
-	
-	protected void spawnEnemy() {
-		if (runnableObjectList.size() < 4) {
-			runnableObjectList.add(GAME_MANAGER.spawnEnemy());	
-			System.out.println(runnableObjectList.size());
-		}
+	protected void updateTimer() {
+		GAME_MANAGER.updateTimer((int) TIME_MANAGER.getTimeElapsed());
 	}
+	
 }
