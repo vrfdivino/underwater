@@ -36,18 +36,13 @@ public class Level_001 extends GameScene{
 
 	private MenuButton backButton;
 	
-//	private int timeLeft = 60;
 	private Label timeCount;
-//	private int timeElapsed;
-//	private int spawnInterval = 3;
-//	private int nextSpawn = timeLeft - spawnInterval;
-	
 	private Label hpLabel;
+	private Label scoreLabel;
 	
 	private Player player = new Player(100, -450);
 
 	public Level_001(GameStage gameStage){
-		
 		this.pane = new BorderPane();
 		this.scene = new Scene(this.pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
@@ -58,20 +53,13 @@ public class Level_001 extends GameScene{
 	@Override
 	protected void initOtherProperties() {
 		GAME_MANAGER.resetTimeLeft();
-		PLAYER_MANAGER.setHp(500);
 		
 	}
 	
 	@Override
 	protected void initObjectProperties() {
-		//AnglerFish enemy = new AnglerFish(800, 200);
-		//AnglerFish enemy2 = new AnglerFish(900, 300);
-		
 		runnableObjectList.add(player);
-		//runnableObjectList.add(enemy);
-		//runnableObjectList.add(enemy2);
 		spawnInitialEnemies();
-		
 	}
 	
 	@Override
@@ -99,7 +87,11 @@ public class Level_001 extends GameScene{
 		
 		HBox statusBar = new HBox();
 		
-		//Label timeLabel = new Label("Time: ");
+		/**
+		 * 
+		 * This is the timer pane.
+		 * 
+		 */
 		StackPane timerPane = new StackPane();
 		Image timerImage = new Image(Assets.TIMER);
 		ImageView timer = new ImageView(timerImage);
@@ -110,9 +102,14 @@ public class Level_001 extends GameScene{
 		StackPane.setMargin(timeCount, new Insets(0, -90, 0, 0));
 		timerPane.getChildren().add(timer);
 		timerPane.getChildren().add(timeCount);
-		//HBox timeBox = new HBox();
-		//timeBox.getChildren().addAll(timeLabel, this.timeCount);
+
 		
+		/**
+		 * 
+		 * This is the HP pane.
+		 * 
+		 * 
+		 */
 		StackPane hpPane = new StackPane();
 		Image hpImage = new Image(Assets.HP);
 		ImageView hp = new ImageView(hpImage);
@@ -123,29 +120,26 @@ public class Level_001 extends GameScene{
 		StackPane.setMargin(hpLabel, new Insets(0, -90, 0, 0));
 		hpPane.getChildren().add(hp);
 		hpPane.getChildren().add(hpLabel);
-		//Label scoreLabel = new Label("Score: ");
-		//Label scoreCount = new Label("999");
-		//HBox scoreBox = new HBox();
-		//scoreBox.getChildren().addAll(scoreLabel, scoreCount);
 		
+		/**
+		 * 
+		 * This is the score (fish killed) pane.
+		 * 
+		 * 
+		 */
 		StackPane scorePane = new StackPane();
 		Image scoreImage = new Image(Assets.POINTS);
 		ImageView score = new ImageView(scoreImage);
-		Label scoreLabel = new Label();
+		this.scoreLabel = new Label();
 		scoreLabel.setTextFill(Color.web("#f1f2b6", 1.0));
-		scoreLabel.setText("00");
+		scoreLabel.setText(String.valueOf(PLAYER_MANAGER.getFishKilled()));
 		scoreLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
 		StackPane.setMargin(scoreLabel, new Insets(0, -100, 0, 0));
 		scorePane.getChildren().add(score);
 		scorePane.getChildren().add(scoreLabel);
-		//Label strengthLabel = new Label("Strength: ");
-		//Label strengthCount = new Label("140");
-		//HBox strengthBox = new HBox();
-		//strengthBox.getChildren().addAll(strengthLabel, strengthCount);
 		
 		statusBar.getChildren().addAll(timerPane, hpPane, scorePane);
 		return statusBar;
-
 	}
 	
 	@Override
@@ -169,30 +163,26 @@ public class Level_001 extends GameScene{
 		SFX_MANAGER.stopAll();
 	}
 	
-	@Override //Write all logic for the scene here
+	@Override 
 	public void update(GraphicsContext gc) { 		
-		
 		onStartOfFrame();
 		updateGUI();
 		updateObjects();
 		limitPlayerMovement();
-		
+		updateTimer();
 		checkObjectCollisions();
 		checkDestroyedObjects();
-		
 		spawnEnemy();
 		checkIfEndGame();
-		
 		pane.requestFocus();
 		
 	}
 	@Override
 	protected void updateGUI() {
-		updateTimer();
 		scrollBackground();
-		
-		updateHp();
 		updateTimerLabel();
+		updateHpLabel();
+		updateScoreLabel();
 	}
 	
 	private void limitPlayerMovement() {
@@ -213,8 +203,6 @@ public class Level_001 extends GameScene{
 			player.setPosition(new Vector2(player.getPosition().x, 155));
 			player.setVelocity(new Vector2(player.getVelocity().x, 0));
 		}
-		
-		//System.out.println(player.getPosition().x);
 		
 	}
 	
@@ -238,7 +226,6 @@ public class Level_001 extends GameScene{
 			this.timeCount.setText("00:0" + timeLeft);
 		}
 		
-		//System.out.println(this.timeLeft);
 	}
 	
 	private void spawnEnemy() {
@@ -247,7 +234,7 @@ public class Level_001 extends GameScene{
 		}
 	}
 	
-	private void updateHp() {
+	private void updateHpLabel() {
 		hpLabel.setText(String.valueOf(PLAYER_MANAGER.getHp()));
 	}
 	
@@ -268,5 +255,9 @@ public class Level_001 extends GameScene{
 			gameStage.setGameScene(new EndScreen(gameStage));
 			
 		} 
+	}
+	
+	private void updateScoreLabel() {
+		
 	}
 } 

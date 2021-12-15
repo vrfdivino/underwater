@@ -18,7 +18,6 @@ public class GameManager {
 	private static GameManager instance;
 	
 	private Random r = new Random();
-	//private int hp = r.nextInt(140) + 60;
 
 	private int timeLeft = 60;
 	private int timeElapsed;
@@ -26,7 +25,9 @@ public class GameManager {
 	private int nextSpawn = timeLeft - spawnInterval;
 	private boolean doSpawn = false;
 	
-	private GameManager() {}
+	private GameManager() {
+		this.timeLeft = 60;
+	}
 	
 	public static GameManager getInstance() {
 		if (instance == null) {
@@ -35,15 +36,13 @@ public class GameManager {
 		
 		return instance;
 	}
-	/*
-	public int getHp() {
-		return this.hp;
-	}
 	
-	public void setHp() {
-		this.hp--;
-	}
-	*/
+	/**
+	 * 
+	 * This should be called in the GameScene (a required method).
+	 * 
+	 * @param timeElapsed
+	 */
 	public void updateTimer(int timeElapsed) {
 		
 		if (this.timeElapsed != timeElapsed) {
@@ -55,17 +54,7 @@ public class GameManager {
 			} else {
 				this.doSpawn = false;
 			}
-			System.out.println(doSpawn);
-			System.out.println(this.timeElapsed);
 		}
-//		
-//		if (timeLeft <= 0) {
-//			this.timeCount.setText("00:00");
-//		}else if (timeLeft >= 10) {
-//			this.timeCount.setText("00:" + this.timeLeft);
-//		} else {
-//			this.timeCount.setText("00:0" + this.timeLeft);
-//		}
 	}
 	
 	public int getTimeLeft() {

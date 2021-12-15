@@ -80,7 +80,7 @@ public class AnglerFish extends GameObject{
 		} else {
 			// deduct strength of the player 
 			//PLAYER_MANAGER.setStrength(20);
-			PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - 30);
+			PLAYER_MANAGER.setHp(-20);
 			//collision.renderCollision(gc, Color.DARKORANGE, 0.5);
 		}
 	}

@@ -8,10 +8,15 @@ package manager;
 public class PlayerManager {
 	private static PlayerManager instance;
 	
-	//private int strength = 200;
-	private int hp = 500;
+	private int hp;
+	private int strength;
+	private int fishKilled;
 	
-	private PlayerManager() {}
+	private PlayerManager() {
+		this.hp = 500;
+		this.strength = 200;
+		this.fishKilled = 0;
+	}
 	
 	public static PlayerManager getInstance() {
 		if (instance == null) {
@@ -21,16 +26,27 @@ public class PlayerManager {
 		return instance;
 	}
 	
-	//public void setStrength(int factor) {
-	//	this.hp -= factor;
-	//	System.out.println("Current strength of the player: " + this.strength);
-	//}
-	
 	public int getHp() {
 		return this.hp;
 	}
 	
 	public void setHp(int factor) {
-		this.hp = factor;
+		this.hp += factor;
+	}
+	
+	public int getStrength() {
+		return this.strength;
+	}
+	
+	public void setStrength(int factor) {
+		this.strength += factor;
+	}
+	
+	public int getFishKilled() {
+		return this.fishKilled;
+	}
+	
+	public void setFishKilled(int factor) {
+		this.fishKilled += factor;
 	}
 }
