@@ -47,22 +47,24 @@ import constants.Content;
 public class EndScreen extends GameScene {
 	private BorderPane root;
 	private VBox layout;
-	private MenuButton backButton;
+	private MenuButton back_button;
 	private AnimatedSprite title;
 	private AnimatedSprite background;
-	private Label screenTitle;
+	private Label screen_title;
 	private Label wonLabel;
 	private GameDB db;
 	
 	public EndScreen(GameStage gameStage) {
-		this.root   = new BorderPane();
-		this.scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		this.gc     = canvas.getGraphicsContext2D();
-		this.screenTitle = new Label();
-		this.wonLabel = new Label();
-		this.gameStage = gameStage;
-		this.db = new GameDB(Database.DEV_DB);
+		root   = new BorderPane();
+		scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		gc     = canvas.getGraphicsContext2D();
+		screen_title = new Label();
+		wonLabel = new Label();
+		
+		this.game_stage = gameStage;
+		
+		db = new GameDB(Database.DEV_DB);
 	}
 	
 	@Override
@@ -77,16 +79,16 @@ public class EndScreen extends GameScene {
 	@Override
 	protected void initGUIProperties() {
 		
-		this.background = Layout.STATIC_BACKGROUND;
-		this.title = Layout.STATIC_TITLE;
+		background = Layout.STATIC_BACKGROUND;
+		title = Layout.STATIC_TITLE;
 	
-		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
-		this.layout = new VBox();
+		back_button = new MenuButton(game_stage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
+		layout = new VBox();
 		
-		screenTitle.setTextFill(Color.web("#f1f2b6", 1.0));
-		screenTitle.setText("End screen");
-		screenTitle.setFont(Font.loadFont(Assets.SQUARED, 30));
-		this.layout.getChildren().add(screenTitle);
+		screen_title.setTextFill(Color.web("#f1f2b6", 1.0));
+		screen_title.setText("End screen");
+		screen_title.setFont(Font.loadFont(Assets.SQUARED, 30));
+		layout.getChildren().add(screen_title);
 		
 		/**
 		 * 
@@ -96,34 +98,34 @@ public class EndScreen extends GameScene {
 		 * 
 		 */
 		if(PLAYER_MANAGER.getIsWon()) {
-			this.buildWonGUI();
+			buildWonGUI();
 		} else {
-			this.buildLoseGUI();
+			buildLoseGUI();
 		}
 		
-		this.layout.getChildren().add(this.backButton);
+		layout.getChildren().add(back_button);
 		
-		this.layout.setAlignment(Pos.CENTER);
-		this.layout.setMaxWidth(GameStage.WINDOW_WIDTH);
-		this.layout.setSpacing(20d);
-		this.layout.setPadding(new Insets(50d));
+		layout.setAlignment(Pos.CENTER);
+		layout.setMaxWidth(GameStage.WINDOW_WIDTH);
+		layout.setSpacing(20d);
+		layout.setPadding(new Insets(50d));
 		
-		this.root.getChildren().add(this.canvas);		
-		this.root.setCenter(this.layout);
+		root.getChildren().add(canvas);		
+		root.setCenter(layout);
 	}
 
 
 	@Override 
 	public void update(GraphicsContext gc) { 		
-		this.onStartOfFrame();
-		this.updateObjects();	
-		this.updateGUI();
+		onStartOfFrame();
+		updateObjects();	
+		updateGUI();
 	}
 	
 	@Override
 	protected void updateGUI() {
-		this.background.render(gc);
-		this.title.render(gc);
+		background.render(gc);
+		title.render(gc);
 	}
 	
 	/**
@@ -133,29 +135,30 @@ public class EndScreen extends GameScene {
 	 * @author vondivino
 	 */
 	private void buildWonGUI() {
-		Label label1 = new Label("Username:");
-		TextField textField = new TextField();
-		Button submitButton = new Button("Submit");
-		submitButton.setOnAction(new EventHandler<ActionEvent>() {
+		Label _label1 = new Label("Username:");
+		TextField _textField = new TextField();
+		Button _submitButton = new Button("Submit");
+		
+		_submitButton.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	
 		    	// get user name and commit to the database
 		        if(db.connecToDb()) {
 		        	db.createTable();
-		        	Data p = db.insertData(new PlayerData(textField.getText()));
+		        	Data p = db.insertData(new PlayerData(_textField.getText()));
 		        	db.closeDb();
 		        }
-		        textField.clear();
+		        _textField.clear();
 		        
 		        // after saving redirect to the splash
 		    }
 		});
-		HBox inputPane = new HBox();
-		inputPane.getChildren().addAll(label1, textField, submitButton);
-		inputPane.setSpacing(10);
+		HBox _inputPane = new HBox();
+		_inputPane.getChildren().addAll(_label1, _textField, _submitButton);
+		_inputPane.setSpacing(10);
 		
-		this.buildWonLabel("You Won!", Color.GREEN);
-		this.layout.getChildren().add(inputPane);
+		buildWonLabel("You Won!", Color.GREEN);
+		layout.getChildren().add(_inputPane);
 	}
 	
 	/**
@@ -165,7 +168,7 @@ public class EndScreen extends GameScene {
 	 * @author vondivino
 	 */
 	private void buildLoseGUI() {
-		this.buildWonLabel("You Lose!", Color.RED);
+		buildWonLabel("You Lose!", Color.RED);
 	}
 	
 	/**
@@ -177,10 +180,10 @@ public class EndScreen extends GameScene {
 	 * @author vondivino
 	 */
 	private void buildWonLabel(String status, Paint color) {
-		this.wonLabel.setTextFill(color);
-		this.wonLabel.setText(status);
-		this.wonLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
-		this.layout.getChildren().add(this.wonLabel);
+		wonLabel.setTextFill(color);
+		wonLabel.setText(status);
+		wonLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
+		layout.getChildren().add(wonLabel);
 	}
 	
 }

@@ -25,9 +25,9 @@ public abstract class GameScene implements RunnableObject{
 	protected PlayerManager PLAYER_MANAGER = PlayerManager.getInstance();
 	protected TimeManager TIME_MANAGER = TimeManager.getInstance();
 	
-	protected ArrayList<RunnableObject> runnableObjectList = new ArrayList<RunnableObject>();
+	protected ArrayList<RunnableObject> runnable_object_list = new ArrayList<RunnableObject>();
 	
-	protected GameStage gameStage;
+	protected GameStage game_stage;
 	protected Scene scene;
 	protected GraphicsContext gc;
 	protected Canvas canvas;
@@ -48,7 +48,7 @@ public abstract class GameScene implements RunnableObject{
 	 * @author Dave
 	 */
 	protected void updateObjects() {
-		for (RunnableObject object: runnableObjectList) {
+		for (RunnableObject object: runnable_object_list) {
 			// update speed of AnglerFish randomly
 			// below condition is not final, it should be random, not every spawn
 			// just a simulation
@@ -63,24 +63,24 @@ public abstract class GameScene implements RunnableObject{
 	protected abstract void updateGUI();
 	
 	/**
-	 * Removes GameObject from the runnableObjectList if they are destroyed.
+	 * Removes GameObject from the runnable_object_list if they are destroyed.
 	 * To be called in update method.
 	 * @author Dave
 	 */
 	protected void checkDestroyedObjects() {
-		ArrayList<RunnableObject> toRemoveList = new ArrayList<RunnableObject>(); 
-		for (RunnableObject runnableObject: runnableObjectList) {
-			if (runnableObject instanceof GameObject) {
-				GameObject gameObject = (GameObject) runnableObject;
-				if (gameObject.isDestroyed()) {
-					toRemoveList.add(runnableObject);
+		ArrayList<RunnableObject> toremove_list = new ArrayList<RunnableObject>(); 
+		for (RunnableObject runnable_object: runnable_object_list) {
+			if (runnable_object instanceof GameObject) {
+				GameObject game_object = (GameObject) runnable_object;
+				if (game_object.isDestroyed()) {
+					toremove_list.add(runnable_object);
 				}
 			}
 		}
 		
 		//Solve ConcurrentModificationException
-		for (RunnableObject runnableObject: toRemoveList) {
-			runnableObjectList.remove(runnableObject);
+		for (RunnableObject runnable_object: toremove_list) {
+			runnable_object_list.remove(runnable_object);
 		}
 	}
 	
@@ -89,13 +89,13 @@ public abstract class GameScene implements RunnableObject{
 	 * @author Dave
 	 */
 	protected void checkObjectCollisions() {
-		for (RunnableObject runnableObject: runnableObjectList) {
-			if (runnableObject instanceof GameObject) {
-				GameObject gameObject = (GameObject) runnableObject;
-				for (RunnableObject anotherObject: runnableObjectList) {
-					GameObject other = (GameObject) anotherObject;
-					if (other != gameObject) {
-						gameObject.collidesWith(other);
+		for (RunnableObject runnable_object: runnable_object_list) {
+			if (runnable_object instanceof GameObject) {
+				GameObject game_object = (GameObject) runnable_object;
+				for (RunnableObject another_object: runnable_object_list) {
+					GameObject other = (GameObject) another_object;
+					if (other != game_object) {
+						game_object.collidesWith(other);
 					}
 				}
 			}
@@ -113,9 +113,6 @@ public abstract class GameScene implements RunnableObject{
 		initAudioProperties();
 	}
 	
-	/**
-	 * 
-	 */
 	protected abstract void initOtherProperties();
 	protected abstract void initObjectProperties();
 	protected abstract void initGUIProperties();
@@ -127,6 +124,10 @@ public abstract class GameScene implements RunnableObject{
 	 */
 	public abstract void onExit();
 	
+	protected void updateTimer() {
+		GAME_MANAGER.updateTimer((int) TIME_MANAGER.getTimeElapsed());
+	}
+	
 	//Getters
 	public Scene getScene(){
 		return scene;
@@ -135,9 +136,4 @@ public abstract class GameScene implements RunnableObject{
 	public GraphicsContext getGraphicsContext() {
 		return gc;
 	}
-	
-	protected void updateTimer() {
-		GAME_MANAGER.updateTimer((int) TIME_MANAGER.getTimeElapsed());
-	}
-	
 }

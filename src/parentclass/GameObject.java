@@ -20,7 +20,7 @@ public class GameObject implements RunnableObject {
 	protected PlayerManager PLAYER_MANAGER = PlayerManager.getInstance();
 	protected TimeManager TIME_MANAGER = TimeManager.getInstance();
 	
-	protected AnimationPlayer animationPlayer;
+	protected AnimationPlayer animation_player;
 	protected Collision collision = new Collision();
 	protected Vector2 collision_pos;
 	
@@ -28,7 +28,7 @@ public class GameObject implements RunnableObject {
 	protected Vector2 position = new Vector2();
 	protected double rotation = 0;
 	
-	protected boolean isDestroyed = false;
+	protected boolean is_destroyed = false;
 	
 	public Collision getCollision() {
 		return collision;
@@ -43,13 +43,13 @@ public class GameObject implements RunnableObject {
 	}
 	
 	public void destroy() {
-		animationPlayer.setVisible(false);
+		animation_player.setVisible(false);
 		collision.setCollide(false);
-		isDestroyed = true;
+		is_destroyed = true;
 	}
 	
 	public boolean isDestroyed() {
-		return isDestroyed;
+		return is_destroyed;
 	}
 	
 	@Override

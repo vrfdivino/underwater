@@ -30,7 +30,7 @@ public class AnimationPlayer {
 	 */
 	public void addAnimation(String name, AnimatedSprite animation) {
 		this.animations.put(name, animation);
-		current_animation = name;
+		this.current_animation = name;
 	}
 	
 	/**
@@ -40,10 +40,10 @@ public class AnimationPlayer {
 	 */
 	public void playAnimation(String name) {
 		
-		if (!this.current_animation.equals(name) || !is_playing) {
-			this.animations.get(current_animation).stop();
-			this.animations.get(name).start();
-			this.current_animation = name;
+		if (!current_animation.equals(name) || !is_playing) {
+			animations.get(current_animation).stop();
+			animations.get(name).start();
+			current_animation = name;
 			is_playing = true;
 		}
 	}

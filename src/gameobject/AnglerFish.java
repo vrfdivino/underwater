@@ -15,8 +15,8 @@ public class AnglerFish extends GameObject{
 	
 	public static int DAMAGE = 50;
 	
-	private Image[] anglerFishMoveSprites = new Image[8];
-	private AnimatedSprite anglerFishMove;
+	private Image[] anglerfish_move_sprites = new Image[8];
+	private AnimatedSprite anglerfish_move;
 	
 	private int dir_x = -1;
 	
@@ -39,16 +39,16 @@ public class AnglerFish extends GameObject{
 	 */
 	
 	private void setTransformations(double x, double y) {
-		this.position.set(x, y);
-		this.size.set(256, 256);
-		this.rotation = 0;
+		position.set(x, y);
+		size.set(256, 256);
+		rotation = 0;
 	}
 	
 	private void setSpritesAndAnimations() {
-		animationPlayer = new AnimationPlayer();
-		for (int i = 0; i < 8; i++)	anglerFishMoveSprites[i] = new Image("/Enemy/Sprites/AnglerFish" + (i + 1) + ".png");
-		anglerFishMove = new AnimatedSprite(anglerFishMoveSprites, 12, position, size);
-		animationPlayer.addAnimation("MOVE", anglerFishMove);
+		animation_player = new AnimationPlayer();
+		for (int i = 0; i < 8; i++)	anglerfish_move_sprites[i] = new Image("/Enemy/Sprites/AnglerFish" + (i + 1) + ".png");
+		anglerfish_move = new AnimatedSprite(anglerfish_move_sprites, 12, position, size);
+		animation_player.addAnimation("MOVE", anglerfish_move);
 	}
 	
 	private void setCollision() {
@@ -74,9 +74,9 @@ public class AnglerFish extends GameObject{
 	}
 	
 	private void render(GraphicsContext gc) {
-		animationPlayer.playAnimation("MOVE");
-		animationPlayer.setPosition(position);
-		animationPlayer.render(gc);
+		animation_player.playAnimation("MOVE");
+		animation_player.setPosition(position);
+		animation_player.render(gc);
 		if (!collision.isColliding()) {
 			//collision.renderCollision(gc);
 		} else {
@@ -93,14 +93,14 @@ public class AnglerFish extends GameObject{
 		if (position.x < 0)	{
 			dir_x = 1;
 			position.x = 0;
-			animationPlayer.setHFlip(true);
+			animation_player.setHFlip(true);
 			collision.setOrigin(new Vector2(-(size.x/2) + 70, -(size.y/2) + 60));
 		}
 		
 		if (position.x > GameStage.WINDOW_WIDTH) {
 			dir_x = -1;
 			position.x = GameStage.WINDOW_WIDTH;
-			animationPlayer.setHFlip(false);
+			animation_player.setHFlip(false);
 			collision.setOrigin(new Vector2(-(size.x/2) + 40, -(size.y/2) + 60));
 		}
 	}

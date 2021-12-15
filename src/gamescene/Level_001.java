@@ -34,19 +34,18 @@ public class Level_001 extends GameScene{
 	private Player player;
 	
 	private BorderPane pane;
-	private Label timerLabel;
-	private Label hpLabel;
-	private Label scoreLabel;
-	private MenuButton backButton;	
+	private Label timer_label;
+	private Label hp_label;
+	private Label score_label;
+	private MenuButton back_button;	
 
 	public Level_001(GameStage gameStage){
 		
-		this.pane = new BorderPane();
-		this.scene = new Scene(this.pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		this.gc = canvas.getGraphicsContext2D();
-		this.gameStage = gameStage;
-		this.player = new Player(100, -450);
+		pane = new BorderPane();
+		scene = new Scene(pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		gc = canvas.getGraphicsContext2D();
+		this.game_stage = gameStage;
 	}
 	
 	@Override
@@ -59,8 +58,9 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initObjectProperties() {
+		player = new Player(100, -450);
 		
-		runnableObjectList.add(player);
+		runnable_object_list.add(player);
 		spawnInitialEnemies();
 		
 	}
@@ -70,19 +70,19 @@ public class Level_001 extends GameScene{
 		
 		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_002)}, 1, new Vector2(1024/2, 3072/2), new Vector2(1024, 3072));
 		
-		this.backButton = new MenuButton(gameStage,  Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
-		VBox metaBox = new VBox();
-		metaBox.getChildren().addAll(this.backButton);
+		back_button = new MenuButton(game_stage,  Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
+		VBox _metaBox = new VBox();
+		_metaBox.getChildren().addAll(this.back_button);
 		
-		HBox statusBar = buildStatusBar();
+		HBox _statusBar = buildStatusBar();
 		
-		metaBox.setAlignment(Pos.CENTER);
-		statusBar.setAlignment(Pos.CENTER);
-		HBox top = new HBox();
-		top.getChildren().addAll(metaBox, statusBar);
+		_metaBox.setAlignment(Pos.CENTER);
+		_statusBar.setAlignment(Pos.CENTER);
+		HBox _top = new HBox();
+		_top.getChildren().addAll(_metaBox, _statusBar);
 				
-		this.pane.setCenter(this.canvas);
-		this.pane.setTop(top);
+		pane.setCenter(canvas);
+		pane.setTop(_top);
 		
 	}
 	
@@ -95,59 +95,59 @@ public class Level_001 extends GameScene{
 	 */
 	private HBox buildStatusBar() {
 		
-		HBox statusBar = new HBox();
+		HBox _statusBar = new HBox();
 		
 		/// TIMER PANE ///
-		StackPane timerPane = new StackPane();
-		Image timerImage = new Image(Assets.TIMER);
-		ImageView timer = new ImageView(timerImage);
-		timerLabel = new Label();
-		timerLabel.setTextFill(Color.web("#f1f2b6", 1.0));
-		timerLabel.setText("01:00");
-		timerLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
-		StackPane.setMargin(timerLabel, new Insets(0, -90, 0, 0));
-		timerPane.getChildren().add(timer);
-		timerPane.getChildren().add(timerLabel);
+		StackPane _timer_pane = new StackPane();
+		Image _timer_image = new Image(Assets.TIMER);
+		ImageView _timer = new ImageView(_timer_image);
+		timer_label = new Label();
+		timer_label.setTextFill(Color.web("#f1f2b6", 1.0));
+		timer_label.setText("01:00");
+		timer_label.setFont(Font.loadFont(Assets.SQUARED, 30));
+		StackPane.setMargin(timer_label, new Insets(0, -90, 0, 0));
+		_timer_pane.getChildren().add(_timer);
+		_timer_pane.getChildren().add(timer_label);
 
 		
 		/// HP PANE ///
-		StackPane hpPane = new StackPane();
-		Image hpImage = new Image(Assets.HP);
-		ImageView hp = new ImageView(hpImage);
-		this.hpLabel = new Label();
-		hpLabel.setTextFill(Color.web("#f1f2b6", 1.0));
-		hpLabel.setText(String.valueOf(PLAYER_MANAGER.getHp()));
-		hpLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
-		StackPane.setMargin(hpLabel, new Insets(0, -90, 0, 0));
-		hpPane.getChildren().add(hp);
-		hpPane.getChildren().add(hpLabel);
+		StackPane _hp_pane = new StackPane();
+		Image _hp_image = new Image(Assets.HP);
+		ImageView _hp = new ImageView(_hp_image);
+		hp_label = new Label();
+		hp_label.setTextFill(Color.web("#f1f2b6", 1.0));
+		hp_label.setText(String.valueOf(PLAYER_MANAGER.getHp()));
+		hp_label.setFont(Font.loadFont(Assets.SQUARED, 30));
+		StackPane.setMargin(hp_label, new Insets(0, -90, 0, 0));
+		_hp_pane.getChildren().add(_hp);
+		_hp_pane.getChildren().add(hp_label);
 		
 		/// SCORE PANE ///
-		StackPane scorePane = new StackPane();
-		Image scoreImage = new Image(Assets.POINTS);
-		ImageView score = new ImageView(scoreImage);
-		this.scoreLabel = new Label();
-		scoreLabel.setTextFill(Color.web("#f1f2b6", 1.0));
-		scoreLabel.setText(String.valueOf(PLAYER_MANAGER.getFishKilled()));
-		scoreLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
-		StackPane.setMargin(scoreLabel, new Insets(0, -100, 0, 0));
-		scorePane.getChildren().add(score);
-		scorePane.getChildren().add(scoreLabel);
+		StackPane _score_pane = new StackPane();
+		Image _score_image = new Image(Assets.POINTS);
+		ImageView _score = new ImageView(_score_image);
+		this.score_label = new Label();
+		score_label.setTextFill(Color.web("#f1f2b6", 1.0));
+		score_label.setText(String.valueOf(PLAYER_MANAGER.getFishKilled()));
+		score_label.setFont(Font.loadFont(Assets.SQUARED, 30));
+		StackPane.setMargin(score_label, new Insets(0, -100, 0, 0));
+		_score_pane.getChildren().add(_score);
+		_score_pane.getChildren().add(score_label);
 		
-		statusBar.getChildren().addAll(timerPane, hpPane, scorePane);
-		return statusBar;
+		_statusBar.getChildren().addAll(_timer_pane, _hp_pane, _score_pane);
+		return _statusBar;
 	}
 	
 	@Override
 	protected void initAudioProperties() {
 		
-		AudioPlayer under_pressure = new AudioPlayer(Assets.UNDER_PRESSURE, false);
-		AudioPlayer underwater = new AudioPlayer(Assets.UNDERWATER, true);
-		AudioPlayer splash = new AudioPlayer(Assets.SPLASH);
+		AudioPlayer _under_pressure = new AudioPlayer(Assets.UNDER_PRESSURE, false);
+		AudioPlayer _underwater = new AudioPlayer(Assets.UNDERWATER, true);
+		AudioPlayer _splash = new AudioPlayer(Assets.SPLASH);
 		
-		AUDIO_MANAGER.addAudioPlayer("Under Pressure", under_pressure);
-		SFX_MANAGER.addAudioPlayer("Underwater", underwater);
-		SFX_MANAGER.addAudioPlayer("Splash", splash);
+		AUDIO_MANAGER.addAudioPlayer("Under Pressure", _under_pressure);
+		SFX_MANAGER.addAudioPlayer("Underwater", _underwater);
+		SFX_MANAGER.addAudioPlayer("Splash", _splash);
 		
 		AUDIO_MANAGER.playAudioPlayer("Under Pressure");
 		SFX_MANAGER.playAudioPlayer("Underwater");
@@ -167,25 +167,29 @@ public class Level_001 extends GameScene{
 	public void update(GraphicsContext gc) { 	
 		
 		onStartOfFrame();
+		
 		updateGUI();
 		updateObjects();
-		limitPlayerMovement();
 		updateTimer();
+		
 		checkObjectCollisions();
 		checkDestroyedObjects();
+		
 		spawnEnemy();
 		spawnBoss();
+		
 		checkIfEndGame();
+		
+		limitPlayerMovement();
+		
 		pane.requestFocus();
-		
-		
 	}
 	@Override
 	protected void updateGUI() {
 		
 		scrollBackground();
-		updateTimerLabel();
-		updateHpLabel();
+		updatetimer_label();
+		updatehp_label();
 		updateScoreLabel();
 		
 	}
@@ -234,15 +238,15 @@ public class Level_001 extends GameScene{
 	 * 
 	 * @author vondivino
 	 */
-	private void updateTimerLabel() {
-		int timeLeft = GAME_MANAGER.getTimeLeft();
+	private void updatetimer_label() {
+		int _time_left = GAME_MANAGER.getTimeLeft();
 		
-		if (timeLeft <= 0) {
-			this.timerLabel.setText("00:00");
-		}else if (timeLeft >= 10) {
-			this.timerLabel.setText("00:" + timeLeft);
+		if (_time_left <= 0) {
+			timer_label.setText("00:00");
+		}else if (_time_left >= 10) {
+			timer_label.setText("00:" + _time_left);
 		} else {
-			this.timerLabel.setText("00:0" + timeLeft);
+			timer_label.setText("00:0" + _time_left);
 		}
 		
 	}
@@ -256,7 +260,7 @@ public class Level_001 extends GameScene{
 	 */
 	private void spawnEnemy() {
 		if(GAME_MANAGER.getSpawn()) {
-			GAME_MANAGER.spawnEnemy(runnableObjectList);
+			GAME_MANAGER.spawnEnemy(runnable_object_list);
 		}
 	}
 	
@@ -266,8 +270,8 @@ public class Level_001 extends GameScene{
 	 * 
 	 * @author vondivino
 	 */
-	private void updateHpLabel() {
-		hpLabel.setText(String.valueOf(PLAYER_MANAGER.getHp()));
+	private void updatehp_label() {
+		hp_label.setText(String.valueOf(PLAYER_MANAGER.getHp()));
 	}
 	
 	/**
@@ -278,10 +282,10 @@ public class Level_001 extends GameScene{
 	 * @author vondivino
 	 */
 	private void spawnInitialEnemies() {
-		Random r = new Random();
+		Random _r = new Random();
 		for(int i = 0; i < 7; i++) {
-			int x = r.nextInt(800) + 200;
-			int y =r.nextInt(400) + 200;
+			int _x = _r.nextInt(800) + 200;
+			int _y = _r.nextInt(400) + 200;
 //			runnableObjectList.add(new AnglerFish(x,y));
 		}
 	}
@@ -299,7 +303,7 @@ public class Level_001 extends GameScene{
 			} else {
 				PLAYER_MANAGER.setIsWon(true);
 			}
-			gameStage.setGameScene(new EndScreen(gameStage));
+			game_stage.setGameScene(new EndScreen(game_stage));
 		}
 	}
 	
@@ -322,7 +326,7 @@ public class Level_001 extends GameScene{
 	 */
 	private void spawnBoss() {
 		if(GAME_MANAGER.getTimeLeft() == GameManager.STARTING_TIME - GameManager.TIMEOUT_BEFORE_BOSS && !GAME_MANAGER.getSpawnBoss()) {
-			GAME_MANAGER.spawnBoss(runnableObjectList);
+			GAME_MANAGER.spawnBoss(runnable_object_list);
 			GAME_MANAGER.setSpawnBoss(true);
 		} 
 		

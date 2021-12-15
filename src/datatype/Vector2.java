@@ -11,11 +11,11 @@ public class Vector2 {
 	public double y;
 	
 	public Vector2() {
-		this.set(0, 0);
+		set(0, 0);
 	}
 	
 	public Vector2(double x, double y){
-		this.set(x, y);
+		set(x, y);
 	}
 	
 	public void set(double x, double y) {
@@ -29,40 +29,40 @@ public class Vector2 {
 	}
 	
 	public void add(double dx, double dy) {
-		this.x += dx;
-		this.y += dy;
+		x += dx;
+		y += dy;
 	}
 	
 	public void add(Vector2 dvector2) {
-		this.x += dvector2.x;
-		this.y += dvector2.y;
+		x += dvector2.x;
+		y += dvector2.y;
 	}
 	
 	public Vector2 multiply(double m) {
-		x = this.x * m;
-		y = this.y * m;
+		x = x * m;
+		y = y * m;
 		
 		return new Vector2(x, y);
 	}
 	
 	public void setLength(double L) {
-		double currentLength = this.getLength();
+		double _currentLength = this.getLength();
 		
-		if (currentLength == 0) {
-			this.set(L, 0);						//Set length to L
+		if (_currentLength == 0) {
+			set(L, 0);						//Set length to L
 		}
 		else {
-			this.multiply(1/currentLength);		//Set length to 1
-			this.multiply(L);  					//Set length to L
+			multiply(1/_currentLength);		//Set length to 1
+			multiply(L);  					//Set length to L
 		}
 	}
 	
 	public double getLength() {
-		return Math.sqrt(this.x * this.x + this.y * this.y);
+		return Math.sqrt(x * x + y * y);
 	}
 	
 	public double getAngle() {
-		return Math.toDegrees(Math.atan2(this.x, this.y));
+		return Math.toDegrees(Math.atan2(x, y));
 	}
 	
 	/**
@@ -71,24 +71,24 @@ public class Vector2 {
 	 * @author Dave
 	 */
 	public void setAngle(double angleDegrees) {
-		double L = this.getLength();
-		double angleRadians = Math.toRadians(angleDegrees);
-		this.x = L * Math.cos(angleRadians);
-		this.y = L * Math.sin(angleRadians);
+		double _L = getLength();
+		double _angleRadians = Math.toRadians(angleDegrees);
+		this.x = _L * Math.cos(_angleRadians);
+		this.y = _L * Math.sin(_angleRadians);
 	}
 	
 	/**
-	 * Returns the normalized value of the Vector2. Primarily used for setting directions
+	 * Returns the normalized value of the Vector2. Primarily used for setting _directions
 	 * @return ( Vector2 ) Normalized Vector2
 	 * @author Dave
 	 */
 	public Vector2 normalize() {
-		double length = this.getLength();
+		double _length = getLength();
 		
-		if (length == 0) {
+		if (_length == 0) {
 			return new Vector2(0, 0);
 		}
-		return new Vector2(this.x/length, this.y/length);
+		return new Vector2(x/_length, y/_length);
 	}
 	
 	/**
@@ -101,46 +101,46 @@ public class Vector2 {
 	 * @author Dave
 	 */
 	public Vector2 moveTowards(Vector2 current_pos, Vector2 target_pos, double delta) {
-		Vector2 origin_pos = new Vector2(target_pos.x - current_pos.x, target_pos.y - current_pos.y);
-		Vector2 final_pos = new Vector2();
-		Vector2 direction = origin_pos.normalize();
+		Vector2 _origin_pos = new Vector2(target_pos.x - current_pos.x, target_pos.y - current_pos.y);
+		Vector2 _final_pos = new Vector2();
+		Vector2 _direction = _origin_pos.normalize();
 		
 		//Check if next delta increment will overshoot. If overshoot then the final position will be the target position.
-		if (direction.x > 0) {
-			if (direction.y > 0) {
-				if (current_pos.x + (delta * direction.x) <= target_pos.x && current_pos.y + (delta * direction.y) <= target_pos.y) {
-					final_pos = new Vector2(current_pos.x + (delta * direction.x), current_pos.y + (delta * direction.y));
+		if (_direction.x > 0) {
+			if (_direction.y > 0) {
+				if (current_pos.x + (delta * _direction.x) <= target_pos.x && current_pos.y + (delta * _direction.y) <= target_pos.y) {
+					_final_pos = new Vector2(current_pos.x + (delta * _direction.x), current_pos.y + (delta * _direction.y));
 				} else {
-					final_pos = target_pos;
+					_final_pos = target_pos;
 				}
 			}
 			else {
-				if (current_pos.x + (delta * direction.x) <= target_pos.x && current_pos.y + (delta * direction.y) >= target_pos.y) {
-					final_pos = new Vector2(current_pos.x + (delta * direction.x), current_pos.y + (delta * direction.y));
+				if (current_pos.x + (delta * _direction.x) <= target_pos.x && current_pos.y + (delta * _direction.y) >= target_pos.y) {
+					_final_pos = new Vector2(current_pos.x + (delta * _direction.x), current_pos.y + (delta * _direction.y));
 				} else {
-					final_pos = target_pos;
+					_final_pos = target_pos;
 				}
 			}
 
 		} else {
-			if (direction.y > 0) {
-				if (current_pos.x + (delta * direction.x) >= target_pos.x && current_pos.y + (delta * direction.y) <= target_pos.y) {
-					final_pos = new Vector2(current_pos.x + (delta * direction.x), current_pos.y + (delta * direction.y));
+			if (_direction.y > 0) {
+				if (current_pos.x + (delta * _direction.x) >= target_pos.x && current_pos.y + (delta * _direction.y) <= target_pos.y) {
+					_final_pos = new Vector2(current_pos.x + (delta * _direction.x), current_pos.y + (delta * _direction.y));
 				} else {
-					final_pos = target_pos;
+					_final_pos = target_pos;
 				}
 			}
 			else {
-				if (current_pos.x + (delta * direction.x) >= target_pos.x && current_pos.y + (delta * direction.y) >= target_pos.y) {
-					final_pos = new Vector2(current_pos.x + (delta * direction.x), current_pos.y + (delta * direction.y));
+				if (current_pos.x + (delta * _direction.x) >= target_pos.x && current_pos.y + (delta * _direction.y) >= target_pos.y) {
+					_final_pos = new Vector2(current_pos.x + (delta * _direction.x), current_pos.y + (delta * _direction.y));
 				} else {
-					final_pos = target_pos;
+					_final_pos = target_pos;
 				}
 			}
 		}
 
-		x = final_pos.x;
-		y = final_pos.y;
-		return final_pos;
+		x = _final_pos.x;
+		y = _final_pos.y;
+		return _final_pos;
 	}
 }

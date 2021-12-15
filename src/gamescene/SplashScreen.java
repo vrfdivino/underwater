@@ -30,12 +30,12 @@ public class SplashScreen extends GameScene{
 	private AnimatedSprite title;
 	
 	//GUI Objects
-	private Slider volumeSlider;
-	private Slider sfxVolumeSlider;
-	private MenuButton newGameButton;
-	private MenuButton scoreboardButton;
-	private MenuButton aboutButton;
-	private MenuButton instructionButton;
+	private Slider volume_slider;
+	private Slider sfxvolume_slider;
+	private MenuButton newgame_button;
+	private MenuButton scoreboard_button;
+	private MenuButton about_button;
+	private MenuButton instruction_button;
 	
 	//Gui Properties
 	private Vector2 title_vel = Vector2.ZERO;
@@ -51,8 +51,7 @@ public class SplashScreen extends GameScene{
 		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 		gc     = canvas.getGraphicsContext2D();
 		
-		this.gameStage = gameStage;
-		
+		this.game_stage = gameStage;
 	}
 	
 	@Override
@@ -78,67 +77,67 @@ public class SplashScreen extends GameScene{
 		title = new AnimatedSprite(new Image[] {new Image(Assets.TITLECARD)}, 1, new Vector2(GameStage.WINDOW_HEIGHT/2, -186), new Vector2(720, 364));
 		
 		//Buttons
-		newGameButton  = new MenuButton(gameStage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_PRESSED, Assets.NEW_GAME_UNSELECTED,  new Level_001(gameStage));
-		scoreboardButton = new MenuButton(gameStage, Assets.SCOREBOARD_SELECTED, Assets.SCOREBOARD_PRESSED, Assets.SCOREBOARD_UNSELECTED, new Scoreboard(gameStage));
-		aboutButton       = new MenuButton(gameStage,  Assets.ABOUT_SELECTED, Assets.ABOUT_PRESSED, Assets.ABOUT_UNSELECTED,        new About(gameStage));
-		instructionButton = new MenuButton(gameStage,  Assets.INSTRUCTION_SELECTED, Assets.INSTRUCTION_PRESSED, Assets.INSTRUCTION_UNSELECTED,  new Instruction(gameStage));
+		newgame_button  = new MenuButton(game_stage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_PRESSED, Assets.NEW_GAME_UNSELECTED,  new Level_001(game_stage));
+		scoreboard_button = new MenuButton(game_stage, Assets.SCOREBOARD_SELECTED, Assets.SCOREBOARD_PRESSED, Assets.SCOREBOARD_UNSELECTED, new Scoreboard(game_stage));
+		about_button       = new MenuButton(game_stage,  Assets.ABOUT_SELECTED, Assets.ABOUT_PRESSED, Assets.ABOUT_UNSELECTED,        new About(game_stage));
+		instruction_button = new MenuButton(game_stage,  Assets.INSTRUCTION_SELECTED, Assets.INSTRUCTION_PRESSED, Assets.INSTRUCTION_UNSELECTED,  new Instruction(game_stage));
 		
-		volumeSlider    = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
-		sfxVolumeSlider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
+		volume_slider    = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
+		sfxvolume_slider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
 		
-		volumeSlider.setMaxWidth(200);
-		volumeSlider.setValue(0.5);
+		volume_slider.setMaxWidth(200);
+		volume_slider.setValue(0.5);
 		
-		sfxVolumeSlider.setMaxWidth(200);
-		sfxVolumeSlider.setValue(0.5);
+		sfxvolume_slider.setMaxWidth(200);
+		sfxvolume_slider.setValue(0.5);
 		
-		VBox volume = new VBox(new Label("Volume"), this.volumeSlider);
-		VBox sfxVolume = new VBox(new Label("Sound Effects"), this.sfxVolumeSlider);
-		HBox volumeSettings = new HBox(volume, sfxVolume);
-		VBox volumeVBox = new VBox(new Label("Volume Settings"), volumeSettings);
+		VBox _volume = new VBox(new Label("Volume"), this.volume_slider);
+		VBox _sfxVolume = new VBox(new Label("Sound Effects"), this.sfxvolume_slider);
+		HBox _volumeSettings = new HBox(_volume, _sfxVolume);
+		VBox _volumeVBox = new VBox(new Label("Volume Settings"), _volumeSettings);
 		
-		volume.setAlignment(Pos.CENTER);
-		sfxVolume.setAlignment(Pos.CENTER);
-		volumeVBox.setAlignment(Pos.CENTER);
+		_volume.setAlignment(Pos.CENTER);
+		_sfxVolume.setAlignment(Pos.CENTER);
+		_volumeVBox.setAlignment(Pos.CENTER);
 		
 		//Set up GUI Layout
-		newGameButton.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 360);
-		scoreboardButton.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 300);
-		aboutButton.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 180);
-		instructionButton.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 240);
+		newgame_button.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 360);
+		scoreboard_button.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 300);
+		about_button.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 180);
+		instruction_button.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 240);
 		
-		volumeVBox.setLayoutX(GameStage.WINDOW_WIDTH-300);
-		volumeVBox.setLayoutY(GameStage.WINDOW_HEIGHT-60);
+		_volumeVBox.setLayoutX(GameStage.WINDOW_WIDTH-300);
+		_volumeVBox.setLayoutY(GameStage.WINDOW_HEIGHT-60);
 		
 		//Add to node
 		pane.getChildren().add(canvas);
-		pane.getChildren().add(newGameButton);
-		pane.getChildren().add(scoreboardButton);
-		pane.getChildren().add(instructionButton);
-		pane.getChildren().add(aboutButton);
-		pane.getChildren().add(volumeVBox);
+		pane.getChildren().add(newgame_button);
+		pane.getChildren().add(scoreboard_button);
+		pane.getChildren().add(instruction_button);
+		pane.getChildren().add(about_button);
+		pane.getChildren().add(_volumeVBox);
 	}
 	
 	@Override
 	protected void initAudioProperties() {
 		
-		String musicThemeName = "Main Theme";
+		String _music_theme_name = "Main Theme";
 		
-		AudioPlayer call_of_the_sea = new AudioPlayer(Assets.CALL_OF_THE_SEA, true);
+		AudioPlayer _call_of_the_sea = new AudioPlayer(Assets.CALL_OF_THE_SEA, true);
 		
-		AUDIO_MANAGER.addAudioPlayer(musicThemeName, call_of_the_sea);
-		AUDIO_MANAGER.setVolume(volumeScaleFactor * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue());
-		SFX_MANAGER.setVolume(volumeScaleFactor * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue());
+		AUDIO_MANAGER.addAudioPlayer(_music_theme_name, _call_of_the_sea);
+		AUDIO_MANAGER.setVolume(volumeScaleFactor * volume_slider.getValue() * volume_slider.getValue() * volume_slider.getValue() * volume_slider.getValue());
+		SFX_MANAGER.setVolume(volumeScaleFactor * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue());
 		
 		//Play AudioPlayers
-		AUDIO_MANAGER.playAudioPlayer(musicThemeName);
+		AUDIO_MANAGER.playAudioPlayer(_music_theme_name);
 		
 	}
 	
 	@Override
 	public void onExit() {
 		
-		if (newGameButton.isClicked()) {
+		if (newgame_button.isClicked()) {
 			AUDIO_MANAGER.stopAll();
 		}
 		
@@ -157,11 +156,11 @@ public class SplashScreen extends GameScene{
 		background.render(gc);
 		animateTitle();
 		
-		volumeSlider.valueProperty().addListener(
+		volume_slider.valueProperty().addListener(
 				(Observable observable) -> {
 				//Using x^4 as input for volume. This allows for a linear loudness experience
-				AUDIO_MANAGER.setVolume(volumeScaleFactor * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue() * volumeSlider.getValue()); 
-				SFX_MANAGER.setVolume(volumeScaleFactor * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue() * sfxVolumeSlider.getValue());
+				AUDIO_MANAGER.setVolume(volumeScaleFactor * volume_slider.getValue() * volume_slider.getValue() * volume_slider.getValue() * volume_slider.getValue()); 
+				SFX_MANAGER.setVolume(volumeScaleFactor * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue());
 			}
 		);
 	}

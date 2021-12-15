@@ -9,10 +9,10 @@ public class GameLoop extends AnimationTimer {
 	private InputManager INPUT_MANAGER = InputManager.getInstance();
 	private TimeManager TIME_MANAGER = TimeManager.getInstance();
 	
-	private GameStage gameStage;
+	private GameStage game_stage;
 	
-	GameLoop (GameStage gameStage) {
-		this.gameStage = gameStage;
+	GameLoop (GameStage game_stage) {
+		this.game_stage = game_stage;
 	}
 	
 	@Override
@@ -24,11 +24,11 @@ public class GameLoop extends AnimationTimer {
 	}
 	
 	private void onStartOfFrame() {
-		INPUT_MANAGER.inputUpdate(gameStage.getGameScene().getScene());
+		INPUT_MANAGER.inputUpdate(game_stage.getGameScene().getScene());
 	}
 	
 	private void updateGameScene() {
-		gameStage.getGameScene().update(gameStage.getGraphicsContext());
+		game_stage.getGameScene().update(game_stage.getGraphicsContext());
 	}
 	
 	private void updateTime() {

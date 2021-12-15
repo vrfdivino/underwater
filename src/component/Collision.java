@@ -3,7 +3,6 @@ package component;
 import java.util.ArrayList;
 
 import datatype.Vector2;
-import gameobject.AnglerFish;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import parentclass.GameObject;
@@ -28,9 +27,9 @@ public class Collision {
 	 * @author Dave
 	 */
 	public Collision(boolean can_collide, double x, double y, double width, double height) {
-		this.setCollide(can_collide);
-		this.setOrigin(x, y);
-		this.setSize(width, height);
+		setCollide(can_collide);
+		setOrigin(x, y);
+		setSize(width, height);
 	}
 	
 	/**
@@ -41,9 +40,9 @@ public class Collision {
 	 * @author Dave
 	 */
 	public Collision(boolean can_collide, Vector2 origin, Vector2 size) {
-		this.setCollide(can_collide);
-		this.setOrigin(origin);
-		this.setSize(size);
+		setCollide(can_collide);
+		setOrigin(origin);
+		setSize(size);
 	}
 	
 	/**

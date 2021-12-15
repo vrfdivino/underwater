@@ -39,19 +39,20 @@ public class About extends GameScene {
 	
 	private BorderPane root;
 	private VBox layout;
-	private MenuButton backButton;
+	private MenuButton back_button;
 	private AnimatedSprite title;
 	private AnimatedSprite background;
-	private Label screenTitle;
+	private Label screen_title;
 	
 	About(GameStage gameStage) {
 		
-		this.root   = new BorderPane();
-		this.scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		this.gc     = canvas.getGraphicsContext2D();
-		this.screenTitle = new Label();
-		this.gameStage = gameStage;
+		root   = new BorderPane();
+		scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		gc     = canvas.getGraphicsContext2D();
+		screen_title = new Label();
+		
+		this.game_stage = gameStage;
 	}
 	
 	@Override
@@ -69,37 +70,37 @@ public class About extends GameScene {
 	@Override
 	protected void initGUIProperties() {
 		
-		this.background = Layout.STATIC_BACKGROUND;
-		this.title = Layout.STATIC_TITLE;
-		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
-		this.layout = new VBox();
+		background = Layout.STATIC_BACKGROUND;
+		title = Layout.STATIC_TITLE;
+		back_button = new MenuButton(game_stage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
+		layout = new VBox();
 		
-		screenTitle.setTextFill(Color.web("#f1f2b6", 1.0));
-		screenTitle.setText(Content.ABOUT_TITLE);
-		screenTitle.setFont(Font.loadFont(Assets.SQUARED, 30));
-		this.layout.getChildren().add(screenTitle);
+		screen_title.setTextFill(Color.web("#f1f2b6", 1.0));
+		screen_title.setText(Content.ABOUT_TITLE);
+		screen_title.setFont(Font.loadFont(Assets.SQUARED, 30));
+		layout.getChildren().add(screen_title);
 		
 		for(String content: new Content().getAboutContent()) {
-			Label labelContent = new Label();
-			labelContent.setText(content);
-			labelContent.setTextFill(Color.web("#528c9f", 1.0));
-			labelContent.setFont(Font.loadFont(Assets.SQUARED, 20));
-			labelContent.setWrapText(true);
-			labelContent.setTextAlignment(TextAlignment.CENTER);
-			labelContent.setBackground(new Background(new BackgroundFill(Color.web("#f1f2b6"),new CornerRadii(5d),null)));
-			labelContent.setPadding(new Insets(10d));
-			this.layout.getChildren().add(labelContent);		
+			Label _labelContent = new Label();
+			_labelContent.setText(content);
+			_labelContent.setTextFill(Color.web("#528c9f", 1.0));
+			_labelContent.setFont(Font.loadFont(Assets.SQUARED, 20));
+			_labelContent.setWrapText(true);
+			_labelContent.setTextAlignment(TextAlignment.CENTER);
+			_labelContent.setBackground(new Background(new BackgroundFill(Color.web("#f1f2b6"),new CornerRadii(5d),null)));
+			_labelContent.setPadding(new Insets(10d));
+			layout.getChildren().add(_labelContent);		
 		}
 		
-		this.layout.getChildren().add(this.backButton);
+		layout.getChildren().add(back_button);
 		
-		this.layout.setAlignment(Pos.CENTER);
-		this.layout.setMaxWidth(GameStage.WINDOW_WIDTH);
-		this.layout.setSpacing(20d);
-		this.layout.setPadding(new Insets(50d));
+		layout.setAlignment(Pos.CENTER);
+		layout.setMaxWidth(GameStage.WINDOW_WIDTH);
+		layout.setSpacing(20d);
+		layout.setPadding(new Insets(50d));
 		
-		this.root.getChildren().add(this.canvas);		
-		this.root.setCenter(this.layout);
+		root.getChildren().add(canvas);		
+		root.setCenter(layout);
 	}
 
 
@@ -111,9 +112,9 @@ public class About extends GameScene {
 	
 	@Override //Write all logic for the scene here
 	public void update(GraphicsContext gc) { 		
-		this.onStartOfFrame();
-		this.updateObjects();	
-		this.updateGUI();
+		onStartOfFrame();
+		updateObjects();	
+		updateGUI();
 		root.requestFocus();
 		
 	}
@@ -121,8 +122,8 @@ public class About extends GameScene {
 	@Override
 	protected void updateGUI() {
 		// TODO Auto-generated method stub
-		this.background.render(gc);
-		this.title.render(gc);
+		background.render(gc);
+		title.render(gc);
 
 	}
 	

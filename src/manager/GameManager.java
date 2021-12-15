@@ -22,12 +22,12 @@ public class GameManager {
 	public static int TIMEOUT_BEFORE_BOSS = 30;
 	
 	private static GameManager instance;
-	private int timeLeft = 60;
-	private int timeElapsed;
-	private int spawnInterval = 5;
-	private int nextSpawn = timeLeft - spawnInterval;
+	private int time_left = 60;
+	private int time_elapsed;
+	private int spawn_interval = 5;
+	private int next_spawn = time_left - spawn_interval;
 	private boolean spawn = false;
-	private boolean spawnBoss = false;
+	private boolean spawn_boss = false;
 	
 	private GameManager() {
 		this.reset();
@@ -45,15 +45,15 @@ public class GameManager {
 	 * 
 	 * This should be called in the GameScene (a required method).
 	 * 
-	 * @param timeElapsed
+	 * @param time_elapsed
 	 */
-	public void updateTimer(int timeElapsed) {
+	public void updateTimer(int time_elapsed) {
 		
-		if (this.timeElapsed != timeElapsed) {
-			--this.timeLeft;
-			this.timeElapsed = timeElapsed;
-			if(this.timeLeft == this.nextSpawn) {
-				this.nextSpawn -= this.spawnInterval;
+		if (this.time_elapsed != time_elapsed) {
+			--this.time_left;
+			this.time_elapsed = time_elapsed;
+			if(this.time_left == this.next_spawn) {
+				this.next_spawn -= this.spawn_interval;
 				this.spawn = true;
 			} else {
 				this.spawn = false;
@@ -62,7 +62,7 @@ public class GameManager {
 	}
 	
 	public int getTimeLeft() {
-		return this.timeLeft;
+		return this.time_left;
 	}
 	
 	/**
@@ -72,9 +72,9 @@ public class GameManager {
 	 * @author vondivino
 	 */
 	public void reset() {
-		this.timeLeft = GameManager.STARTING_TIME;
-		this.timeElapsed = 0;
-		this.nextSpawn = this.timeLeft - this.spawnInterval;
+		this.time_left = GameManager.STARTING_TIME;
+		this.time_elapsed = 0;
+		this.next_spawn = this.time_left - this.spawn_interval;
 	}
 	
 	/**
@@ -130,10 +130,10 @@ public class GameManager {
 	 * @author vondivino
 	 */
 	public void setSpawnBoss(boolean q) {
-		this.spawnBoss = q;
+		this.spawn_boss = q;
 	}
 	
 	public boolean getSpawnBoss() {
-		return this.spawnBoss;
+		return this.spawn_boss;
 	}
 }

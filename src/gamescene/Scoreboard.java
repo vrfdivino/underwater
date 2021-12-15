@@ -26,18 +26,18 @@ public class Scoreboard extends GameScene {
 	
 	private BorderPane root;
 	private VBox layout;
-	private MenuButton backButton;
+	private MenuButton back_button;
 	private AnimatedSprite title;
 	private AnimatedSprite background;
 	
 	Scoreboard(GameStage gameStage) {
 		
-		this.root   = new BorderPane();
-		this.scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		this.gc     = canvas.getGraphicsContext2D();
+		root   = new BorderPane();
+		scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		gc     = canvas.getGraphicsContext2D();
 		
-		this.gameStage = gameStage;
+		this.game_stage = gameStage;
 	}
 	
 	@Override
@@ -55,16 +55,16 @@ public class Scoreboard extends GameScene {
 	@Override
 	protected void initGUIProperties() {
 		
-		this.background = Layout.STATIC_BACKGROUND;
-		this.title = Layout.STATIC_TITLE;
-		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
-		this.layout = new VBox();
+		background = Layout.STATIC_BACKGROUND;
+		title = Layout.STATIC_TITLE;
+		back_button = new MenuButton(game_stage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
+		layout = new VBox();
 		
-		this.layout.getChildren().add(this.backButton);
-		this.layout.setAlignment(Pos.CENTER);
+		layout.getChildren().add(back_button);
+		layout.setAlignment(Pos.CENTER);
 		
-		this.root.getChildren().add(this.canvas);		
-		this.root.setCenter(this.layout);
+		root.getChildren().add(canvas);		
+		root.setCenter(layout);
 	}
 
 
@@ -76,9 +76,9 @@ public class Scoreboard extends GameScene {
 	
 	@Override //Write all logic for the scene here
 	public void update(GraphicsContext gc) { 		
-		this.onStartOfFrame();
-		this.updateObjects();	
-		this.updateGUI();
+		onStartOfFrame();
+		updateObjects();	
+		updateGUI();
 		root.requestFocus();
 		
 	}
@@ -86,8 +86,8 @@ public class Scoreboard extends GameScene {
 	@Override
 	protected void updateGUI() {
 		// TODO Auto-generated method stub
-		this.background.render(gc);
-		this.title.render(gc);
+		background.render(gc);
+		title.render(gc);
 
 	}
 	

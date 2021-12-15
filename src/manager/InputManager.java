@@ -16,8 +16,8 @@ public class InputManager {
 	private static InputManager instance;
 	
 	private ArrayList<String> pressed = new ArrayList<String>();
-	private ArrayList<String> justPressed = new ArrayList<String>();
-	private ArrayList<String> justReleased = new ArrayList<String>();
+	private ArrayList<String> just_pressed = new ArrayList<String>();
+	private ArrayList<String> just_released = new ArrayList<String>();
 	
 	private InputManager() {
 		
@@ -38,7 +38,7 @@ public class InputManager {
 				String code = e.getCode().toString();
 				if (!pressed.contains(code)) {
 					pressed.add(code);
-					justPressed.add(code);
+					just_pressed.add(code);
 				}
 			}
 		);
@@ -47,7 +47,7 @@ public class InputManager {
 			(KeyEvent e) -> {
 				String code = e.getCode().toString();
 				pressed.remove(code);
-				justReleased.add(code);				
+				just_released.add(code);				
 			}
 		);
 	}
@@ -57,11 +57,11 @@ public class InputManager {
 	}
 	
 	public boolean justPressed(String keycode) {
-		return justPressed.contains(keycode);
+		return just_pressed.contains(keycode);
 	}
 	
 	public boolean justReleased(String keycode) {
-		return justReleased.contains(keycode);
+		return just_released.contains(keycode);
 	}
 	
 	public int pressedInt(String keycode) {
@@ -81,10 +81,10 @@ public class InputManager {
 	}
 	
 	public void clearJustPressed() {
-		justPressed.clear();
+		just_pressed.clear();
 	}
 	
 	public void clearJustReleased() {
-		justReleased.clear();
+		just_released.clear();
 	}
 }

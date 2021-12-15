@@ -11,14 +11,14 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		GameStage gameStage = new GameStage();		
+		GameStage game_stage = new GameStage();		
 		
 		// PLEASE DO NOT EDIT UNTIL PRODUCTION
 		// We can choose to add a web server or embed data in GUI.
 		// GameServer gameServer = new GameServer();
 		// gameServer.listen();
 		
-		gameStage.setStage(stage);
-		gameStage.start();
+		game_stage.setStage(stage);
+		game_stage.start();
 	}
 }

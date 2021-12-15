@@ -1,7 +1,6 @@
 package main;
 
 import constants.Assets;
-import gamescene.EndScreen;
 import gamescene.SplashScreen;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -18,20 +17,19 @@ public class GameStage {
 	public static final double WINDOW_WIDTH = 1024;
 	public static final double WINDOW_HEIGHT = 1024;
 	public static final String APP_NAME = "Under Pressure";
-	public static final double JAVA_FPS = 60.0;
 	
 	private Stage stage;
-	private GameScene gameScene;
+	private GameScene game_scene;
 	private GraphicsContext gc;
 	
-	private GameLoop gameLoop;
+	private GameLoop game_loop;
 	
 	GameStage() {
-		gameScene = new SplashScreen(this);
-//		gameScene = new EndScreen(this); // for testing of the end screen only
-		gameScene.initializeProperties();
-		gc = this.gameScene.getGraphicsContext();
-		gameLoop = new GameLoop(this);	
+		game_scene = new SplashScreen(this);
+//		game_scene = new EndScreen(this); // for testing of the end screen only
+		game_scene.initializeProperties();
+		gc = this.game_scene.getGraphicsContext();
+		game_loop = new GameLoop(this);	
 	}
 	
 	public Stage getStage() {
@@ -39,7 +37,7 @@ public class GameStage {
 	}
 	
 	public GameScene getGameScene() {
-		return gameScene;
+		return game_scene;
 	}
 	
 	GraphicsContext getGraphicsContext() {
@@ -53,31 +51,31 @@ public class GameStage {
 	 */
 	public void setStage(Stage stage) {
 		stage.getIcons().add(new Image(Assets.ICON));
-		this.stage = stage;
-		this.stage.setTitle(GameStage.APP_NAME);
-		this.stage.setScene(this.gameScene.getScene());
+		stage.setTitle(GameStage.APP_NAME);
+		stage.setScene(this.game_scene.getScene());
+		stage.setResizable(false);	
 		
-		this.stage.setResizable(false);	
+		this.stage = stage;
 	}
 	
 	/**
-	 * Sets the GameScene. Used for switching between Scenes.
+	 * Sets the game_scene. Used for switching between Scenes.
 	 * @author Dave
-	 * @param gameScene GameScene to switch with
+	 * @param game_scene game_scene to switch with
 	 */
-	public void setGameScene(GameScene gameScene) {
-		this.gameScene.onExit();
+	public void setGameScene(GameScene game_scene) {
+		this.game_scene.onExit();
 		
 		//Initialize new Game Scene
-		this.gameScene = gameScene;
-		this.gameScene.initializeProperties();
+		game_scene.initializeProperties();
+		gc = game_scene.getGraphicsContext();
+		stage.setScene(game_scene.getScene());
 		
-		this.gc = gameScene.getGraphicsContext();
-		this.stage.setScene(gameScene.getScene());
+		this.game_scene = game_scene;
 	}
 	
 	void start() {
 		stage.show();
-		gameLoop.start();
+		game_loop.start();
 	}
 }

@@ -39,99 +39,87 @@ public class Instruction extends GameScene {
 	
 	private BorderPane root;
 	private VBox layout;
-	private MenuButton backButton;
+	private MenuButton back_button;
 	private AnimatedSprite title;
 	private AnimatedSprite background;
-	private Label screenTitle;
+	private Label screen_title;
 	
 	Instruction(GameStage gameStage) {
 		
-		this.root   = new BorderPane();
-		this.scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		this.gc     = canvas.getGraphicsContext2D();
-		this.screenTitle = new Label();
-		this.gameStage = gameStage;
-	}
-	
-	@Override
-	protected void initOtherProperties() {
-		// TODO Auto-generated method stub
+		root   = new BorderPane();
+		scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		gc     = canvas.getGraphicsContext2D();
+		screen_title = new Label();
 		
+		this.game_stage = gameStage;
 	}
 	
 	@Override
-	protected void initObjectProperties() {
-		// TODO Auto-generated method stub
-
-	}
+	protected void initOtherProperties() {}
+	
+	@Override
+	protected void initObjectProperties() {}
 
 	@Override
 	protected void initGUIProperties() {
 		
-		this.background = Layout.STATIC_BACKGROUND;
-		this.title = Layout.STATIC_TITLE;
-		this.backButton = new MenuButton(gameStage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(gameStage));
-		this.layout = new VBox();
+		background = Layout.STATIC_BACKGROUND;
+		title = Layout.STATIC_TITLE;
+		back_button = new MenuButton(game_stage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
+		layout = new VBox();
 		
-		screenTitle.setTextFill(Color.web("#2f325d", 1.0));
-		screenTitle.setText(Content.INSTSRUCTION_TITLE);
-		screenTitle.setFont(Font.loadFont(Assets.SQUARED, 30));
-		this.layout.getChildren().add(screenTitle);
+		screen_title.setTextFill(Color.web("#2f325d", 1.0));
+		screen_title.setText(Content.INSTSRUCTION_TITLE);
+		screen_title.setFont(Font.loadFont(Assets.SQUARED, 30));
+		layout.getChildren().add(screen_title);
 		
-		int idx = 0;
+		int _idx = 0;
 		for(String content: new Content().getInstructionContent()) {
-			Label labelContent = new Label();
-			labelContent.setText(content);
-			labelContent.setTextFill(Color.web("#528c9f", 1.0));
-			labelContent.setFont(Font.loadFont(Assets.SQUARED, idx % 2 == 0 ? 24 : 16));
-			labelContent.setWrapText(true);
-			labelContent.setTextAlignment(TextAlignment.CENTER);
-			labelContent.setBackground(new Background(new BackgroundFill(Color.web("#f1f2b6"),new CornerRadii(5d),null)));
-			labelContent.setPadding(new Insets(10d));
-			this.layout.getChildren().add(labelContent);
-			++idx;
+			Label _label_content = new Label();
+			_label_content.setText(content);
+			_label_content.setTextFill(Color.web("#528c9f", 1.0));
+			_label_content.setFont(Font.loadFont(Assets.SQUARED, _idx % 2 == 0 ? 24 : 16));
+			_label_content.setWrapText(true);
+			_label_content.setTextAlignment(TextAlignment.CENTER);
+			_label_content.setBackground(new Background(new BackgroundFill(Color.web("#f1f2b6"),new CornerRadii(5d),null)));
+			_label_content.setPadding(new Insets(10d));
+			this.layout.getChildren().add(_label_content);
+			++_idx;
 		}
 		
-		this.layout.getChildren().add(this.backButton);
+		layout.getChildren().add(back_button);
 		
-		this.layout.setAlignment(Pos.CENTER);
-		this.layout.setMaxWidth(GameStage.WINDOW_WIDTH);
-		this.layout.setSpacing(20d);
-		this.layout.setPadding(new Insets(50d));
+		layout.setAlignment(Pos.CENTER);
+		layout.setMaxWidth(GameStage.WINDOW_WIDTH);
+		layout.setSpacing(20d);
+		layout.setPadding(new Insets(50d));
 		
-		this.root.getChildren().add(this.canvas);		
-		this.root.setCenter(this.layout);
+		root.getChildren().add(canvas);		
+		root.setCenter(layout);
 	}
 
 
 	@Override
-	protected void initAudioProperties() {
-		// TODO Auto-generated method stub
-
-	}
+	protected void initAudioProperties() {}
 	
 	@Override //Write all logic for the scene here
 	public void update(GraphicsContext gc) { 		
-		this.onStartOfFrame();
-		this.updateObjects();	
-		this.updateGUI();
+		onStartOfFrame();
+		updateObjects();	
+		updateGUI();
 		root.requestFocus();
 		
 	}
 	
 	@Override
 	protected void updateGUI() {
-		// TODO Auto-generated method stub
-		this.background.render(gc);
-		this.title.render(gc);
+		background.render(gc);
+		title.render(gc);
 
 	}
 	
 	@Override
-	public void onExit() {
-		// TODO Auto-generated method stub
-
-	}
+	public void onExit() {}
 	
 }

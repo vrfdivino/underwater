@@ -13,11 +13,11 @@ public class PlayerManager {
 	private static PlayerManager instance;
 	private int hp;
 	private int strength;
-	private int fishKilled;
-	private boolean isWon;
+	private int fish_killed;
+	private boolean is_won;
 	
 	private PlayerManager() {
-		this.reset();
+		reset();
 	}
 	
 	public static PlayerManager getInstance() {
@@ -29,7 +29,7 @@ public class PlayerManager {
 	}
 	
 	public int getHp() {
-		return this.hp;
+		return hp;
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class PlayerManager {
 	}
 	
 	public int getStrength() {
-		return this.strength;
+		return strength;
 	}
 	
 	/**
@@ -58,16 +58,16 @@ public class PlayerManager {
 	 * @author vondivino
 	 */
 	public void setStrength(int factor) {
-		this.strength += factor;
-		System.out.println(this.strength);
+		strength += factor;
+		System.out.println(strength);
 	}
 	
 	public int getFishKilled() {
-		return this.fishKilled;
+		return fish_killed;
 	}
 	
 	public void setFishKilled(int factor) {
-		this.fishKilled += factor;
+		this.fish_killed += factor;
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class PlayerManager {
 	 * @author vondivino
 	 */
 	public boolean getIsWon() {
-		return this.isWon;
+		return is_won;
 	}
 	
 	
@@ -88,11 +88,11 @@ public class PlayerManager {
 	 * This should be called in game play screen.
 	 * In this project, it should be in Level_001.
 	 * 
-	 * @param isWon
+	 * @param is_won
 	 * @author vondivino
 	 */
-	public void setIsWon(boolean isWon) {
-		this.isWon = isWon;
+	public void setIsWon(boolean is_won) {
+		this.is_won = is_won;
 	}
 	
 	/**
@@ -102,9 +102,9 @@ public class PlayerManager {
 	 * @author vondivino
 	 */
 	public void reset() {
-		this.hp = PlayerManager.STARTING_HP;
-		this.strength = PlayerManager.STARTING_STREGTH;
-		this.fishKilled = 0;
-		this.isWon = false;
+		hp = PlayerManager.STARTING_HP;
+		strength = PlayerManager.STARTING_STREGTH;
+		fish_killed = 0;
+		is_won = false;
 	}
 }

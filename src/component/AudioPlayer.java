@@ -14,7 +14,7 @@ import javafx.util.Duration;
 public class AudioPlayer {
 	
 	private Media media;
-	private MediaPlayer mediaPlayer;
+	private MediaPlayer media_player;
 
 	private boolean is_playing = false;
 	
@@ -43,39 +43,39 @@ public class AudioPlayer {
 	 */
 	public void setMedia(String file) {
 		media = new Media(new File(file).toURI().toString());
-		mediaPlayer = new MediaPlayer(media);
+		media_player = new MediaPlayer(media);
 	}
 	
 	public void play() {
-		mediaPlayer.play();
+		media_player.play();
 		is_playing = true;
 	}
 	
 	public void stop() {
-		mediaPlayer.stop();
+		media_player.stop();
 		is_playing = false;
 	}
 	
 	public void pause() {
-		mediaPlayer.pause();
+		media_player.pause();
 		is_playing = false;
 	}
 	
 	public void restart() {
-		mediaPlayer.seek(Duration.ZERO);
+		media_player.seek(Duration.ZERO);
 		is_playing = true;
 	}
 	
 	public void setLoop(boolean canLoop) {
 		if (canLoop) {
-			mediaPlayer.setOnEndOfMedia(
+			media_player.setOnEndOfMedia(
 		       () -> {
 		    	   restart();
 		         }
 			);
 		}
 		else {
-			mediaPlayer.setOnEndOfMedia(
+			media_player.setOnEndOfMedia(
 		       () -> {}
 			);
 		}
@@ -83,12 +83,12 @@ public class AudioPlayer {
 	
 	//Setters
 	public void setVolume(double volume) {
-		mediaPlayer.setVolume(volume);
+		media_player.setVolume(volume);
 	}
 	
 	//Getters
 	public double getVolume() {
-		return mediaPlayer.getVolume();
+		return media_player.getVolume();
 	}
 	
 	public boolean isPlaying() {

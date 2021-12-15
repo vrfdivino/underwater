@@ -119,28 +119,28 @@ public class AnimatedSprite {
 	 */
 	public void render(GraphicsContext gc) {
 		if (can_loop) {
-			double x_offset;
-			double y_offset;
-			double x_scale_factor;
-			double y_scale_factor;
+			double _x_offset;
+			double _y_offset;
+			double _x_scale_factor;
+			double _y_scale_factor;
 			
 			//Flips the Image accordingly
 			if (isHflip()) {
-				x_offset = this.size.x;
-				x_scale_factor = -1;
+				_x_offset = this.size.x;
+				_x_scale_factor = -1;
 			}
 			else {
-				x_offset = 0;
-				x_scale_factor = 1;
+				_x_offset = 0;
+				_x_scale_factor = 1;
 			}
 			
 			if (isVflip()) {
-				y_offset = this.size.y;
-				y_scale_factor = -1;
+				_y_offset = this.size.y;
+				_y_scale_factor = -1;
 			}
 			else {
-				y_offset = 0;
-				y_scale_factor = 1;
+				_y_offset = 0;
+				_y_scale_factor = 1;
 			}
 			
 			gc.setGlobalAlpha(alpha);
@@ -148,8 +148,8 @@ public class AnimatedSprite {
 			//Draws the Image if Visible
 			if (is_visible) {
 				gc.drawImage(textures.get(current_frame), 
-						position.x + x_offset - size.x/2, position.y + y_offset - size.y/2, 
-						size.x * scale.x * x_scale_factor, size.y * scale.y * y_scale_factor);
+						position.x + _x_offset - size.x/2, position.y + _y_offset - size.y/2, 
+						size.x * scale.x * _x_scale_factor, size.y * scale.y * _y_scale_factor);
 			}
 			
 			gc.setGlobalAlpha(1.0);
