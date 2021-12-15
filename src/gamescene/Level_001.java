@@ -52,8 +52,8 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initOtherProperties() {
-		GAME_MANAGER.resetTimeLeft();
-		
+		GAME_MANAGER.reset();
+		PLAYER_MANAGER.reset();
 	}
 	
 	@Override
@@ -248,13 +248,14 @@ public class Level_001 extends GameScene{
 	}
 	
 	private void checkIfEndGame() {
-		
-		// end game here
-		if(PLAYER_MANAGER.getHp() <= 0 || GAME_MANAGER.getTimeLeft() <= 0) {
-			// push to end game screen
+		if(GAME_MANAGER.getTimeLeft() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
+			if(PLAYER_MANAGER.getStrength() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
+				PLAYER_MANAGER.setIsWon(false);	
+			} else {
+				PLAYER_MANAGER.setIsWon(true);
+			}
 			gameStage.setGameScene(new EndScreen(gameStage));
-			
-		} 
+		}
 	}
 	
 	private void updateScoreLabel() {

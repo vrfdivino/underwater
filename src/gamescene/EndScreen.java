@@ -29,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
@@ -44,36 +45,34 @@ import services.PlayerData;
 import constants.Content;
 
 public class EndScreen extends GameScene {
-	
 	private BorderPane root;
 	private VBox layout;
 	private MenuButton backButton;
 	private AnimatedSprite title;
 	private AnimatedSprite background;
 	private Label screenTitle;
-	private GameDB db = new GameDB(Database.DEV_DB);
+	private Label wonLabel;
+	private GameDB db;
 	
 	public EndScreen(GameStage gameStage) {
-		
 		this.root   = new BorderPane();
 		this.scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 		this.gc     = canvas.getGraphicsContext2D();
 		this.screenTitle = new Label();
+		this.wonLabel = new Label();
 		this.gameStage = gameStage;
+		this.db = new GameDB(Database.DEV_DB);
 	}
 	
 	@Override
-	protected void initOtherProperties() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+	protected void initOtherProperties() {}
 	@Override
-	protected void initObjectProperties() {
-		// TODO Auto-generated method stub
-
-	}
+	protected void initObjectProperties() {}
+	@Override
+	protected void initAudioProperties() {}
+	@Override
+	public void onExit() {}
 
 	@Override
 	protected void initGUIProperties() {
@@ -89,7 +88,51 @@ public class EndScreen extends GameScene {
 		screenTitle.setFont(Font.loadFont(Assets.SQUARED, 30));
 		this.layout.getChildren().add(screenTitle);
 		
-		// ADD INPUT HERE FOR USER TO ADD USER NAME TO BE RECORDED IN THE SCOREBOARD
+		/**
+		 * 
+		 * Appear only the "leader board" input if the user won,
+		 * Else, just display the back button
+		 * 
+		 * 
+		 */
+		if(PLAYER_MANAGER.getIsWon()) {
+			this.buildWonGUI();
+		} else {
+			this.buildLoseGUI();
+		}
+		
+		this.layout.getChildren().add(this.backButton);
+		
+		this.layout.setAlignment(Pos.CENTER);
+		this.layout.setMaxWidth(GameStage.WINDOW_WIDTH);
+		this.layout.setSpacing(20d);
+		this.layout.setPadding(new Insets(50d));
+		
+		this.root.getChildren().add(this.canvas);		
+		this.root.setCenter(this.layout);
+	}
+
+
+	@Override 
+	public void update(GraphicsContext gc) { 		
+		this.onStartOfFrame();
+		this.updateObjects();	
+		this.updateGUI();
+	}
+	
+	@Override
+	protected void updateGUI() {
+		this.background.render(gc);
+		this.title.render(gc);
+	}
+	
+	/**
+	 * 
+	 * Build the won GUI.
+	 * 
+	 * @author vondivino
+	 */
+	private void buildWonGUI() {
 		Label label1 = new Label("Username:");
 		TextField textField = new TextField();
 		Button submitButton = new Button("Submit");
@@ -110,47 +153,34 @@ public class EndScreen extends GameScene {
 		HBox inputPane = new HBox();
 		inputPane.getChildren().addAll(label1, textField, submitButton);
 		inputPane.setSpacing(10);
+		
+		this.buildWonLabel("You Won!", Color.GREEN);
 		this.layout.getChildren().add(inputPane);
-		
-		this.layout.getChildren().add(this.backButton);
-		
-		this.layout.setAlignment(Pos.CENTER);
-		this.layout.setMaxWidth(GameStage.WINDOW_WIDTH);
-		this.layout.setSpacing(20d);
-		this.layout.setPadding(new Insets(50d));
-		
-		this.root.getChildren().add(this.canvas);		
-		this.root.setCenter(this.layout);
-	}
-
-
-	@Override
-	protected void initAudioProperties() {
-		// TODO Auto-generated method stub
-
 	}
 	
-	@Override //Write all logic for the scene here
-	public void update(GraphicsContext gc) { 		
-		this.onStartOfFrame();
-		this.updateObjects();	
-		this.updateGUI();
-//		root.requestFocus(); // enable input typing just comment out this out
-		
+	/**
+	 * 
+	 * Build the lose GUI.
+	 * 
+	 * @author vondivino
+	 */
+	private void buildLoseGUI() {
+		this.buildWonLabel("You Lose!", Color.RED);
 	}
 	
-	@Override
-	protected void updateGUI() {
-		// TODO Auto-generated method stub
-		this.background.render(gc);
-		this.title.render(gc);
-
-	}
-	
-	@Override
-	public void onExit() {
-		// TODO Auto-generated method stub
-
+	/**
+	 * 
+	 * A wrapper method to build the won label.
+	 * 
+	 * @param status
+	 * @param color
+	 * @author vondivino
+	 */
+	private void buildWonLabel(String status, Paint color) {
+		this.wonLabel.setTextFill(color);
+		this.wonLabel.setText(status);
+		this.wonLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
+		this.layout.getChildren().add(this.wonLabel);
 	}
 	
 }

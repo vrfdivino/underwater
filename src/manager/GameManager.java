@@ -15,10 +15,10 @@ import runnableobject.RunnableObject;
  * @author Dave
  */
 public class GameManager {
-	private static GameManager instance;
 	
-	private Random r = new Random();
-
+	public static int STARTING_TIME = 60;
+	
+	private static GameManager instance;
 	private int timeLeft = 60;
 	private int timeElapsed;
 	private int spawnInterval = 5;
@@ -26,7 +26,7 @@ public class GameManager {
 	private boolean doSpawn = false;
 	
 	private GameManager() {
-		this.timeLeft = 60;
+		this.reset();
 	}
 	
 	public static GameManager getInstance() {
@@ -61,10 +61,16 @@ public class GameManager {
 		return this.timeLeft;
 	}
 	
-	public void resetTimeLeft() {
-		this.timeLeft = 60;
+	/**
+	 * 
+	 * Reset the game manager instance.
+	 * 
+	 * @author vondivino
+	 */
+	public void reset() {
+		this.timeLeft = GameManager.STARTING_TIME;
 		this.timeElapsed = 0;
-		nextSpawn = timeLeft - spawnInterval;
+		this.nextSpawn = this.timeLeft - this.spawnInterval;
 	}
 	
 	public void spawnEnemy(ArrayList<RunnableObject> runnableObjectList) {

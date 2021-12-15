@@ -6,16 +6,18 @@ package manager;
  *
  */
 public class PlayerManager {
-	private static PlayerManager instance;
+
+	public static int STARTING_HP = 100;
+	public static int STARTING_STREGTH = 100;
 	
+	private static PlayerManager instance;
 	private int hp;
 	private int strength;
 	private int fishKilled;
+	private boolean isWon;
 	
 	private PlayerManager() {
-		this.hp = 500;
-		this.strength = 200;
-		this.fishKilled = 0;
+		this.reset();
 	}
 	
 	public static PlayerManager getInstance() {
@@ -30,6 +32,14 @@ public class PlayerManager {
 		return this.hp;
 	}
 	
+	/**
+	 * 
+	 * TODO:
+	 * To be called when a Fish or the Boss hits the player.
+	 * 
+	 * @param factor
+	 * @author vondivino
+	 */
 	public void setHp(int factor) {
 		this.hp += factor;
 	}
@@ -38,6 +48,15 @@ public class PlayerManager {
 		return this.strength;
 	}
 	
+	/**
+	 * 
+	 * TODO:
+	 * To be called when the Boss (AnglerFish) hits the player.
+	 * The AnglerFish will have an effect of -50.
+	 * 
+	 * @param factor
+	 * @author vondivino
+	 */
 	public void setStrength(int factor) {
 		this.strength += factor;
 	}
@@ -48,5 +67,43 @@ public class PlayerManager {
 	
 	public void setFishKilled(int factor) {
 		this.fishKilled += factor;
+	}
+	
+	/**
+	 * 
+	 * Use this getter end the EndScreen.
+	 * This is used to decide whether a Win or Lose GUI to render.
+	 * 
+	 * @return
+	 * @author vondivino
+	 */
+	public boolean getIsWon() {
+		return this.isWon;
+	}
+	
+	
+	/**
+	 * 
+	 * This should be called in game play screen.
+	 * In this project, it should be in Level_001.
+	 * 
+	 * @param isWon
+	 * @author vondivino
+	 */
+	public void setIsWon(boolean isWon) {
+		this.isWon = isWon;
+	}
+	
+	/**
+	 * 
+	 * Reset the properties of a player.
+	 * 
+	 * @author vondivino
+	 */
+	public void reset() {
+		this.hp = PlayerManager.STARTING_HP;
+		this.strength = PlayerManager.STARTING_STREGTH;
+		this.fishKilled = 0;
+		this.isWon = false;
 	}
 }
