@@ -28,38 +28,40 @@ import parentclass.GameScene;
 
 public class Level_001 extends GameScene{
 	
-	private BorderPane pane;
-	
-	//GUI Elements
 	private AnimatedSprite background;
 	private double bg_scroll_speed = 36;
-
-	private MenuButton backButton;
+	private Player player;
 	
-	private Label timeCount;
+	private BorderPane pane;
+	private Label timerLabel;
 	private Label hpLabel;
 	private Label scoreLabel;
-	
-	private Player player = new Player(100, -450);
+	private MenuButton backButton;	
 
 	public Level_001(GameStage gameStage){
+		
 		this.pane = new BorderPane();
 		this.scene = new Scene(this.pane, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		this.canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
 		this.gameStage = gameStage;
+		this.player = new Player(100, -450);
 	}
 	
 	@Override
 	protected void initOtherProperties() {
+		
 		GAME_MANAGER.reset();
 		PLAYER_MANAGER.reset();
+		
 	}
 	
 	@Override
 	protected void initObjectProperties() {
+		
 		runnableObjectList.add(player);
 		spawnInitialEnemies();
+		
 	}
 	
 	@Override
@@ -83,33 +85,31 @@ public class Level_001 extends GameScene{
 		
 	}
 	
+	/**
+	 * 
+	 * A helper function to build the status bar.
+	 * 
+	 * @return
+	 * @author vondivino, dave
+	 */
 	private HBox buildStatusBar() {
 		
 		HBox statusBar = new HBox();
 		
-		/**
-		 * 
-		 * This is the timer pane.
-		 * 
-		 */
+		/// TIMER PANE ///
 		StackPane timerPane = new StackPane();
 		Image timerImage = new Image(Assets.TIMER);
 		ImageView timer = new ImageView(timerImage);
-		timeCount = new Label();
-		timeCount.setTextFill(Color.web("#f1f2b6", 1.0));
-		timeCount.setText("01:00");
-		timeCount.setFont(Font.loadFont(Assets.SQUARED, 30));
-		StackPane.setMargin(timeCount, new Insets(0, -90, 0, 0));
+		timerLabel = new Label();
+		timerLabel.setTextFill(Color.web("#f1f2b6", 1.0));
+		timerLabel.setText("01:00");
+		timerLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
+		StackPane.setMargin(timerLabel, new Insets(0, -90, 0, 0));
 		timerPane.getChildren().add(timer);
-		timerPane.getChildren().add(timeCount);
+		timerPane.getChildren().add(timerLabel);
 
 		
-		/**
-		 * 
-		 * This is the HP pane.
-		 * 
-		 * 
-		 */
+		/// HP PANE ///
 		StackPane hpPane = new StackPane();
 		Image hpImage = new Image(Assets.HP);
 		ImageView hp = new ImageView(hpImage);
@@ -121,12 +121,7 @@ public class Level_001 extends GameScene{
 		hpPane.getChildren().add(hp);
 		hpPane.getChildren().add(hpLabel);
 		
-		/**
-		 * 
-		 * This is the score (fish killed) pane.
-		 * 
-		 * 
-		 */
+		/// SCORE PANE ///
 		StackPane scorePane = new StackPane();
 		Image scoreImage = new Image(Assets.POINTS);
 		ImageView score = new ImageView(scoreImage);
@@ -144,6 +139,7 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initAudioProperties() {
+		
 		AudioPlayer under_pressure = new AudioPlayer(Assets.UNDER_PRESSURE, false);
 		AudioPlayer underwater = new AudioPlayer(Assets.UNDERWATER, true);
 		AudioPlayer splash = new AudioPlayer(Assets.SPLASH);
@@ -155,16 +151,20 @@ public class Level_001 extends GameScene{
 		AUDIO_MANAGER.playAudioPlayer("Under Pressure");
 		SFX_MANAGER.playAudioPlayer("Underwater");
 		SFX_MANAGER.playAudioPlayer("Splash");
+		
 	}
 	
 	@Override
 	public void onExit() {
+		
 		AUDIO_MANAGER.stopAll();
 		SFX_MANAGER.stopAll();
+		
 	}
 	
 	@Override 
-	public void update(GraphicsContext gc) { 		
+	public void update(GraphicsContext gc) { 	
+		
 		onStartOfFrame();
 		updateGUI();
 		updateObjects();
@@ -176,16 +176,24 @@ public class Level_001 extends GameScene{
 		checkIfEndGame();
 		pane.requestFocus();
 		
+		
 	}
 	@Override
 	protected void updateGUI() {
+		
 		scrollBackground();
 		updateTimerLabel();
 		updateHpLabel();
 		updateScoreLabel();
+		
 	}
 	
+	/**
+	 * 
+	 * @author dave
+	 */
 	private void limitPlayerMovement() {
+		
 		if (player.getPosition().x <= 64) {
 			player.setPosition(new Vector2(64, player.getPosition().y));
 			player.setVelocity(new Vector2(0,player.getVelocity().y));
@@ -206,6 +214,10 @@ public class Level_001 extends GameScene{
 		
 	}
 	
+	/**
+	 * 
+	 * @author dave
+	 */
 	private void scrollBackground() {
 		background.getPosition().add(new Vector2(0, -bg_scroll_speed * TIME_MANAGER.getDeltaTime()));
 		if (background.getPosition().y <= -565) {
@@ -214,39 +226,70 @@ public class Level_001 extends GameScene{
 		background.render(gc);
 	}
 	
+	/**
+	 * 
+	 * Update the timer in the status bar.
+	 * 
+	 * @author vondivino
+	 */
 	private void updateTimerLabel() {
-		
 		int timeLeft = GAME_MANAGER.getTimeLeft();
 		
 		if (timeLeft <= 0) {
-			this.timeCount.setText("00:00");
+			this.timerLabel.setText("00:00");
 		}else if (timeLeft >= 10) {
-			this.timeCount.setText("00:" + timeLeft);
+			this.timerLabel.setText("00:" + timeLeft);
 		} else {
-			this.timeCount.setText("00:0" + timeLeft);
+			this.timerLabel.setText("00:0" + timeLeft);
 		}
 		
 	}
 	
+	/**
+	 * 
+	 * TODO:
+	 * Implement this one if the enemy is available.
+	 * 
+	 * @author vondivino
+	 */
 	private void spawnEnemy() {
-		if(GAME_MANAGER.doSpawn()) {
+		if(GAME_MANAGER.getSpawn()) {
 			GAME_MANAGER.spawnEnemy(runnableObjectList);
 		}
 	}
 	
+	/**
+	 * 
+	 * Update the HP in the status bar.
+	 * 
+	 * @author vondivino
+	 */
 	private void updateHpLabel() {
 		hpLabel.setText(String.valueOf(PLAYER_MANAGER.getHp()));
 	}
 	
+	/**
+	 * 
+	 * TODO:
+	 * Character should be changed.
+	 * 
+	 * @author vondivino
+	 */
 	private void spawnInitialEnemies() {
 		Random r = new Random();
 		for(int i = 0; i < 7; i++) {
 			int x = r.nextInt(800) + 200;
 			int y =r.nextInt(400) + 200;
-			runnableObjectList.add(new AnglerFish(x,y));
+//			runnableObjectList.add(new AnglerFish(x,y));
 		}
 	}
 	
+	/**
+	 * 
+	 * Check if the game should be ended.
+	 * 
+	 * @author vondivino
+	 */
 	private void checkIfEndGame() {
 		if(GAME_MANAGER.getTimeLeft() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
 			if(PLAYER_MANAGER.getStrength() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
@@ -258,6 +301,13 @@ public class Level_001 extends GameScene{
 		}
 	}
 	
+	/**
+	 * 
+	 * TODO:
+	 * Implement once the player can shoot enemies.
+	 * 
+	 * @author vondivino
+	 */
 	private void updateScoreLabel() {
 		
 	}

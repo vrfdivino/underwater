@@ -17,13 +17,14 @@ import runnableobject.RunnableObject;
 public class GameManager {
 	
 	public static int STARTING_TIME = 60;
+	public static int SPAWN_NUM = 3;
 	
 	private static GameManager instance;
 	private int timeLeft = 60;
 	private int timeElapsed;
 	private int spawnInterval = 5;
 	private int nextSpawn = timeLeft - spawnInterval;
-	private boolean doSpawn = false;
+	private boolean spawn = false;
 	
 	private GameManager() {
 		this.reset();
@@ -50,9 +51,9 @@ public class GameManager {
 			this.timeElapsed = timeElapsed;
 			if(this.timeLeft == this.nextSpawn) {
 				this.nextSpawn -= this.spawnInterval;
-				this.doSpawn = true;
+				this.spawn = true;
 			} else {
-				this.doSpawn = false;
+				this.spawn = false;
 			}
 		}
 	}
@@ -73,17 +74,38 @@ public class GameManager {
 		this.nextSpawn = this.timeLeft - this.spawnInterval;
 	}
 	
+	/**
+	 * 
+	 * TODO:
+	 * Spawn enemies enemies in the game.
+	 * To be called in Level_001.
+	 * 
+	 * @param runnableObjectList
+	 * @author vondivino
+	 */
 	public void spawnEnemy(ArrayList<RunnableObject> runnableObjectList) {
 		Random r = new Random();
-		for(int i = 0; i < 3; ++i) {			
+		for(int i = 0; i < GameManager.SPAWN_NUM; ++i) {			
 			int x = r.nextInt(800) + 200;
 			int y = r.nextInt(800) + 200;
-			runnableObjectList.add(new AnglerFish(x, y));
+//			runnableObjectList.add(new AnglerFish(x, y));
+			System.out.println("spawn enemies");
 		}
-		this.doSpawn = false;
+		this.spawn = false;
 	}
 	
-	public boolean doSpawn() {
-		return this.doSpawn;
+	public boolean getSpawn() {
+		return this.spawn;
+	}
+	
+	/**
+	 * 
+	 * TODO:
+	 * Randomize enemies speed.
+	 * 
+	 * @author vondivino
+	 */
+	public void randomizeEnemiesSpeed(ArrayList<RunnableObject> runnableObjectList) {
+		
 	}
 }
