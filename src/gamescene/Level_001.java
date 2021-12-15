@@ -24,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.GameStage;
+import manager.GameManager;
 import parentclass.GameScene;
 
 public class Level_001 extends GameScene{
@@ -173,6 +174,7 @@ public class Level_001 extends GameScene{
 		checkObjectCollisions();
 		checkDestroyedObjects();
 		spawnEnemy();
+		spawnBoss();
 		checkIfEndGame();
 		pane.requestFocus();
 		
@@ -291,7 +293,7 @@ public class Level_001 extends GameScene{
 	 * @author vondivino
 	 */
 	private void checkIfEndGame() {
-		if(GAME_MANAGER.getTimeLeft() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
+		if(GAME_MANAGER.getTimeLeft() <= 0 || PLAYER_MANAGER.getHp() <= 0 || PLAYER_MANAGER.getStrength() <= 0) {
 			if(PLAYER_MANAGER.getStrength() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
 				PLAYER_MANAGER.setIsWon(false);	
 			} else {
@@ -309,6 +311,20 @@ public class Level_001 extends GameScene{
 	 * @author vondivino
 	 */
 	private void updateScoreLabel() {
+		
+	}
+	
+	/**
+	 * 
+	 * Spawn boss.
+	 * 
+	 * @author vondivino
+	 */
+	private void spawnBoss() {
+		if(GAME_MANAGER.getTimeLeft() == GameManager.STARTING_TIME - GameManager.TIMEOUT_BEFORE_BOSS && !GAME_MANAGER.getSpawnBoss()) {
+			GAME_MANAGER.spawnBoss(runnableObjectList);
+			GAME_MANAGER.setSpawnBoss(true);
+		} 
 		
 	}
 } 

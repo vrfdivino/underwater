@@ -5,6 +5,7 @@ import java.util.Random;
 
 import gameobject.AnglerFish;
 import javafx.scene.control.Label;
+import main.GameStage;
 import parentclass.GameObject;
 
 import runnableobject.RunnableObject;
@@ -18,6 +19,7 @@ public class GameManager {
 	
 	public static int STARTING_TIME = 60;
 	public static int SPAWN_NUM = 3;
+	public static int TIMEOUT_BEFORE_BOSS = 30;
 	
 	private static GameManager instance;
 	private int timeLeft = 60;
@@ -25,6 +27,7 @@ public class GameManager {
 	private int spawnInterval = 5;
 	private int nextSpawn = timeLeft - spawnInterval;
 	private boolean spawn = false;
+	private boolean spawnBoss = false;
 	
 	private GameManager() {
 		this.reset();
@@ -107,5 +110,30 @@ public class GameManager {
 	 */
 	public void randomizeEnemiesSpeed(ArrayList<RunnableObject> runnableObjectList) {
 		
+	}
+	
+	/**
+	 * 
+	 * Spawn boss.
+	 * To be called in the updateObjects in Level_001.
+	 * 
+	 * @param runnableObjectList
+	 */
+	public void spawnBoss(ArrayList<RunnableObject> runnableObjectList) {
+		runnableObjectList.add(new AnglerFish(GameStage.WINDOW_WIDTH/2-200, GameStage.WINDOW_HEIGHT/2-200));
+	}
+	
+	/**
+	 * 
+	 * Set if we are to spawn the boss.
+	 * 
+	 * @author vondivino
+	 */
+	public void setSpawnBoss(boolean q) {
+		this.spawnBoss = q;
+	}
+	
+	public boolean getSpawnBoss() {
+		return this.spawnBoss;
 	}
 }

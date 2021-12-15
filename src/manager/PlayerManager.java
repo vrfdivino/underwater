@@ -59,6 +59,7 @@ public class PlayerManager {
 	 */
 	public void setStrength(int factor) {
 		this.strength += factor;
+		System.out.println(this.strength);
 	}
 	
 	public int getFishKilled() {

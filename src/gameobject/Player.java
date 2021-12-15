@@ -181,7 +181,10 @@ public class Player extends GameObject{
 		//Solves ConcurrentModificationError
 		for (GameObject other: toRemoveList) {
 			collision.removeOverlap(other);
-			other.destroy();
+			
+			// From von: I comment this out for the mean time, 
+			// OBJECTS (enemies and boss) should be destroy when they are shoot, not collide
+//			other.destroy();
 		}
 	}
 	

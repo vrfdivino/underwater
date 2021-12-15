@@ -13,6 +13,8 @@ import parentclass.GameObject;
 
 public class AnglerFish extends GameObject{
 	
+	public static int DAMAGE = 50;
+	
 	private Image[] anglerFishMoveSprites = new Image[8];
 	private AnimatedSprite anglerFishMove;
 	
@@ -79,8 +81,8 @@ public class AnglerFish extends GameObject{
 			//collision.renderCollision(gc);
 		} else {
 			// deduct strength of the player 
-			//PLAYER_MANAGER.setStrength(20);
-			PLAYER_MANAGER.setHp(-20);
+			PLAYER_MANAGER.setStrength(-AnglerFish.DAMAGE);
+//			PLAYER_MANAGER.setHp(-20);
 			//collision.renderCollision(gc, Color.DARKORANGE, 0.5);
 		}
 	}
