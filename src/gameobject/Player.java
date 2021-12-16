@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import component.AnimatedSprite;
 import component.AnimationPlayer;
 import component.AudioPlayer;
+import component.Timer;
 import constants.Assets;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +14,7 @@ import javafx.scene.paint.Color;
 import parentclass.GameObject;
 
 public class Player extends GameObject{
-	private static enum STATES {NORMAL, SLOWED, STUNNED, DAMAGED};
+	private static enum STATES {NORMAL, INVULNERABLE, SPEEDUP};
 	private STATES state = STATES.NORMAL;
 	
 	private AnimatedSprite diver_idle;
@@ -29,6 +30,8 @@ public class Player extends GameObject{
 	
 	private Vector2 direction = new Vector2();
 	private Vector2 velocity = new Vector2();
+	
+	private Timer timer;
 	
 	public Player(double x, double y) {
 		setTransformations(x, y);
@@ -54,6 +57,14 @@ public class Player extends GameObject{
 		size.set(256, 1696);
 		rotation = 0;
 		position.set(x, y);
+		
+		timer = new Timer(3);
+		timer.onTimerTimeout(()->{
+			System.out.println(position.x);
+		});
+		timer.setLoop(true);
+		timer.start();
+		TIME_MANAGER.addTimer(timer);
 	}
 	//Setters
 	private void setCollision() {
@@ -119,11 +130,9 @@ public class Player extends GameObject{
 		case NORMAL:
 			normal();
 			break;
-		case SLOWED:
+		case INVULNERABLE:
 			break;
-		case STUNNED:
-			break;
-		case DAMAGED:
+		case SPEEDUP:
 			break;
 		}
 		
@@ -181,7 +190,7 @@ public class Player extends GameObject{
 		
 		//Solves ConcurrentModificationError
 		for (GameObject other: toremove_list) {
-			collision.removeOverlap(other);
+			//collision.removeOverlap(other);
 			
 			// From von: I comment this out for the mean time, 
 			// OBJECTS (enemies and boss) should be destroy when they are shoot, not collide

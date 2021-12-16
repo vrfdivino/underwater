@@ -50,7 +50,7 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initOtherProperties() {
-		
+		TIME_MANAGER.resetTimeElapsed();
 		GAME_MANAGER.reset();
 		PLAYER_MANAGER.reset();
 		
@@ -188,8 +188,8 @@ public class Level_001 extends GameScene{
 	protected void updateGUI() {
 		
 		scrollBackground();
-		updatetimer_label();
-		updatehp_label();
+		updateTimerLabel();
+		updateHPLabel();
 		updateScoreLabel();
 		
 	}
@@ -238,7 +238,7 @@ public class Level_001 extends GameScene{
 	 * 
 	 * @author vondivino
 	 */
-	private void updatetimer_label() {
+	private void updateTimerLabel() {
 		int _time_left = GAME_MANAGER.getTimeLeft();
 		
 		if (_time_left <= 0) {
@@ -270,7 +270,7 @@ public class Level_001 extends GameScene{
 	 * 
 	 * @author vondivino
 	 */
-	private void updatehp_label() {
+	private void updateHPLabel() {
 		hp_label.setText(String.valueOf(PLAYER_MANAGER.getHp()));
 	}
 	
@@ -297,7 +297,7 @@ public class Level_001 extends GameScene{
 	 * @author vondivino
 	 */
 	private void checkIfEndGame() {
-		if(GAME_MANAGER.getTimeLeft() <= 0 || PLAYER_MANAGER.getHp() <= 0 || PLAYER_MANAGER.getStrength() <= 0) {
+		if(GAME_MANAGER.getTimeLeft() <= -1 || PLAYER_MANAGER.getHp() <= 0 || PLAYER_MANAGER.getStrength() <= 0) {
 			if(PLAYER_MANAGER.getStrength() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
 				PLAYER_MANAGER.setIsWon(false);	
 			} else {

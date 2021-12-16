@@ -30,7 +30,7 @@ public class GameManager {
 	private boolean spawn_boss = false;
 	
 	private GameManager() {
-		this.reset();
+		reset();
 	}
 	
 	public static GameManager getInstance() {
@@ -62,7 +62,7 @@ public class GameManager {
 	}
 	
 	public int getTimeLeft() {
-		return this.time_left;
+		return time_left;
 	}
 	
 	/**
@@ -72,9 +72,10 @@ public class GameManager {
 	 * @author vondivino
 	 */
 	public void reset() {
-		this.time_left = GameManager.STARTING_TIME;
-		this.time_elapsed = 0;
-		this.next_spawn = this.time_left - this.spawn_interval;
+		time_left = GameManager.STARTING_TIME;
+		time_elapsed = 0;
+		next_spawn = time_left - spawn_interval;
+		spawn_boss = false;
 	}
 	
 	/**
@@ -92,13 +93,13 @@ public class GameManager {
 			int x = r.nextInt(800) + 200;
 			int y = r.nextInt(800) + 200;
 //			runnableObjectList.add(new AnglerFish(x, y));
-			System.out.println("spawn enemies");
+			//System.out.println("spawn enemies");
 		}
-		this.spawn = false;
+		spawn = false;
 	}
 	
 	public boolean getSpawn() {
-		return this.spawn;
+		return spawn;
 	}
 	
 	/**
@@ -130,10 +131,10 @@ public class GameManager {
 	 * @author vondivino
 	 */
 	public void setSpawnBoss(boolean q) {
-		this.spawn_boss = q;
+		spawn_boss = q;
 	}
 	
 	public boolean getSpawnBoss() {
-		return this.spawn_boss;
+		return spawn_boss;
 	}
 }

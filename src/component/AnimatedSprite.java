@@ -144,7 +144,8 @@ public class AnimatedSprite {
 			}
 			
 			gc.setGlobalAlpha(alpha);
-			
+			gc.save();
+			gc.rotate(rotation);
 			//Draws the Image if Visible
 			if (is_visible) {
 				gc.drawImage(textures.get(current_frame), 
@@ -152,6 +153,7 @@ public class AnimatedSprite {
 						size.x * scale.x * _x_scale_factor, size.y * scale.y * _y_scale_factor);
 			}
 			
+			gc.restore();
 			gc.setGlobalAlpha(1.0);
 		}
 		playFrames();

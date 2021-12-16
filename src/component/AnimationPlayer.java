@@ -15,6 +15,7 @@ public class AnimationPlayer {
 	
 	private double alpha = 1.0;
 	private Vector2 position = new Vector2();
+	private double rotation = 0;
 	private boolean is_playing = false;
 	private boolean is_visible = true;
 	private boolean is_hflip = false;
@@ -98,6 +99,13 @@ public class AnimationPlayer {
 		this.alpha = alpha;
 		for (AnimatedSprite animation: animations.values()) {
 			animation.setAlpha(alpha);
+		}
+	}
+	
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
+		for (AnimatedSprite animation: animations.values()) {
+			animation.setRotation(rotation);
 		}
 	}
 	
