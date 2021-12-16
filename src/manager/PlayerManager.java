@@ -1,17 +1,16 @@
 package manager;
 
 /**
- * Handles managing player status
- * @author Dave
- *
+ * Handles managing player states.
+ * 
+ * @author Von Divino, Dave Jimenez
  */
 public class PlayerManager {
 
 	public static int STARTING_HP = 100;
-	public static int STARTING_STREGTH = 100;
 	
 	private static PlayerManager instance;
-	private int hp;
+	private int hp = PlayerManager.STARTING_HP;
 	private int strength;
 	private int fish_killed;
 	private boolean is_won;
@@ -28,39 +27,10 @@ public class PlayerManager {
 		return instance;
 	}
 	
-	public int getHp() {
-		return hp;
-	}
+	public int getHp() {return hp;}
 	
-	/**
-	 * 
-	 * TODO:
-	 * To be called when a Fish or the Boss hits the player.
-	 * 
-	 * @param factor
-	 * @author vondivino
-	 */
-	public void setHp(int factor) {
-		this.hp += factor;
-	}
-	
-	public int getStrength() {
-		return strength;
-	}
-	
-	/**
-	 * 
-	 * TODO:
-	 * To be called when the Boss (AnglerFish) hits the player.
-	 * The AnglerFish will have an effect of -50.
-	 * 
-	 * @param factor
-	 * @author vondivino
-	 */
-	public void setStrength(int factor) {
-		strength += factor;
-		System.out.println(strength);
-	}
+
+	public void setHp(int hp) {this.hp = hp;}
 	
 	public int getFishKilled() {
 		return fish_killed;
@@ -103,7 +73,6 @@ public class PlayerManager {
 	 */
 	public void reset() {
 		hp = PlayerManager.STARTING_HP;
-		strength = PlayerManager.STARTING_STREGTH;
 		fish_killed = 0;
 		is_won = false;
 	}

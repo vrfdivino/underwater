@@ -286,14 +286,14 @@ public class Level_001 extends GameScene{
 	 * @author vondivino
 	 */
 	private void checkIfEndGame() {
-		if(GAME_MANAGER.getTimeLeft() <= -1 || PLAYER_MANAGER.getHp() <= 0 || PLAYER_MANAGER.getStrength() <= 0) {
-			if(PLAYER_MANAGER.getStrength() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
-				PLAYER_MANAGER.setIsWon(false);	
-			} else {
-				PLAYER_MANAGER.setIsWon(true);
-			}
-			game_stage.setGameScene(new EndScreen(game_stage));
-		}
+//		if(GAME_MANAGER.getTimeLeft() <= -1 || PLAYER_MANAGER.getHp() <= 0 || PLAYER_MANAGER.getStrength() <= 0) {
+//			if(PLAYER_MANAGER.getStrength() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
+//				PLAYER_MANAGER.setIsWon(false);	
+//			} else {
+//				PLAYER_MANAGER.setIsWon(true);
+//			}
+//			game_stage.setGameScene(new EndScreen(game_stage));
+//		}
 	}
 	
 	/**

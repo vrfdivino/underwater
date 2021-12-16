@@ -25,6 +25,7 @@ public class Projectile extends GameObject {
 	public static int DIVER_Y_OFFSET = 450 + 320;
 	public static int SPEED = 10;
 	public static int STARTING_ROT = 0;
+	public static int DAMAGE = 20;
 	
 	private AnimatedSprite projectile_sprite;
 	private GameObject parent;
@@ -178,13 +179,17 @@ public class Projectile extends GameObject {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collision.getOverlaps()) {
 			toremove_list.add(other);
-			System.out.println(other);
 		}
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
 			// destroy fish immediately
 			if(other instanceof SmallFish) {
 				other.destroy();
+			} else if(other instanceof AnglerFish) {
+				// if collides with the bullet, deduct its own life
+				AnglerFish af = (AnglerFish) other;
+				af.setHP(af.getHP() - Projectile.DAMAGE);
+				System.out.println(af.getHP());
 			}
 		}
 	}

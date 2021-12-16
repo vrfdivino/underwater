@@ -64,7 +64,7 @@ public class SmallFish extends GameObject{
 	
 	private void setTransformations(double x, double y) {
 		position.set(x, y);
-		size.set(256, 256);
+		size.set(128, 128);
 		rotation = 0;
 	}
 	
