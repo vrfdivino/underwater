@@ -51,7 +51,7 @@ public class EndScreen extends GameScene {
 	private AnimatedSprite title;
 	private AnimatedSprite background;
 	private Label screen_title;
-	private Label wonLabel;
+	private Label won_label;
 	private GameDB db;
 	
 	public EndScreen(GameStage gameStage) {
@@ -60,7 +60,7 @@ public class EndScreen extends GameScene {
 		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 		gc     = canvas.getGraphicsContext2D();
 		screen_title = new Label();
-		wonLabel = new Label();
+		won_label = new Label();
 		
 		this.game_stage = gameStage;
 		
@@ -145,7 +145,7 @@ public class EndScreen extends GameScene {
 		    	// get user name and commit to the database
 		        if(db.connecToDb()) {
 		        	db.createTable();
-		        	Data p = db.insertData(new PlayerData(_textField.getText()));
+		        	Data _p = db.insertData(new PlayerData(_textField.getText()));
 		        	db.closeDb();
 		        }
 		        _textField.clear();
@@ -180,10 +180,10 @@ public class EndScreen extends GameScene {
 	 * @author vondivino
 	 */
 	private void buildWonLabel(String status, Paint color) {
-		wonLabel.setTextFill(color);
-		wonLabel.setText(status);
-		wonLabel.setFont(Font.loadFont(Assets.SQUARED, 30));
-		layout.getChildren().add(wonLabel);
+		won_label.setTextFill(color);
+		won_label.setText(status);
+		won_label.setFont(Font.loadFont(Assets.SQUARED, 30));
+		layout.getChildren().add(won_label);
 	}
 	
 }

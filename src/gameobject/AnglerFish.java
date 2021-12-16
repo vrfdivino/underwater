@@ -49,6 +49,7 @@ public class AnglerFish extends GameObject{
 		for (int i = 0; i < 8; i++)	anglerfish_move_sprites[i] = new Image("/Enemy/Sprites/AnglerFish" + (i + 1) + ".png");
 		anglerfish_move = new AnimatedSprite(anglerfish_move_sprites, 12, position, size);
 		animation_player.addAnimation("MOVE", anglerfish_move);
+		animation_player.setRotation(rotation);
 	}
 	
 	private void setCollision() {

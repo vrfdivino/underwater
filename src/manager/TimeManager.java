@@ -1,5 +1,9 @@
 package manager;
 
+import java.util.ArrayList;
+
+import component.Timer;
+
 /**
  * Singleton Class
  * Handles managing time.
@@ -12,6 +16,8 @@ public class TimeManager {
 	private double delta_time = 0;
 	private double last_time = System.nanoTime();
 	private double time_elapsed = 0;
+	
+	private ArrayList<Timer> timer_list = new ArrayList<Timer>();
 	
 	private TimeManager() {}
 	
@@ -32,6 +38,32 @@ public class TimeManager {
 		setDeltaTime(current_time);
 		
 		time_elapsed += delta_time;
+		
+		ArrayList<Timer> timer_toremove = new ArrayList<Timer>();
+		for (Timer timer: timer_list) {
+			timer.update();
+			if (timer.isFinished()) {
+				timer_toremove.add(timer);
+			}
+		}
+		
+		if (!timer_toremove.isEmpty()) {
+			for (Timer timer: timer_toremove) {
+				timer_list.remove(timer);
+			}
+		}
+	}
+	
+	public void resetTimeElapsed() {
+		time_elapsed = 0;
+	}
+	
+	public void addTimer(Timer timer) {
+		timer_list.add(timer);
+	}
+	
+	public void clearTimerList() {
+		timer_list.removeAll(timer_list);
 	}
 	
 	public double getTimeElapsed() {
