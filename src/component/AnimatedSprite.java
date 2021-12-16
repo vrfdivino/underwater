@@ -1,85 +1,87 @@
 package component;
 
 import java.util.ArrayList;
-
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import manager.TimeManager;
 
 /**
- * Handles a single animation
- * @author Dave
- *
+ * Handles a single animation.
+ * It compiles sprite into single animation.
+ * 
+ * @author Dave Jimenez
  */
+
 public class AnimatedSprite {
+	
+	/////////////////// PROPERTIES ///////////////////
+	
 	private TimeManager TIME_MANAGER = TimeManager.getInstance();
-	
-	private double fps = 12;
+	private double fps 		  = 12;
 	private int current_frame = 0;
-	private int frames = 0;
-	private double delta = 0;
-	
-	private boolean is_playing = false;
-	private boolean is_visible = true;
-	private boolean is_loop = true;
-	private boolean can_loop = true;
+	private int frames 	      = 0;
+	private double delta 	  = 0;
+	private double rotation   = 0;
+	private double alpha      = 1.0;
+	private boolean is_playing  = false;
+	private boolean is_visible  = true;
+	private boolean is_loop     = true;
+	private boolean can_loop    = true;
 	private boolean is_finished = false;
-	
-	private double alpha = 1.0;
-	
-	private Vector2 position = new Vector2();
-	private Vector2 size = new Vector2();
-	private Vector2 scale = new Vector2(1, 1);
-	private double rotation = 0;
-	private boolean is_hflip = false;
-	private boolean is_vflip = false;
+	private boolean is_hflip    = false;
+	private boolean is_vflip    = false;
+	private Vector2 position 		  = new Vector2();
+	private Vector2 size     		  = new Vector2();
+	private Vector2 scale             = new Vector2(1, 1);
 	private ArrayList<Image> textures = new ArrayList<Image>();
 	
 	/**
 	 * Creates a new AnimatedSprite.
-	 * @param textures ( Image[] ) An array of Image objects
-	 * @param fps ( int ) Determines the speed of the animation
-	 * @param x ( double )
-	 * @param y ( double )
-	 * @param width ( double )
-	 * @param height ( double )
-	 * @author Dave
+	 * A constructor that uses x and y coordinates.
+	 * 
+	 * @param textures An array of Image objects.
+	 * @param fps Determines the speed of the animation.
+	 * @param x Starting x position.
+	 * @param y Starting y position.
+	 * @param width The width of the sprite.
+	 * @param height The height of the sprite.
+	 * @author Dave Jimenez
 	 */
+	
 	public AnimatedSprite(Image[] textures, int fps, double x, double y, double width, double height) {
 		this.position.set(x, y);
 		this.size.set(width, height);
-		
 		this.frames = textures.length;
 		this.fps = fps;
-		for (int i = 0; i < textures.length; i++) {
-			this.textures.add(textures[i]);
-		}
+		for (int i = 0; i < textures.length; i++) this.textures.add(textures[i]);
 	}
 	
 	/**
 	 * Creates a new AnimatedSprite.
-	 * @param textures ( Image[] ) An array of Image objects
-	 * @param fps ( int ) Determines the speed of the animation
-	 * @param position ( Vector2 )
-	 * @param size ( Vector2 )
-	 * @author Dave
+	 * A constructor that uses vector.
+	 * 
+	 * @param textures An array of Image objects.
+	 * @param fps Determines the speed of the animation.
+	 * @param position Starting vector position.
+	 * @param size The vector size.
+	 * @author Dave Jimenez
 	 */
+	
 	public AnimatedSprite(Image[] textures, int fps, Vector2 position, Vector2 size) {
 		this.position.set(position);
 		this.size.set(size);
-
 		this.frames = textures.length;
 		this.fps = fps;
-		for (int i = 0; i < textures.length; i++) {
-			this.textures.add(textures[i]);
-		}	
+		for (int i = 0; i < textures.length; i++) this.textures.add(textures[i]);
 	}
 	
 	/**
-	 * Stops the AnimatedSprite and resets current frame to the first frame.
-	 * @author Dave
+	 * Stops the Animated and resets current frame to the first frame.
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	public void stop() {
 		is_playing = false;
 		can_loop = true;
@@ -89,8 +91,10 @@ public class AnimatedSprite {
 	
 	/**
 	 * Starts the AnimatedSprite at the specified frame. Defaults at the first frame.
-	 * @author Dave
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	public void start() {
 		if (!is_playing) {
 			is_playing = true;
@@ -102,9 +106,11 @@ public class AnimatedSprite {
 	
 	/**
 	 * Starts the AnimatedSprite at the specified frame. Defaults at the first frame.
-	 * @param frame ( int )
+	 * 
+	 * @param frame The fps to be rendered.
 	 * @author Dave
 	 */
+	
 	public void start(int frame) {
 		if (!is_playing) {
 			is_playing = true;
@@ -112,20 +118,21 @@ public class AnimatedSprite {
 			current_frame = frame;
 		}		
 	}
+	
 	/**
 	 * Renders the AnimatedSprite into the Canvas.
-	 * @param gc ( GraphicsContext )
-	 * @author Dave
+	 * 
+	 * @param gc The graphics context of the canvas.
+	 * @author Dave Jimenez
 	 */
+	
 	public void render(GraphicsContext gc) {
 		if (can_loop) {
 			double _x_offset;
 			double _y_offset;
 			double _x_scale_factor;
 			double _y_scale_factor;
-			
-			//Flips the Image accordingly
-			if (isHflip()) {
+			if (isHflip()) { //Flips the Image accordingly
 				_x_offset = this.size.x;
 				_x_scale_factor = -1;
 			}
@@ -142,24 +149,29 @@ public class AnimatedSprite {
 				_y_offset = 0;
 				_y_scale_factor = 1;
 			}
-			
 			gc.setGlobalAlpha(alpha);
 			gc.save();
 			gc.rotate(rotation);
-			//Draws the Image if Visible
-			if (is_visible) {
-				gc.drawImage(textures.get(current_frame), 
-						position.x + _x_offset - size.x/2, position.y + _y_offset - size.y/2, 
-						size.x * scale.x * _x_scale_factor, size.y * scale.y * _y_scale_factor);
+			if (is_visible) { //Draws the Image if Visible
+				gc.drawImage(
+						textures.get(current_frame), 
+						position.x + _x_offset - size.x/2, 
+						position.y + _y_offset - size.y/2, 
+						size.x * scale.x * _x_scale_factor, 
+						size.y * scale.y * _y_scale_factor);
 			}
-			
 			gc.restore();
 			gc.setGlobalAlpha(1.0);
 		}
 		playFrames();
 	}
 	
-	//Increments the frames
+	/**
+	 * Play the frames of the AnimatedSprite.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	private void playFrames() {
 		if (is_playing) {
 			delta += fps * TIME_MANAGER.getDeltaTime();
@@ -167,7 +179,6 @@ public class AnimatedSprite {
 			if (current_frame >= frames) {
 				current_frame = 0;
 				delta = 0;
-				
 				if (!is_loop) {
 					can_loop = false;
 					is_finished = true;
@@ -177,121 +188,41 @@ public class AnimatedSprite {
 		}
 	}
 	
-	//Setters
-	public void setPosition(double x, double y) {
-		this.position.set(x, y);
-	}
+	/////////////////// GETTERS ///////////////////
 	
-	public void setPosition(Vector2 position) {
-		this.position.set(position.x, position.y);
-	}
+	public Vector2 getPosition() {return position;}
+	public Vector2 getSize() {return size;}
+	public Vector2 getScale() {return scale;}
+	public double getRotation() {return rotation;}
+	public int getFrames() {return frames;}
+	public int getCurrentFrame() {return current_frame;}
+	public boolean isPlaying() {return is_playing;}
+	public boolean isVisible() {return is_visible;}
+	public boolean isHflip() {return is_hflip;}
+	public boolean isVflip() {return is_vflip;}
+	public double getAlpha() {return alpha;}
+	public boolean canLoop() {return can_loop;}
+	public boolean isFinished() {return is_finished;}
 	
-	public void setSize(double width, double height) {
-		this.size.set(width, height);
-	}
+	/////////////////// SETTERS ///////////////////
 	
-	public void setSize(Vector2 size) {
-		this.size.set(size.x, size.y);
-	}
-	
-	public void setScale(double scale_width, double scale_height) {
-		this.scale.set(scale_width, scale_height);	
-	}
-	
-	public void setScale(Vector2 scale) {
-		this.scale.set(scale.x, scale.y);
-	}
-	
-	public void setRotation(double rotation) {
-		this.rotation = rotation;
-	}
-	
-	/**
-	 * Specifies the set of Images to play in the animation.
-	 * @param textures ( Image[] )
-	 * @author Dave
-	 */
+	public void setPosition(double x, double y) {this.position.set(x, y);}
+	public void setPosition(Vector2 position) {this.position.set(position.x, position.y);}
+	public void setSize(double width, double height) {this.size.set(width, height);}
+	public void setSize(Vector2 size) {this.size.set(size.x, size.y); }
+	public void setScale(double scale_width, double scale_height) {this.scale.set(scale_width, scale_height);}
+	public void setScale(Vector2 scale) {this.scale.set(scale.x, scale.y);}
+	public void setRotation(double rotation) {this.rotation = rotation;}
+	public void setFPS(int fps) {this.fps = fps;}
+	public void setVisible(boolean is_visible) {this.is_visible = is_visible;}
+	public void setHFlip(boolean is_hflip) {this.is_hflip = is_hflip;}
+	public void setVFlip(boolean is_vflip) {this.is_vflip = is_vflip;}
+	public void setAlpha(double alpha) {this.alpha = alpha;}
+	public void setLoop(boolean is_loop) {this.is_loop = is_loop;}
 	public void setTextures(Image[] textures) {
 		this.frames = textures.length;
 		for (int i = 0; i < textures.length; i++) {
 			this.textures.add(textures[i]);
 		}	
-	}
-	
-	public void setFPS(int fps) {
-		this.fps = fps;
-	}
-	
-	public void setVisible(boolean is_visible) {
-		this.is_visible = is_visible;
-	}
-	
-	public void setHFlip(boolean is_hflip) {
-		this.is_hflip = is_hflip;
-	}
-	
-	public void setVFlip(boolean is_vflip) {
-		this.is_vflip = is_vflip;
-	}
-	
-	public void setAlpha(double alpha) {
-		this.alpha = alpha;
-	}
-	
-	public void setLoop(boolean is_loop) {
-		this.is_loop = is_loop;
-	}
-	
-	//Getters
-	public Vector2 getPosition() {
-		return position;
-	}
-	
-	public Vector2 getSize() {
-		return size;
-	}
-	
-	public Vector2 getScale() {
-		return scale;
-	}
-	
-	public double getRotation() {
-		return rotation;
-	}
-	
-	public int getFrames() {
-		return frames;
-	}
-	
-	public int getCurrentFrame() {
-		return current_frame;
-	}
-	
-	public boolean isPlaying() {
-		return is_playing;
-	}
-	
-	public boolean isVisible() {
-		return is_visible;
-	}
-	
-	public boolean isHflip() {
-		return is_hflip;
-	}
-	
-	public boolean isVflip() {
-		return is_vflip;
-	}
-	
-	public double getAlpha() {
-		return alpha;
-	}
-	
-	public boolean canLoop() {
-		return can_loop;
-	}
-	
-	public boolean isFinished() {
-		return is_finished;
 	}
 }
