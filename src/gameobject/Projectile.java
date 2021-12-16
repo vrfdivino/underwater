@@ -10,6 +10,12 @@ import javafx.scene.image.Image;
 import main.GameStage;
 import parentclass.GameObject;
 
+/**
+ * The weapon shoots by the player.
+ * It inherits the base properties and methods from the GameObject.
+ * 
+ * @author Von Divino
+ */
 public class Projectile extends GameObject {
 	
 	
@@ -18,63 +24,91 @@ public class Projectile extends GameObject {
 	public static int DIVER_X_OFFSET = 100;
 	public static int DIVER_Y_OFFSET = 450 + 320;
 	public static int SPEED = 10;
+	public static int STARTING_ROT = 0;
 	
 	private AnimatedSprite projectile_sprite;
 	private GameObject parent;
-	private boolean isReleased;
+	private boolean is_released = false;
 	
-	public Projectile(GameObject _parent) {
-		parent = _parent;
-		isReleased = false;
-		setTransformations(/*x, y*/);
+	/**
+	 * Creates a new weapon object.
+	 * 
+	 * @param parent The parent object to be attached.
+	 * @author Von Divino
+	 */
+	
+	public Projectile(GameObject parent) {
+		this.parent = parent;
+		setTransformations();
 		setSpritesAndAnimations();
 		setCollision();
 	}
 	
-	private void setTransformations(/*double x, double y*/) {
+	/**
+	 * Set the starting position and size of the weapon.
+	 * 
+	 * @author Von Divino
+	 */
+	
+	private void setTransformations() {
 		size.set(Projectile.HEIGHT, Projectile.WIDTH);
-		rotation = 0;
+		rotation = Projectile.STARTING_ROT;
 		setPositionWithParent();
 	}
 	
+	/**
+	 * Set the sprite and animation for the weapon.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	private void setSpritesAndAnimations() {
 		animation_player = new AnimationPlayer();
-
 		projectile_sprite = new AnimatedSprite(new Image[] {new Image("/Game/Spear.png")}, 1, position, size);
-		
 		animation_player.addAnimation("IDLE", projectile_sprite);
 	}
 	
+	/**
+	 * Update the state of the weapon.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	@Override
 	public void update(GraphicsContext gc) {
-		
 		getInput();
-		setShootPosition();
 		updateCollision();
 		render(gc);
-		
-
 	}
 	
+	/**
+	 * Describe how to render a weapon object.
+	 * 
+	 * @param gc The graphics context from the canvas.
+	 * @author Von Divino
+	 */
+	
 	private void render(GraphicsContext gc) {
-
 		animation_player.playAnimation("IDLE");
-		if(!isReleased) {
+		if(!is_released) {
 			setPositionWithParent();
 			animation_player.setPosition(position);	
 		} else {
-			setShootPosition();
+			setReleasePosition();
 		}
-		
 		if (!collision.isColliding()) {
-//			collision.renderCollision(gc);
 		} else {
 			System.out.println("colliding");
 			destroyCollidingObjects();
 		}
-		
 		animation_player.render(gc);
 	}
+	
+	/**
+	 * Stick the weapon position relative to the parent.
+	 * 
+	 * @author Von Divino
+	 */
 	
 	private void setPositionWithParent() {
 		double x = parent.getPosition().x + Projectile.DIVER_X_OFFSET;
@@ -82,24 +116,38 @@ public class Projectile extends GameObject {
 		position.set(x, y);
 	}
 	
+	/**
+	 * Get the input press by the user.
+	 * Only handles the SPACE key.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	private void getInput() {
-		if(INPUT_MANAGER.pressedInt("SPACE") == 1) {
-			isReleased = true;
+		if(INPUT_MANAGER.pressedInt("SPACE") == 1) is_released = true;
+	}
+	
+	/**
+	 * Set the position when the weapon is being released.
+	 * 
+	 * @author Von Divino
+	 */
+	
+	private void setReleasePosition() {
+		if(position.x < GameStage.WINDOW_WIDTH + Projectile.DIVER_X_OFFSET) {
+			position.x += Projectile.SPEED;
+			animation_player.setPosition(position);
+		} else {
+			parent.setChild(new Projectile(parent));
+			destroy();
 		}
 	}
 	
-	// TODO: Set destruction here, if not memory leak behind the scenes will occur but still OK
-	private void setShootPosition() {
-		if(isReleased) {
-			if(position.x < GameStage.WINDOW_WIDTH + Projectile.DIVER_X_OFFSET) {
-				position.x += Projectile.SPEED;
-				animation_player.setPosition(position);
-			} else {
-				parent.setChild(new Projectile(parent));
-			}
-		}
-		
-	}
+	/**
+	 * Set the collision object attach to the weapon.
+	 * 
+	 * 	@author Von Divino
+	 */
 	
 	private void setCollision() {
 		collision.setCollide(true);
@@ -108,23 +156,30 @@ public class Projectile extends GameObject {
 		collision.setCollisions(new String[] {AnglerFish.class.getName()});
 	}
 	
+	/**
+	 * Update the position of the collision object.
+	 * 
+	 * 	@author Von Divino
+	 */
+	
 	private void updateCollision() {
 		collision.setPosition(position);
 	}
 	
+	/**
+	 * Destroy the objects that collides with the weapon.
+	 * 
+	 * 	@author Dave Jimenez
+	 */
+	
 	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
-		
 		for (GameObject other: collision.getOverlaps()) {
 			toremove_list.add(other);
-			System.out.println(other);
 		}
-
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
-			
-			// only destroy if fish
-			// just a test, angler fish's hp should be deducted
+			// destroy fish immediately
 			if(other instanceof AnglerFish) {
 				other.destroy();
 			}
