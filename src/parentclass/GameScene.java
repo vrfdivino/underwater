@@ -53,6 +53,12 @@ public abstract class GameScene implements RunnableObject{
 			// below condition is not final, it should be random, not every spawn
 			// just a simulation
 			object.update(gc);
+			
+			GameObject obj = (GameObject) object;
+			if(obj.getChild() != null) {
+				obj.getChild().update(gc);
+			}
+			
 		}
 	}
 	
@@ -96,6 +102,9 @@ public abstract class GameScene implements RunnableObject{
 					GameObject other = (GameObject) another_object;
 					if (other != game_object) {
 						game_object.collidesWith(other);
+					}
+					if (game_object.getChild() != null && game_object.getChild() != game_object) {
+						game_object.getChild().collidesWith(other);
 					}
 				}
 			}

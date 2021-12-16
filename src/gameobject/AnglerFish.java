@@ -55,7 +55,11 @@ public class AnglerFish extends GameObject{
 		collision.setCollide(true);
 		collision.setOrigin(new Vector2(-(size.x/2) + 40, -(size.y/2) + 60));
 		collision.setSize(new Vector2(140, 140));
-		collision.setCollisions(new String[] {Player.class.getName()});
+		
+		String[] collisions_objs = new String[2];
+		collisions_objs[0] = Player.class.getName();
+		collisions_objs[1] = Projectile.class.getName();
+		collision.setCollisions(collisions_objs);
 	}
 	
 	public void setSpeed(int newSpeed) {
@@ -78,7 +82,7 @@ public class AnglerFish extends GameObject{
 		animation_player.setPosition(position);
 		animation_player.render(gc);
 		if (!collision.isColliding()) {
-			//collision.renderCollision(gc);
+			collision.renderCollision(gc);
 		} else {
 			// deduct strength of the player 
 			PLAYER_MANAGER.setStrength(-AnglerFish.DAMAGE);

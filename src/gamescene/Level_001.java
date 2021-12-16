@@ -8,6 +8,7 @@ import constants.Assets;
 import datatype.Vector2;
 import gameobject.AnglerFish;
 import gameobject.Player;
+import gameobject.Projectile;
 import gui.MenuButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -59,7 +60,6 @@ public class Level_001 extends GameScene{
 	@Override
 	protected void initObjectProperties() {
 		player = new Player(100, -450);
-		
 		runnable_object_list.add(player);
 		spawnInitialEnemies();
 		

@@ -34,6 +34,7 @@ public class Player extends GameObject{
 		setTransformations(x, y);
 		setSpritesAndAnimations();
 		setCollision();
+		setChild(new Projectile(this));
 		
 		SFX_MANAGER.addAudioPlayer("HIT", new AudioPlayer(Assets.HIT));
 	}
@@ -194,5 +195,11 @@ public class Player extends GameObject{
 		if (animation_player.getAnimation("HIT").isPlaying()) animation_player.playAnimation("HIT");
 		else if (velocity.x == 0 && velocity.y == 0) animation_player.playAnimation("IDLE");
 		else animation_player.playAnimation("MOVE");
+	}
+	
+	public void setChild(GameObject _child) {
+		child = _child;
+		System.out.println(child);
+		System.out.println("hello");
 	}
 }
