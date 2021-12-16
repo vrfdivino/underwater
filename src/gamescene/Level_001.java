@@ -58,14 +58,17 @@ public class Level_001 extends GameScene{
 		PLAYER_MANAGER.reset();
 		initTimer();
 		
+		
+		initSpawner();
+		
 	}
 	
 	@Override
 	protected void initObjectProperties() {
 		player = new Player(100, -450);
 		runnable_object_list.add(player);
-		spawnInitialEnemies();
 		
+		spawnInitialEnemies();
 	}
 	
 	@Override
@@ -275,22 +278,7 @@ public class Level_001 extends GameScene{
 		hp_label.setText(String.valueOf(PLAYER_MANAGER.getHp()));
 	}
 	
-	/**
-	 * 
-	 * TODO:
-	 * Character should be changed.
-	 * 
-	 * @author vondivino
-	 */
-	private void spawnInitialEnemies() {
-		Random _r = new Random();
-		for(int i = 0; i < 7; i++) {
-			int _x = _r.nextInt(800) + 200;
-			int _y = _r.nextInt(400) + 200;
-//			runnableObjectList.add(new AnglerFish(x,y));
-		}
-	}
-	
+
 	/**
 	 * 
 	 * Check if the game should be ended.
@@ -341,4 +329,29 @@ public class Level_001 extends GameScene{
 		timer.start();
 		TIME_MANAGER.addTimer(timer);
 	}
+	
+	
+	/************** FINAL ****/
+	
+	
+	
+	/**
+	 * Spawn initial small fish enemies.
+	 * 
+	 * @author Von Divino
+	 */
+	private void spawnInitialEnemies() {
+		GAME_MANAGER.spawnInitialEnemies(runnable_object_list);
+	}
+	
+	private void initSpawner() {
+		Timer spawner = new Timer(3);
+		spawner.setLoop(true);
+		spawner.onTimerTimeout(()->{
+		    for(int i = 0; i < 3; ++i) GAME_MANAGER.spawnEnemy(runnable_object_list);
+		 });
+		spawner.start();
+		TIME_MANAGER.addTimer(spawner);
+	}
+	
 } 

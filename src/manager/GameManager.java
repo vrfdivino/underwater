@@ -3,7 +3,9 @@ package manager;
 import java.util.ArrayList;
 import java.util.Random;
 
+import datatype.Vector2;
 import gameobject.AnglerFish;
+import gameobject.SmallFish;
 import javafx.scene.control.Label;
 import main.GameStage;
 import parentclass.GameObject;
@@ -50,25 +52,7 @@ public class GameManager {
 		spawn_boss = false;
 	}
 	
-	/**
-	 * 
-	 * TODO:
-	 * Spawn enemies enemies in the game.
-	 * To be called in Level_001.
-	 * 
-	 * @param runnableObjectList
-	 * @author vondivino
-	 */
-	public void spawnEnemy(ArrayList<RunnableObject> runnableObjectList) {
-		Random r = new Random();
-		for(int i = 0; i < 4; ++i) {			
-			int x = r.nextInt(800) + 200;
-			int y = r.nextInt(800) + 200;
-//			runnableObjectList.add(new AnglerFish(x, y));
-			//System.out.println("spawn enemies");
-		}
-		spawn = false;
-	}
+
 	
 	public boolean getSpawn() {
 		return spawn;
@@ -116,5 +100,41 @@ public class GameManager {
 	
 	public void setTimeLeft(int factor) {
 		time_left += factor;
+	}
+	
+	/****** FINAL ***/
+	
+	/**
+	 * Spawn starting fishes in the game.
+	 * 
+	 * @param list The list of all runnable objects.
+	 * @author Von Divino 
+	 */
+	public void spawnInitialEnemies(ArrayList<RunnableObject> list) {
+		for(int i = 0; i < 7; ++i) {
+			list.add(new SmallFish(randomizeVectorPosition()));
+		}
+	}
+	
+	/**
+	 * Spawn an enemy in the game.
+	 * 
+	 * @param list The list of all runnable objects.
+	 * @author vondivino
+	 */
+	public void spawnEnemy(ArrayList<RunnableObject> list) {
+		list.add(new SmallFish(randomizeVectorPosition()));
+	}
+	
+	/**
+	 * Randomize a vector position.
+	 * 
+	 * @return Vector2
+	 */
+	private Vector2 randomizeVectorPosition() {
+		Random r = new Random();
+		int x = r.nextInt((int) GameStage.WINDOW_WIDTH);
+		int y = r.nextInt((int) GameStage.WINDOW_HEIGHT);
+		return new Vector2(x, y);
 	}
 }

@@ -98,7 +98,6 @@ public class Projectile extends GameObject {
 		}
 		if (!collision.isColliding()) {
 		} else {
-			System.out.println("colliding");
 			destroyCollidingObjects();
 		}
 		animation_player.render(gc);
@@ -153,7 +152,10 @@ public class Projectile extends GameObject {
 		collision.setCollide(true);
 		collision.setOrigin(new Vector2(-(size.x/2) + 20, -(size.y/2) + 10));
 		collision.setSize( new Vector2(64, 20));
-		collision.setCollisions(new String[] {AnglerFish.class.getName()});
+		String[] collisions_objs = new String[2];
+		collisions_objs[0] = SmallFish.class.getName();
+		collisions_objs[1] = AnglerFish.class.getName();
+		collision.setCollisions(collisions_objs);
 	}
 	
 	/**
@@ -176,11 +178,12 @@ public class Projectile extends GameObject {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collision.getOverlaps()) {
 			toremove_list.add(other);
+			System.out.println(other);
 		}
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
 			// destroy fish immediately
-			if(other instanceof AnglerFish) {
+			if(other instanceof SmallFish) {
 				other.destroy();
 			}
 		}
