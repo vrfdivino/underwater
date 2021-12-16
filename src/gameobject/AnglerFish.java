@@ -1,5 +1,7 @@
 package gameobject;
 
+import java.util.ArrayList;
+
 import component.AnimatedSprite;
 import component.AnimationPlayer;
 import component.Timer;
@@ -129,15 +131,7 @@ public class AnglerFish extends GameObject {
 		if (!collision.isColliding()) {
 			collision.renderCollision(gc);
 		} else {
-			// TODO:
-			
-			// if collides with the player, deduct the hp of the player
-		
-			for(GameObject obj: collision.getOverlaps()) {
-				if(obj instanceof Player) {
-					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
-				} 
-			}
+			destroyCollidingObjects();
 		}
 	}
 	
@@ -184,6 +178,30 @@ public class AnglerFish extends GameObject {
 	private void checkIfDead() {
 		if(hp == 0) {
 			destroy();
+		}
+	}
+	
+	private void destroyCollidingObjects() {
+		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
+		for (GameObject other: collision.getOverlaps()) {
+			toremove_list.add(other);
+//			System.out.println(other);
+		}
+		for (GameObject other: toremove_list) {
+			collision.removeOverlap(other);
+			// destroy bullet when hit
+			if(other instanceof Projectile) {
+				Projectile proj = (Projectile) other;
+				if(proj.getIsReleased()) {
+//					other.destroy();	
+				}
+			} else if(other instanceof Player) {
+				Player player = (Player) other;
+				if(player.getCanAbsorb()) {
+					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
+					player.setCanAbsorb(false);
+				}		
+			}
 		}
 	}
 	

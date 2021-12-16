@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
+import component.Timer;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -23,13 +24,15 @@ public class Projectile extends GameObject {
 	public static int WIDTH = 20;
 	public static int DIVER_X_OFFSET = 100;
 	public static int DIVER_Y_OFFSET = 450 + 320;
-	public static int SPEED = 10;
+	public static int SPEED = 14;
 	public static int STARTING_ROT = 0;
 	public static int DAMAGE = 20;
+	public static double DELAY = 0.1d;
 	
 	private AnimatedSprite projectile_sprite;
-	private GameObject parent;
 	private boolean is_released = false;
+	private Player ref;
+	private Timer timer;
 	
 	/**
 	 * Creates a new weapon object.
@@ -38,11 +41,12 @@ public class Projectile extends GameObject {
 	 * @author Von Divino
 	 */
 	
-	public Projectile(GameObject parent) {
-		this.parent = parent;
-		setTransformations();
+	public Projectile(Player ref /* double x, double y */) {
+		setRef(ref);
+		setTransformations(/*x, y*/);
 		setSpritesAndAnimations();
 		setCollision();
+		setTimer();
 	}
 	
 	/**
@@ -51,10 +55,10 @@ public class Projectile extends GameObject {
 	 * @author Von Divino
 	 */
 	
-	private void setTransformations() {
+	private void setTransformations(/*double x, double y*/) {
 		size.set(Projectile.HEIGHT, Projectile.WIDTH);
 		rotation = Projectile.STARTING_ROT;
-		setPositionWithParent();
+		position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
 	}
 	
 	/**
@@ -67,6 +71,15 @@ public class Projectile extends GameObject {
 		animation_player = new AnimationPlayer();
 		projectile_sprite = new AnimatedSprite(new Image[] {new Image("/Game/Spear.png")}, 1, position, size);
 		animation_player.addAnimation("IDLE", projectile_sprite);
+	}
+	
+	private void setTimer() {
+		timer = new Timer(Projectile.DELAY);
+		timer.setLoop(false);
+		timer.onTimerTimeout(()->{
+		    ref.setCanReload(true);
+		 });
+		TIME_MANAGER.addTimer(timer);
 	}
 	
 	/**
@@ -92,7 +105,7 @@ public class Projectile extends GameObject {
 	private void render(GraphicsContext gc) {
 		animation_player.playAnimation("IDLE");
 		if(!is_released) {
-			setPositionWithParent();
+			updatePosition();
 			animation_player.setPosition(position);	
 		} else {
 			setReleasePosition();
@@ -104,16 +117,8 @@ public class Projectile extends GameObject {
 		animation_player.render(gc);
 	}
 	
-	/**
-	 * Stick the weapon position relative to the parent.
-	 * 
-	 * @author Von Divino
-	 */
-	
-	private void setPositionWithParent() {
-		double x = parent.getPosition().x + Projectile.DIVER_X_OFFSET;
-		double y = parent.getPosition().y + Projectile.DIVER_Y_OFFSET;
-		position.set(x, y);
+	private void updatePosition() {
+		position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
 	}
 	
 	/**
@@ -124,7 +129,10 @@ public class Projectile extends GameObject {
 	 */
 	
 	private void getInput() {
-		if(INPUT_MANAGER.pressedInt("SPACE") == 1) is_released = true;
+		if(INPUT_MANAGER.pressedInt("SPACE") == 1) {
+			is_released = true;
+			timer.start();
+		}
 	}
 	
 	/**
@@ -138,7 +146,6 @@ public class Projectile extends GameObject {
 			position.x += Projectile.SPEED;
 			animation_player.setPosition(position);
 		} else {
-			parent.setChild(new Projectile(parent));
 			destroy();
 		}
 	}
@@ -183,7 +190,7 @@ public class Projectile extends GameObject {
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
 			// destroy fish immediately
-			if(other instanceof SmallFish) {
+			if(other instanceof SmallFish && is_released) {
 				other.destroy();
 			} else if(other instanceof AnglerFish) {
 				// if collides with the bullet, deduct its own life
@@ -193,5 +200,15 @@ public class Projectile extends GameObject {
 			}
 		}
 	}
-
+	
+	public void setRef(Player ref) {
+		this.ref = ref;
+	}
+	public Player getRef() {
+		return ref;
+	}
+	
+	public boolean getIsReleased() {
+		return is_released;
+	}
 }

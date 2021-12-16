@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import component.AnimatedSprite;
 import component.AnimationPlayer;
 import component.AudioPlayer;
+import component.Timer;
 import constants.Assets;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
@@ -38,6 +39,8 @@ public class Player extends GameObject{
 	
 	private double move_speed        = 10;
 	private double move_acceleration = 20;
+	private boolean can_reload = false;
+	private boolean can_absorb = true;
 	
 	private Vector2 direction = new Vector2();
 	private Vector2 velocity  = new Vector2();
@@ -54,7 +57,6 @@ public class Player extends GameObject{
 		setTransformations(x, y);
 		setSpritesAndAnimations();
 		setCollision();
-		setChild(new Projectile(this));
 		SFX_MANAGER.addAudioPlayer("HIT", new AudioPlayer(Assets.HIT));
 	}
 	
@@ -255,6 +257,8 @@ public class Player extends GameObject{
 	
 	public Vector2 getPosition() {return position;}
 	public Vector2 getVelocity() {return velocity;}
+	public boolean getCanReload() {return can_reload;}
+	public boolean getCanAbsorb() {return can_absorb;}
 	
 	/////////////////// SETTERS ///////////////////
 	
@@ -262,5 +266,15 @@ public class Player extends GameObject{
 	public void setPosition(Vector2 position) {this.position.set(position);}
 	public void setVelocity(double x, double y) {this.velocity.set(x, y);}
 	public void setVelocity(Vector2 velocity) {this.velocity.set(velocity);}
-	public void setChild(GameObject child) {this.child = child;}
+	public void setCanReload(boolean can_reload) {this.can_reload = can_reload;}
+	public void setCanAbsorb(boolean can_absorb) {
+		this.can_absorb = can_absorb;
+		Timer timer = new Timer(1);
+		timer.setLoop(false);
+		timer.onTimerTimeout(()->{
+		   this.can_absorb = true;
+		 });
+		timer.start();
+		TIME_MANAGER.addTimer(timer);
+	}
 }

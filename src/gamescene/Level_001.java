@@ -66,8 +66,9 @@ public class Level_001 extends GameScene{
 	@Override
 	protected void initObjectProperties() {
 		player = new Player(100, -450);
+		Projectile projectile = new Projectile(player);
 		runnable_object_list.add(player);
-		
+		runnable_object_list.add(projectile);
 		spawnInitialEnemies();
 	}
 	
@@ -182,12 +183,15 @@ public class Level_001 extends GameScene{
 		
 		spawnEnemy();
 		spawnBoss();
+		reloadProjectile();
 		
 		checkIfEndGame();
 		
 		limitPlayerMovement();
 		
 		pane.requestFocus();
+		System.out.println(PLAYER_MANAGER.getHp());
+		
 	}
 	@Override
 	protected void updateGUI() {
@@ -352,6 +356,14 @@ public class Level_001 extends GameScene{
 		 });
 		spawner.start();
 		TIME_MANAGER.addTimer(spawner);
+	}
+	
+	private void reloadProjectile() {
+		if(player.getCanReload() == true) {
+			Projectile new_projectile = new Projectile(player);
+			runnable_object_list.add(new_projectile);
+			player.setCanReload(false);
+		}
 	}
 	
 } 

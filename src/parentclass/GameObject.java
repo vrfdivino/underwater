@@ -28,8 +28,6 @@ public class GameObject implements RunnableObject {
 	protected Vector2 position = new Vector2();
 	protected double rotation = 0;
 	
-	protected GameObject child = null;
-	
 	protected boolean is_destroyed = false;
 	
 	public Collision getCollision() {
@@ -56,12 +54,6 @@ public class GameObject implements RunnableObject {
 	
 	public Vector2 getPosition() {
 		return position;
-	}
-	
-	public void setChild(GameObject child) {}
-	
-	public GameObject getChild() {
-		return child;
 	}
 	
 	@Override

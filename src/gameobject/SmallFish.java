@@ -144,6 +144,7 @@ public class SmallFish extends GameObject{
 		animation_player.setPosition(position);
 		animation_player.render(gc);
 		if (!collision.isColliding()) {
+			collision.renderCollision(gc);
 		} else {
 			// deduct strength of the player 
 			// PLAYER_MANAGER.setStrength(-SmallFish.DAMAGE);
@@ -165,9 +166,10 @@ public class SmallFish extends GameObject{
 	
 	private void updatePosition() {
 		position.add(new Vector2(speed * dir_x * TIME_MANAGER.getDeltaTime(),0));
-		if (position.x < 0)	{
+		double gutter = GameStage.WINDOW_WIDTH/3-100;
+		if (position.x < gutter)	{
 			dir_x = 1;
-			position.x = 0;
+			position.x = gutter;
 			animation_player.setHFlip(true);
 			collision.setOrigin(new Vector2(-(size.x/2) + 70, -(size.y/2) + 60));
 		}
@@ -205,7 +207,16 @@ public class SmallFish extends GameObject{
 			collision.removeOverlap(other);
 			// destroy bullet when hit
 			if(other instanceof Projectile) {
-				other.destroy();
+				Projectile proj = (Projectile) other;
+				if(proj.getIsReleased()) {
+					other.destroy();	
+				}
+			} else if(other instanceof Player) {
+				Player player = (Player) other;
+				if(player.getCanAbsorb()) {
+					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - SmallFish.DAMAGE);
+					player.setCanAbsorb(false);
+				}		
 			}
 		}
 	}
