@@ -17,15 +17,12 @@ import runnableobject.RunnableObject;
  */
 public class GameManager {
 	
-	public static int STARTING_TIME = 60;
-	public static int SPAWN_NUM = 3;
-	public static int TIMEOUT_BEFORE_BOSS = 30;
 	
 	private static GameManager instance;
-	private int time_left = 60;
-	private int time_elapsed;
+	private int time_left;
+	int time_elapsed = 0;
 	private int spawn_interval = 5;
-	private int next_spawn = time_left - spawn_interval;
+	private int next_spawn = 60 - spawn_interval;
 	private boolean spawn = false;
 	private boolean spawn_boss = false;
 	
@@ -40,31 +37,7 @@ public class GameManager {
 		
 		return instance;
 	}
-	
-	/**
-	 * 
-	 * This should be called in the GameScene (a required method).
-	 * 
-	 * @param time_elapsed
-	 */
-	public void updateTimer(int time_elapsed) {
-		
-		if (this.time_elapsed != time_elapsed) {
-			--this.time_left;
-			this.time_elapsed = time_elapsed;
-			if(this.time_left == this.next_spawn) {
-				this.next_spawn -= this.spawn_interval;
-				this.spawn = true;
-			} else {
-				this.spawn = false;
-			}
-		}
-	}
-	
-	public int getTimeLeft() {
-		return time_left;
-	}
-	
+
 	/**
 	 * 
 	 * Reset the game manager instance.
@@ -72,9 +45,8 @@ public class GameManager {
 	 * @author vondivino
 	 */
 	public void reset() {
-		time_left = GameManager.STARTING_TIME;
-		time_elapsed = 0;
-		next_spawn = time_left - spawn_interval;
+		time_left = 60;
+		next_spawn = 60 - spawn_interval;
 		spawn_boss = false;
 	}
 	
@@ -89,7 +61,7 @@ public class GameManager {
 	 */
 	public void spawnEnemy(ArrayList<RunnableObject> runnableObjectList) {
 		Random r = new Random();
-		for(int i = 0; i < GameManager.SPAWN_NUM; ++i) {			
+		for(int i = 0; i < 4; ++i) {			
 			int x = r.nextInt(800) + 200;
 			int y = r.nextInt(800) + 200;
 //			runnableObjectList.add(new AnglerFish(x, y));
@@ -136,5 +108,13 @@ public class GameManager {
 	
 	public boolean getSpawnBoss() {
 		return spawn_boss;
+	}
+	
+	public int getTimeLeft() {
+		return time_left;
+	}
+	
+	public void setTimeLeft(int factor) {
+		time_left += factor;
 	}
 }

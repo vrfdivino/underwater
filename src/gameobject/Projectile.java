@@ -67,8 +67,7 @@ public class Projectile extends GameObject {
 		}
 		
 		if (!collision.isColliding()) {
-			collision.renderCollision(gc);
-			System.out.println("not colliding");
+//			collision.renderCollision(gc);
 		} else {
 			System.out.println("colliding");
 			destroyCollidingObjects();
@@ -89,7 +88,7 @@ public class Projectile extends GameObject {
 		}
 	}
 	
-	// TODO: Set destruction here, if not memory leak behind the scenes but still OK
+	// TODO: Set destruction here, if not memory leak behind the scenes will occur but still OK
 	private void setShootPosition() {
 		if(isReleased) {
 			if(position.x < GameStage.WINDOW_WIDTH + Projectile.DIVER_X_OFFSET) {

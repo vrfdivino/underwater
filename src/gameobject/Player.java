@@ -58,14 +58,6 @@ public class Player extends GameObject{
 		size.set(256, 1696);
 		rotation = 0;
 		position.set(x, y);
-		
-		timer = new Timer(3);
-		timer.onTimerTimeout(()->{
-			System.out.println(position.x);
-		});
-		timer.setLoop(true);
-		timer.start();
-		TIME_MANAGER.addTimer(timer);
 	}
 	//Setters
 	private void setCollision() {
@@ -208,7 +200,5 @@ public class Player extends GameObject{
 	
 	public void setChild(GameObject _child) {
 		child = _child;
-		System.out.println(child);
-		System.out.println("hello");
 	}
 }

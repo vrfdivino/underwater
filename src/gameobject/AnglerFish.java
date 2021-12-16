@@ -4,6 +4,7 @@ import java.util.Random;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
+import component.Timer;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -21,6 +22,7 @@ public class AnglerFish extends GameObject{
 	private int dir_x = -1;
 	
 	private int speed = 125;
+	private Timer timer;
 	
 	public AnglerFish(double x, double y) {
 		setTransformations(x, y);
@@ -83,7 +85,7 @@ public class AnglerFish extends GameObject{
 		animation_player.setPosition(position);
 		animation_player.render(gc);
 		if (!collision.isColliding()) {
-			collision.renderCollision(gc);
+//			collision.renderCollision(gc);
 		} else {
 			// deduct strength of the player 
 			PLAYER_MANAGER.setStrength(-AnglerFish.DAMAGE);

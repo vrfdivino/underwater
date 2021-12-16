@@ -4,6 +4,7 @@ import java.util.Random;
 
 import component.AnimatedSprite;
 import component.AudioPlayer;
+import component.Timer;
 import constants.Assets;
 import datatype.Vector2;
 import gameobject.AnglerFish;
@@ -39,6 +40,7 @@ public class Level_001 extends GameScene{
 	private Label hp_label;
 	private Label score_label;
 	private MenuButton back_button;	
+	private Timer timer;
 
 	public Level_001(GameStage gameStage){
 		
@@ -54,6 +56,7 @@ public class Level_001 extends GameScene{
 		TIME_MANAGER.resetTimeElapsed();
 		GAME_MANAGER.reset();
 		PLAYER_MANAGER.reset();
+		initTimer();
 		
 	}
 	
@@ -170,7 +173,6 @@ public class Level_001 extends GameScene{
 		
 		updateGUI();
 		updateObjects();
-		updateTimer();
 		
 		checkObjectCollisions();
 		checkDestroyedObjects();
@@ -248,7 +250,6 @@ public class Level_001 extends GameScene{
 		} else {
 			timer_label.setText("00:0" + _time_left);
 		}
-		
 	}
 	
 	/**
@@ -325,10 +326,19 @@ public class Level_001 extends GameScene{
 	 * @author vondivino
 	 */
 	private void spawnBoss() {
-		if(GAME_MANAGER.getTimeLeft() == GameManager.STARTING_TIME - GameManager.TIMEOUT_BEFORE_BOSS && !GAME_MANAGER.getSpawnBoss()) {
+		if(GAME_MANAGER.getTimeLeft() ==( 60 - 30) && !GAME_MANAGER.getSpawnBoss()) {
 			GAME_MANAGER.spawnBoss(runnable_object_list);
 			GAME_MANAGER.setSpawnBoss(true);
 		} 
-		
+	}
+	
+	private void initTimer() {
+		timer = new Timer(1);
+		timer.setLoop(true);
+		timer.onTimerTimeout(()->{
+		    GAME_MANAGER.setTimeLeft(-1);
+		 });
+		timer.start();
+		TIME_MANAGER.addTimer(timer);
 	}
 } 

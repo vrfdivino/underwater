@@ -133,10 +133,6 @@ public abstract class GameScene implements RunnableObject{
 	 */
 	public abstract void onExit();
 	
-	protected void updateTimer() {
-		GAME_MANAGER.updateTimer((int) TIME_MANAGER.getTimeElapsed());
-	}
-	
 	//Getters
 	public Scene getScene(){
 		return scene;
