@@ -17,8 +17,10 @@ import parentclass.GameObject;
  * 
  * @author Von Divino
  */
+
 public class Projectile extends GameObject {
 	
+	/////////////////// PROPERTIES ///////////////////
 	
 	public static int HEIGHT = 64;
 	public static int WIDTH = 20;
@@ -118,7 +120,8 @@ public class Projectile extends GameObject {
 	}
 	
 	private void updatePosition() {
-		position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
+		position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, 
+				ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
 	}
 	
 	/**
@@ -201,14 +204,12 @@ public class Projectile extends GameObject {
 		}
 	}
 	
-	public void setRef(Player ref) {
-		this.ref = ref;
-	}
-	public Player getRef() {
-		return ref;
-	}
+	/////////////////// GETTERS ///////////////////
 	
-	public boolean getIsReleased() {
-		return is_released;
-	}
+	public Player getRef() {return ref;}
+	public boolean getIsReleased() {return is_released;}
+	
+	/////////////////// SETTERS ///////////////////
+	
+	public void setRef(Player ref) {this.ref = ref;}
 }

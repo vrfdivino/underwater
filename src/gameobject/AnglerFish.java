@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
-import component.Timer;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -181,11 +180,16 @@ public class AnglerFish extends GameObject {
 		}
 	}
 	
+	/**
+	 * A method to define the side effects when colliding with other objects.
+	 * 
+	 * @author Dave Jimenez, Von Divino
+	 */
+	
 	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collision.getOverlaps()) {
 			toremove_list.add(other);
-//			System.out.println(other);
 		}
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);

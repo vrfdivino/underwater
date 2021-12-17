@@ -12,6 +12,13 @@ import javafx.scene.image.Image;
 import main.GameStage;
 import parentclass.GameObject;
 
+/**
+ * The small fish enemies.
+ * It inherits the base properties and methods from the GameObject.
+ * 
+ * @author Von Divino
+ */
+
 public class SmallFish extends GameObject{
 	
 	/////////////////// PROPERTIES ///////////////////
