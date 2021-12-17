@@ -10,6 +10,7 @@ import datatype.Vector2;
 import gameobject.AnglerFish;
 import gameobject.Player;
 import gameobject.Projectile;
+import gameobject.SpikeBall;
 import gui.MenuButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,6 +35,7 @@ public class Level_001 extends GameScene{
 	private AnimatedSprite background;
 	private double bg_scroll_speed = 36;
 	private Player player;
+	private AnglerFish boss;
 	
 	private BorderPane pane;
 	private Label timer_label;
@@ -56,16 +58,14 @@ public class Level_001 extends GameScene{
 		TIME_MANAGER.resetTimeElapsed();
 		GAME_MANAGER.reset();
 		PLAYER_MANAGER.reset();
-		initTimer();
-		
-		
 		initSpawner();
-		
+		initBossSpawner();
 	}
 	
 	@Override
 	protected void initObjectProperties() {
 		player = new Player(100, -450);
+		boss = new AnglerFish(1200, 400);
 		Projectile projectile = new Projectile(player);
 		runnable_object_list.add(player);
 		runnable_object_list.add(projectile);
@@ -181,8 +181,8 @@ public class Level_001 extends GameScene{
 		checkObjectCollisions();
 		checkDestroyedObjects();
 		
-		spawnEnemy();
-		spawnBoss();
+//		spawnEnemy();
+//		spawnBoss();
 		reloadProjectile();
 		
 		checkIfEndGame();
@@ -358,12 +358,45 @@ public class Level_001 extends GameScene{
 		TIME_MANAGER.addTimer(spawner);
 	}
 	
+	private void initBossSpawner() {
+		Timer boss_spawner = new Timer(5);
+		boss_spawner.setLoop(true);
+		boss_spawner.onTimerTimeout(()->{
+			if(boss.getCanRelease()) {
+			    SpikeBall spike_ball = new SpikeBall(boss);
+			    runnable_object_list.add(spike_ball);
+			    releaseSpikeBall(spike_ball);
+			    boss.setCanRelease(false);
+			}
+		    if(!boss.getSpawn()) {
+		    	runnable_object_list.add(boss);
+		    	boss.setSpawn(true);
+		    }
+		 });
+		boss_spawner.start();
+		TIME_MANAGER.addTimer(boss_spawner);
+	}
+	
+	
 	private void reloadProjectile() {
 		if(player.getCanReload() == true) {
 			Projectile new_projectile = new Projectile(player);
 			runnable_object_list.add(new_projectile);
 			player.setCanReload(false);
 		}
+	}
+	
+	private void releaseSpikeBall(SpikeBall sb) {
+		Timer releaser = new Timer(5);
+		releaser.setLoop(true);
+		releaser.onTimerTimeout(()->{
+			if(boss.getDir() < 0) {
+				sb.setRelease(true);
+				boss.setCanRelease(true);
+			}
+		 });
+		releaser.start();
+		TIME_MANAGER.addTimer(releaser);
 	}
 	
 } 

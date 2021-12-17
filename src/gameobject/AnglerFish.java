@@ -29,6 +29,8 @@ public class AnglerFish extends GameObject {
 	private int dir_x = -1;
 	private int speed = 125;
 	private int hp = AnglerFish.HP;
+	private boolean is_spawn = false;
+	private boolean can_release = true;
 	
 	/**
 	 * Creates a new boss fish object.
@@ -210,5 +212,10 @@ public class AnglerFish extends GameObject {
 	}
 	
 	public int getHP() {return this.hp;}
+	public boolean getSpawn() {return is_spawn;}
+	public int getDir() {return dir_x;}
+	public boolean getCanRelease() { return can_release;}
 	public void setHP(int hp) {this.hp = hp;}
+	public void setSpawn(boolean spawn) {this.is_spawn = spawn;}
+	public void setCanRelease(boolean release) {this.can_release = release;}
 }
