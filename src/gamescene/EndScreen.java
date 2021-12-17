@@ -4,47 +4,38 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-
-import java.util.ArrayList;
-
 import component.AnimatedSprite;
 import constants.Assets;
 import constants.Layout;
-import datatype.Vector2;
 import gui.MenuButton;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import main.GameStage;
 import parentclass.GameScene;
-import services.Data;
 import services.Database;
 import services.GameDB;
-import services.PlayerData;
-import constants.Content;
+
+/**
+ * The End screen.
+ * Inherits all the props and methods in GameScene.
+ * 
+ * @author Von Divino
+ */
 
 public class EndScreen extends GameScene {
+	
+	/////////////////// PROPERTIES ///////////////////
+	
 	private BorderPane root;
 	private VBox layout;
 	private MenuButton back_button;
@@ -54,6 +45,14 @@ public class EndScreen extends GameScene {
 	private Label won_label;
 	private GameDB db;
 	
+	/**
+	 * Create a new End screen.
+	 * 
+	 * @param gameStage The game stage.
+	 * @author Von Divino
+	 */
+	
+	
 	public EndScreen(GameStage gameStage) {
 		root   = new BorderPane();
 		scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
@@ -61,28 +60,25 @@ public class EndScreen extends GameScene {
 		gc     = canvas.getGraphicsContext2D();
 		screen_title = new Label();
 		won_label = new Label();
-		
 		this.game_stage = gameStage;
-		
 		db = new GameDB(Database.DEV_DB);
 	}
 	
-	@Override
-	protected void initOtherProperties() {}
-	@Override
-	protected void initObjectProperties() {}
-	@Override
-	protected void initAudioProperties() {}
-	@Override
-	public void onExit() {}
+	/**
+	 * Initialize GUI.
+	 * 
+	 * @author Von Divino
+	 */
 
 	@Override
 	protected void initGUIProperties() {
-		
 		background = Layout.STATIC_BACKGROUND;
 		title = Layout.STATIC_TITLE;
-	
-		back_button = new MenuButton(game_stage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
+		back_button = new MenuButton(game_stage, 
+				Assets.BACK_SELECTED, 
+				Assets.BACK_PRESSED,  
+				Assets.BACK_UNSELECTED,  
+				new SplashScreen(game_stage));
 		layout = new VBox();
 		
 		screen_title.setTextFill(Color.web("#f1f2b6", 1.0));
@@ -114,6 +110,11 @@ public class EndScreen extends GameScene {
 		root.setCenter(layout);
 	}
 
+	/**
+	 * Updates the screen.
+	 * 
+	 * @author Von Divino
+	 */
 
 	@Override 
 	public void update(GraphicsContext gc) { 		
@@ -122,6 +123,12 @@ public class EndScreen extends GameScene {
 		updateGUI();
 	}
 	
+	/**
+	 * Updates the GUI.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	@Override
 	protected void updateGUI() {
 		background.render(gc);
@@ -129,11 +136,11 @@ public class EndScreen extends GameScene {
 	}
 	
 	/**
-	 * 
 	 * Build the won GUI.
 	 * 
-	 * @author vondivino
+	 * @author Von Divino
 	 */
+	
 	private void buildWonGUI() {
 		Label _label1 = new Label("Username:");
 		TextField _textField = new TextField();
@@ -145,7 +152,6 @@ public class EndScreen extends GameScene {
 		    	// get user name and commit to the database
 		        if(db.connecToDb()) {
 		        	db.createTable();
-		        	Data _p = db.insertData(new PlayerData(_textField.getText()));
 		        	db.closeDb();
 		        }
 		        _textField.clear();
@@ -162,22 +168,21 @@ public class EndScreen extends GameScene {
 	}
 	
 	/**
-	 * 
 	 * Build the lose GUI.
 	 * 
-	 * @author vondivino
+	 * @author Von Divino
 	 */
+	
 	private void buildLoseGUI() {
 		buildWonLabel("You Lose!", Color.RED);
 	}
 	
 	/**
-	 * 
 	 * A wrapper method to build the won label.
 	 * 
 	 * @param status
 	 * @param color
-	 * @author vondivino
+	 * @author Von Divino
 	 */
 	private void buildWonLabel(String status, Paint color) {
 		won_label.setTextFill(color);
@@ -186,4 +191,12 @@ public class EndScreen extends GameScene {
 		layout.getChildren().add(won_label);
 	}
 	
+	@Override
+	protected void initOtherProperties() {}
+	@Override
+	protected void initObjectProperties() {}
+	@Override
+	protected void initAudioProperties() {}
+	@Override
+	public void onExit() {}
 }

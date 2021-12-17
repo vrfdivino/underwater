@@ -2,40 +2,36 @@ package gamescene;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.control.OverrunStyle;
-import javafx.scene.image.ImageView;
-
-import java.util.ArrayList;
-
 import component.AnimatedSprite;
 import constants.Assets;
 import constants.Layout;
-import datatype.Vector2;
 import gui.MenuButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import main.GameStage;
 import parentclass.GameScene;
 import constants.Content;
 
+/**
+ * The About screen.
+ * Inherits all the props and methods in GameScene.
+ * 
+ * @author Von Divino
+ */
+
 public class About extends GameScene {
+	
+	/////////////////// PROPERTIES ///////////////////
 	
 	private BorderPane root;
 	private VBox layout;
@@ -44,35 +40,38 @@ public class About extends GameScene {
 	private AnimatedSprite background;
 	private Label screen_title;
 	
-	About(GameStage gameStage) {
-		
+	/**
+	 * Create a new About screen.
+	 * 
+	 * @param gameStage The game stage.
+	 * @author Von Divino
+	 */
+	
+	public About(GameStage gameStage) {
 		root   = new BorderPane();
 		scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 		gc     = canvas.getGraphicsContext2D();
 		screen_title = new Label();
-		
 		this.game_stage = gameStage;
 	}
 	
-	@Override
-	protected void initOtherProperties() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	protected void initObjectProperties() {
-		// TODO Auto-generated method stub
 
-	}
+	/**
+	 * Initialize GUI.
+	 * 
+	 * @author Von Divino
+	 */
 
 	@Override
 	protected void initGUIProperties() {
-		
 		background = Layout.STATIC_BACKGROUND;
 		title = Layout.STATIC_TITLE;
-		back_button = new MenuButton(game_stage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
+		back_button = new MenuButton(game_stage, 
+				Assets.BACK_SELECTED, 
+				Assets.BACK_PRESSED,  
+				Assets.BACK_UNSELECTED,  
+				new SplashScreen(game_stage));
 		layout = new VBox();
 		
 		screen_title.setTextFill(Color.web("#f1f2b6", 1.0));
@@ -102,22 +101,26 @@ public class About extends GameScene {
 		root.getChildren().add(canvas);		
 		root.setCenter(layout);
 	}
-
-
-	@Override
-	protected void initAudioProperties() {
-		// TODO Auto-generated method stub
-
-	}
 	
-	@Override //Write all logic for the scene here
+	/**
+	 * Updates the screen.
+	 * 
+	 * @author Von Divino
+	 */
+	
+	@Override 
 	public void update(GraphicsContext gc) { 		
 		onStartOfFrame();
 		updateObjects();	
 		updateGUI();
 		root.requestFocus();
-		
 	}
+	
+	/**
+	 * Updates the GUI.
+	 * 
+	 * @author Von Divino
+	 */
 	
 	@Override
 	protected void updateGUI() {
@@ -128,9 +131,12 @@ public class About extends GameScene {
 	}
 	
 	@Override
-	public void onExit() {
-		// TODO Auto-generated method stub
-
-	}
+	protected void initOtherProperties() {}
+	@Override
+	protected void initObjectProperties() {}
+	@Override
+	protected void initAudioProperties() {}
+	@Override
+	public void onExit() {}
 	
 }

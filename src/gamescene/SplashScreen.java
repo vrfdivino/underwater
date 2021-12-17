@@ -5,7 +5,6 @@ import component.AudioPlayer;
 import constants.Assets;
 import constants.Layout;
 import datatype.Vector2;
-import gameobject.Player;
 import gui.MenuButton;
 import javafx.beans.Observable;
 import javafx.geometry.Pos;
@@ -21,15 +20,23 @@ import javafx.scene.layout.VBox;
 import main.GameStage;
 import parentclass.GameScene;
 
-public class SplashScreen extends GameScene{
+/**
+ * The Splash screen.
+ * Inherits all the props and methods in GameScene.
+ * 
+ * @author Dave Jimenez
+ */
+
+public class SplashScreen extends GameScene {
+	
+	/////////////////// PROPERTIES ///////////////////
+	
 	private final double volumeScaleFactor = 1f;
 	private AnchorPane pane;
 	
-	//Game Objects
 	private AnimatedSprite background;
 	private AnimatedSprite title;
 	
-	//GUI Objects
 	private Slider volume_slider;
 	private Slider sfxvolume_slider;
 	private MenuButton newgame_button;
@@ -37,12 +44,18 @@ public class SplashScreen extends GameScene{
 	private MenuButton about_button;
 	private MenuButton instruction_button;
 	
-	//Gui Properties
 	private Vector2 title_vel = Vector2.ZERO;
 	private double title_max_spd = 2;
 	private Vector2 title_dir = Vector2.ZERO;
 	private Vector2 point_1 = new Vector2(GameStage.WINDOW_WIDTH, 250+32);
 	private Vector2 point_2 = new Vector2(GameStage.WINDOW_WIDTH, 250+24);
+	
+	/**
+	 * Create a new Splash screen.
+	 * 
+	 * @param gameStage The game stage.
+	 * @author Dave Jimenez
+	 */
 	
 	public SplashScreen(GameStage gameStage){
 		
@@ -54,29 +67,17 @@ public class SplashScreen extends GameScene{
 		this.game_stage = gameStage;
 	}
 	
-	@Override
-	protected void initObjectProperties() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void initOtherProperties() {
-		// TODO Auto-generated method stub
-		
-	}
+	/**
+	 * Initialize GUI.
+	 * 
+	 * @author Dave Jimenez
+	 */
 	
 	@Override
 	protected void initGUIProperties() {
-		//title_vel.set(new Vector2(0, 0));
-		
-		
-		//Backround and Title
-//		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_001)}, 1, new Vector2(GameStage.WINDOW_WIDTH/2, GameStage.WINDOW_HEIGHT/2), new Vector2(1024, 1024));
 		background = Layout.STATIC_BACKGROUND;
 		title = new AnimatedSprite(new Image[] {new Image(Assets.TITLECARD)}, 1, new Vector2(GameStage.WINDOW_HEIGHT/2, -186), new Vector2(720, 364));
 		
-		//Buttons
 		newgame_button  = new MenuButton(game_stage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_PRESSED, Assets.NEW_GAME_UNSELECTED,  new Level_001(game_stage));
 		scoreboard_button = new MenuButton(game_stage, Assets.SCOREBOARD_SELECTED, Assets.SCOREBOARD_PRESSED, Assets.SCOREBOARD_UNSELECTED, new Scoreboard(game_stage));
 		about_button       = new MenuButton(game_stage,  Assets.ABOUT_SELECTED, Assets.ABOUT_PRESSED, Assets.ABOUT_UNSELECTED,        new About(game_stage));
@@ -100,7 +101,6 @@ public class SplashScreen extends GameScene{
 		_sfxVolume.setAlignment(Pos.CENTER);
 		_volumeVBox.setAlignment(Pos.CENTER);
 		
-		//Set up GUI Layout
 		newgame_button.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 360);
 		scoreboard_button.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 300);
 		about_button.setLayout(GameStage.WINDOW_WIDTH/2 - 360/2, GameStage.WINDOW_HEIGHT - 180);
@@ -109,7 +109,6 @@ public class SplashScreen extends GameScene{
 		_volumeVBox.setLayoutX(GameStage.WINDOW_WIDTH-300);
 		_volumeVBox.setLayoutY(GameStage.WINDOW_HEIGHT-60);
 		
-		//Add to node
 		pane.getChildren().add(canvas);
 		pane.getChildren().add(newgame_button);
 		pane.getChildren().add(scoreboard_button);
@@ -118,9 +117,14 @@ public class SplashScreen extends GameScene{
 		pane.getChildren().add(_volumeVBox);
 	}
 	
+	/**
+	 * Initialize Audio props.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	@Override
 	protected void initAudioProperties() {
-		
 		String _music_theme_name = "Main Theme";
 		
 		AudioPlayer _call_of_the_sea = new AudioPlayer(Assets.CALL_OF_THE_SEA, true);
@@ -129,21 +133,29 @@ public class SplashScreen extends GameScene{
 		AUDIO_MANAGER.setVolume(volumeScaleFactor * volume_slider.getValue() * volume_slider.getValue() * volume_slider.getValue() * volume_slider.getValue());
 		SFX_MANAGER.setVolume(volumeScaleFactor * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue());
 		
-		//Play AudioPlayers
 		AUDIO_MANAGER.playAudioPlayer(_music_theme_name);
-		
 	}
+	
+	/**
+	 * Trigger when disposing screen.
+	 * 
+	 * @author Dave Jimenez
+	 */
 	
 	@Override
 	public void onExit() {
-		
 		if (newgame_button.isClicked()) {
 			AUDIO_MANAGER.stopAll();
 		}
-		
 	}
 	
-	@Override //Write all logic for the scene here
+	/**
+	 * Updates the screen.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
+	@Override 
 	public void update(GraphicsContext gc) { 		
 		onStartOfFrame();
 		updateGUI();
@@ -152,10 +164,15 @@ public class SplashScreen extends GameScene{
 		
 	}
 	
+	/**
+	 * Updates the GUI.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	protected void updateGUI() {
 		background.render(gc);
 		animateTitle();
-		
 		volume_slider.valueProperty().addListener(
 				(Observable observable) -> {
 				//Using x^4 as input for volume. This allows for a linear loudness experience
@@ -165,12 +182,22 @@ public class SplashScreen extends GameScene{
 		);
 	}
 	
+	/**
+	 * Animate the title.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	private void animateTitle() {
 		if (title.getPosition().y > point_1.y)	title_dir = Vector2.UP;
 		if (title.getPosition().y < point_2.y) 	title_dir = Vector2.DOWN;
-
 		title_vel.moveTowards(title_vel, new Vector2(title_max_spd * title_dir.x, title_max_spd * title_dir.y), 5 * TIME_MANAGER.getDeltaTime());
 		title.getPosition().add(title_vel);
 		title.render(gc);
 	}
+	
+	@Override
+	protected void initObjectProperties() {}
+	@Override
+	protected void initOtherProperties() {}
 }

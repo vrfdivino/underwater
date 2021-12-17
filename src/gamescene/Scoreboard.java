@@ -1,28 +1,28 @@
 package gamescene;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-
-import java.util.ArrayList;
-
 import component.AnimatedSprite;
 import constants.Assets;
 import constants.Layout;
-import datatype.Vector2;
 import gui.MenuButton;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Shape;
 import main.GameStage;
 import parentclass.GameScene;
 
+/**
+ * The Scoreboard screen.
+ * Inherits all the props and methods in GameScene.
+ * 
+ * @author Von Divino
+ */
+
 public class Scoreboard extends GameScene {
+	
+	/////////////////// PROPERTIES ///////////////////
 	
 	private BorderPane root;
 	private VBox layout;
@@ -30,28 +30,27 @@ public class Scoreboard extends GameScene {
 	private AnimatedSprite title;
 	private AnimatedSprite background;
 	
+	/**
+	 * Create a new Scoreboard screen.
+	 * 
+	 * @param gameStage The game stage.
+	 * @author Von Divino
+	 */
+	
 	Scoreboard(GameStage gameStage) {
-		
 		root   = new BorderPane();
 		scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
-		gc     = canvas.getGraphicsContext2D();
-		
+		gc     = canvas.getGraphicsContext2D();	
 		this.game_stage = gameStage;
 	}
 	
-	@Override
-	protected void initOtherProperties() {
-		// TODO Auto-generated method stub
-		
-	}
+	/**
+	 * Initialize GUI.
+	 * 
+	 * @author Von Divino
+	 */
 	
-	@Override
-	protected void initObjectProperties() {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	protected void initGUIProperties() {
 		
@@ -68,13 +67,13 @@ public class Scoreboard extends GameScene {
 	}
 
 
-	@Override
-	protected void initAudioProperties() {
-		// TODO Auto-generated method stub
+	/**
+	 * Updates the screen.
+	 * 
+	 * @author Von Divino
+	 */
 
-	}
-	
-	@Override //Write all logic for the scene here
+	@Override
 	public void update(GraphicsContext gc) { 		
 		onStartOfFrame();
 		updateObjects();	
@@ -83,18 +82,24 @@ public class Scoreboard extends GameScene {
 		
 	}
 	
+	/**
+	 * Updates the GUI.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	@Override
 	protected void updateGUI() {
-		// TODO Auto-generated method stub
 		background.render(gc);
 		title.render(gc);
-
 	}
 	
 	@Override
-	public void onExit() {
-		// TODO Auto-generated method stub
-
-	}
-	
+	protected void initOtherProperties() {}
+	@Override
+	protected void initObjectProperties() {}
+	@Override
+	public void onExit() {}
+	@Override
+	protected void initAudioProperties() {}
 }
