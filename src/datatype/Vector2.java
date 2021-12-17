@@ -155,7 +155,7 @@ public class Vector2 {
 	
 	/**
 	 * Returns the normalized value of the Vector2. 
-	 * Primarily used for setting _directions.
+	 * Primarily used for setting directions.
 	 * 
 	 * @return Vector2 Normalized vector
 	 * @author Dave Jimenez
@@ -174,7 +174,7 @@ public class Vector2 {
 	 * @param current_pos Vector2
 	 * @param target_pos Vector2
 	 * @param delta double
-	 * @return ( Vector2 ) Next vector2 value towards target position 
+	 * @return ( Vector2 ) Next Vector2 value towards target position 
 	 * @author Dave Jimenez
 	 */
 	public Vector2 moveTowards(Vector2 current_pos, Vector2 target_pos, double delta) {

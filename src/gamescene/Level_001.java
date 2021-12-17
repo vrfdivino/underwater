@@ -32,6 +32,10 @@ import main.GameStage;
 import parentclass.GameScene;
 
 public class Level_001 extends GameScene{
+	private static final int X_BOUND_MIN = 64;
+	private static final int X_BOUND_MAX = 965;
+	private static final int Y_BOUND_MIN = -730;
+	private static final int Y_BOUND_MAX = 190;
 	
 	private AnimatedSprite background;
 	private double bg_scroll_speed = 36;
@@ -165,7 +169,6 @@ public class Level_001 extends GameScene{
 		onStartOfFrame();
 		updateGUI();
 		updateObjects();
-		updateWeapon();
 		updateBoss();
 		
 		checkObjectCollisions();
@@ -189,21 +192,21 @@ public class Level_001 extends GameScene{
 	 * @author dave
 	 */
 	private void limitPlayerMovement() {
-		if (player.getPosition().x <= 64) {
-			player.setPosition(new Vector2(64, player.getPosition().y));
+		if (player.getPosition().x <= Level_001.X_BOUND_MIN) {
+			player.setPosition(new Vector2(Level_001.X_BOUND_MIN, player.getPosition().y));
 			player.setVelocity(new Vector2(0,player.getVelocity().y));
 		}
-		if (player.getPosition().x >= 965) {
-			player.setPosition(new Vector2(965, player.getPosition().y));
+		if (player.getPosition().x >= Level_001.X_BOUND_MAX) {
+			player.setPosition(new Vector2(Level_001.X_BOUND_MAX, player.getPosition().y));
 			player.setVelocity(new Vector2(0,player.getVelocity().y));
 		}
 		
-		if (player.getPosition().y <= -610) {
-			player.setPosition(new Vector2(player.getPosition().x, -610));
+		if (player.getPosition().y <= Level_001.Y_BOUND_MIN) {
+			player.setPosition(new Vector2(player.getPosition().x, Level_001.Y_BOUND_MIN));
 			player.setVelocity(new Vector2(player.getVelocity().x, 0));
 		}
-		if (player.getPosition().y >= 155) {
-			player.setPosition(new Vector2(player.getPosition().x, 155));
+		if (player.getPosition().y >= Level_001.Y_BOUND_MAX) {
+			player.setPosition(new Vector2(player.getPosition().x, Level_001.Y_BOUND_MAX));
 			player.setVelocity(new Vector2(player.getVelocity().x, 0));
 		}
 		
@@ -268,17 +271,11 @@ public class Level_001 extends GameScene{
 	 * @author Von Divino
 	 */
 	private void initGame() {
-		GAME_MANAGER.spawnPlayer(runnable_object_list);
-		GAME_MANAGER.spawnInitialEnemies(runnable_object_list);
-		GAME_MANAGER.initIntervalEnemies(runnable_object_list);
-		GAME_MANAGER.initBoss(runnable_object_list);
-		GAME_MANAGER.initPowerups(runnable_object_list);
-	}
-	
-	private void updateWeapon() {
-		if(GAME_MANAGER.getCanShoot()) {
-			GAME_MANAGER.playerReload(runnable_object_list);
-		}
+		GAME_MANAGER.spawnPlayer();
+		GAME_MANAGER.spawnInitialEnemies();
+		GAME_MANAGER.initIntervalEnemies();
+		GAME_MANAGER.initBoss();
+		GAME_MANAGER.initPowerups();
 	}
 	
 	private void updatePlayerStats() {
@@ -290,12 +287,12 @@ public class Level_001 extends GameScene{
 	}
 	
 	private void checkIfWon() {
-		if((int) TIME_MANAGER.getTimeLeft() == 0) {
-			if(PLAYER_MANAGER.getHp() > 0) {
-				game_stage.setGameScene(new EndScreen(game_stage, true));
-			} else {
-				game_stage.setGameScene(new EndScreen(game_stage, false));
-			}
+		if(PLAYER_MANAGER.getHp() <= 0) {
+			game_stage.setGameScene(new EndScreen(game_stage, false));
+		}
+		
+		if((int) TIME_MANAGER.getTimeLeft() == -1) {
+			game_stage.setGameScene(new EndScreen(game_stage, true));
 		}
 	}
 } 

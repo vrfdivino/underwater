@@ -28,12 +28,12 @@ public class Projectile extends GameObject {
 	public static int DIVER_Y_OFFSET = 450 + 320;
 	public static int SPEED = 14;
 	public static int STARTING_ROT = 0;
-	public static int DAMAGE = 20;
+	public static int DAMAGE = 500;
 	public static double DELAY = 0.1d;
 	
 	private AnimatedSprite projectile_sprite;
 	private boolean is_released = false;
-	private Player ref;
+	//private Player ref;
 	
 	/**
 	 * Creates a new weapon object.
@@ -42,9 +42,9 @@ public class Projectile extends GameObject {
 	 * @author Von Divino
 	 */
 	
-	public Projectile(Player ref /* double x, double y */) {
-		setRef(ref);
-		setTransformations(/*x, y*/);
+	public Projectile(double x, double y) {
+		//setRef(ref);
+		setTransformations(x, y);
 		setSpritesAndAnimations();
 		setCollision();
 	}
@@ -55,10 +55,11 @@ public class Projectile extends GameObject {
 	 * @author Von Divino
 	 */
 	
-	private void setTransformations(/*double x, double y*/) {
+	private void setTransformations(double x, double y) {
 		size.set(Projectile.HEIGHT, Projectile.WIDTH);
 		rotation = Projectile.STARTING_ROT;
-		position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
+		//position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
+		position.set(x, y);
 	}
 	
 	/**
@@ -99,18 +100,26 @@ public class Projectile extends GameObject {
 			updatePosition();
 			animation_player.setPosition(position);	
 		} else {
-			setReleasePosition();
+			//setReleasePosition();
 		}
 		if (!collision.isColliding()) {
 		} else {
+			//System.out.println("Colliding");
 			destroyCollidingObjects();
 		}
 		animation_player.render(gc);
 	}
 	
+	
 	private void updatePosition() {
-		position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, 
+		/*position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, 
 				ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
+		*/
+		position.set(position.x + SPEED, position.y);
+		
+		if (position.x > GameStage.WINDOW_WIDTH + 50) {
+			destroy();
+		}
 	}
 	
 	/**
@@ -121,10 +130,7 @@ public class Projectile extends GameObject {
 	 */
 	
 	private void getInput() {
-		if(INPUT_MANAGER.pressedInt("SPACE") == 1) {
-			is_released = true;
-			GAME_MANAGER.setCanShoot(false);
-		}
+
 	}
 	
 	/**
@@ -133,6 +139,7 @@ public class Projectile extends GameObject {
 	 * @author Von Divino
 	 */
 	
+	/*
 	private void setReleasePosition() {
 		if(position.x < GameStage.WINDOW_WIDTH + Projectile.DIVER_X_OFFSET) {
 			position.x += Projectile.SPEED;
@@ -141,7 +148,7 @@ public class Projectile extends GameObject {
 			destroy();
 		}
 	}
-	
+	*/
 	/**
 	 * Set the collision object attach to the weapon.
 	 * 
@@ -179,25 +186,33 @@ public class Projectile extends GameObject {
 		for (GameObject other: collision.getOverlaps()) {
 			toremove_list.add(other);
 		}
+		
+		//System.out.println(collision.getOverlaps());
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
 			// destroy fish immediately
-			if(other instanceof SmallFish && is_released) {
+			if(other instanceof SmallFish && !other.isDestroyed()) {
+				PLAYER_MANAGER.setScore(PLAYER_MANAGER.getScore() + 1);
+				SFX_MANAGER.stopAudioPlayer("FISH HIT");
+				SFX_MANAGER.playAudioPlayer("FISH HIT");
 				other.destroy();
 				// TODO
 //				PLAYER_MANAGER.setScore(PLAYER_MANAGER.getScore() + 1);
 			} else if(other instanceof AnglerFish) {
 				// TODO
+				SFX_MANAGER.stopAudioPlayer("FISH HIT");
+				SFX_MANAGER.playAudioPlayer("FISH HIT");
 			}
 		}
 	}
 	
 	/////////////////// GETTERS ///////////////////
 	
-	public Player getRef() {return ref;}
+	//public Player getRef() {return ref;}
 	public boolean getIsReleased() {return is_released;}
+	public int getDamage() {return DAMAGE;}
 	
 	/////////////////// SETTERS ///////////////////
 	
-	public void setRef(Player ref) {this.ref = ref;}
+	//public void setRef(Player ref) {this.ref = ref;}
 }

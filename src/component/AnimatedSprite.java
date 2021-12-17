@@ -107,7 +107,7 @@ public class AnimatedSprite {
 	/**
 	 * Starts the AnimatedSprite at the specified frame. Defaults at the first frame.
 	 * 
-	 * @param frame The fps to be rendered.
+	 * @param frame The frame to be rendered.
 	 * @author Dave
 	 */
 	

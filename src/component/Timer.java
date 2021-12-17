@@ -19,6 +19,8 @@ public class Timer {
 	private boolean can_start = false;
 	private boolean can_loop = false;
 	private boolean finished = false;
+	private boolean terminate_on_end = true;
+	private boolean terminate = false;
 
 	/**
 	 * Creates a new Timer instance.
@@ -37,9 +39,10 @@ public class Timer {
 	
 	public void update() {
 		if (can_start) current_time += TIME_MANAGER.getDeltaTime();
-		if (current_time >= duration) { 
+		if (current_time >= duration && !finished) { 
 			timeout_event.onTimerTimeoutMethod();
-			if (!can_loop) finished = true;
+			if (!can_loop && terminate_on_end) terminate = true;
+			else if (!can_loop)	finished = true;
 			current_time = 0;
 		}
 	}
@@ -52,6 +55,7 @@ public class Timer {
 	public void start() {
 		can_start = true;
 		current_time = 0;
+		finished = false;
 	}
 	
 	/**
@@ -71,8 +75,10 @@ public class Timer {
 	/////////////////// GETTERS ///////////////////
 	
 	public boolean isFinished() {return finished;}
+	public boolean canTerminate() {return terminate;}
 	
 	/////////////////// SETTERS ///////////////////
 	
 	public void setLoop(boolean can_loop) {this.can_loop = can_loop;}
+	public void terminateOnEnd(boolean terminate_on_end) {this.terminate_on_end = terminate_on_end;}
 }

@@ -5,7 +5,9 @@ import java.util.Random;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
+import component.AudioPlayer;
 import component.Timer;
+import constants.Assets;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -25,7 +27,7 @@ public class SmallFish extends GameObject{
 	
 	public static int DAMAGE = 30;
 	
-	private Image[] smallfish_move_sprites = new Image[8];
+	private Image[] smallfish_move_sprites = new Image[1];
 	private AnimatedSprite smallfish_move;
 	private int dir_x = -1;
 	private int speed = 125;
@@ -44,7 +46,8 @@ public class SmallFish extends GameObject{
 		setTransformations(x, y);
 		setSpritesAndAnimations();
 		setCollision();
-//		initTimer();
+		initTimer();
+		setAudio();
 	}
 	
 	/**
@@ -58,7 +61,12 @@ public class SmallFish extends GameObject{
 		setTransformations(position.x, position.y);
 		setSpritesAndAnimations();
 		setCollision();
-//		initTimer();
+		initTimer();
+		setAudio();
+	}
+	
+	private void setAudio() {
+		SFX_MANAGER.addAudioPlayer("FISH HIT", new AudioPlayer(Assets.FISH_HIT));
 	}
 	
 	/**
@@ -71,7 +79,7 @@ public class SmallFish extends GameObject{
 	
 	private void setTransformations(double x, double y) {
 		position.set(x, y);
-		size.set(128, 128);
+		size.set(144, 96);
 		rotation = 0;
 	}
 	
@@ -84,8 +92,8 @@ public class SmallFish extends GameObject{
 	private void setSpritesAndAnimations() {
 		animation_player = new AnimationPlayer();
 		// TODO
-		for (int i = 0; i < 8; i++)	smallfish_move_sprites[i] = new Image("/Enemy/Sprites/AnglerFish" + (i + 1) + ".png");
-		smallfish_move = new AnimatedSprite(smallfish_move_sprites, 12, position, size);
+		smallfish_move_sprites[0] = new Image("/Enemy/Sprites/Fish.png");
+		smallfish_move = new AnimatedSprite(smallfish_move_sprites, 1, position, size);
 		animation_player.addAnimation("MOVE", smallfish_move);
 		animation_player.setRotation(rotation);
 	}
@@ -99,9 +107,9 @@ public class SmallFish extends GameObject{
 	private void setCollision() {
 		collision.setCollide(true);
 		// TODO
-		collision.setOrigin(new Vector2(-(size.x/2) + 40, -(size.y/2) + 60));
+		collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
 		// TODO
-		collision.setSize(new Vector2(140, 140));
+		collision.setSize(new Vector2(144, 96));
 		String[] collisions_objs = new String[2];
 		collisions_objs[0] = Player.class.getName();
 		collisions_objs[1] = Projectile.class.getName();
@@ -119,7 +127,7 @@ public class SmallFish extends GameObject{
 		timer = new Timer(r.nextInt(10));
 		timer.onTimerTimeout(()->{
 			speed = r.nextInt(125) + 125;
-			System.out.println("changing speed");
+			//System.out.println("changing speed");
 		 });
 		timer.setLoop(true);
 		timer.start();
@@ -151,7 +159,7 @@ public class SmallFish extends GameObject{
 		animation_player.setPosition(position);
 		animation_player.render(gc);
 		if (!collision.isColliding()) {
-			collision.renderCollision(gc);
+			//collision.renderCollision(gc);
 		} else {
 			// deduct strength of the player 
 			// PLAYER_MANAGER.setStrength(-SmallFish.DAMAGE);
@@ -178,13 +186,13 @@ public class SmallFish extends GameObject{
 			dir_x = 1;
 			position.x = gutter;
 			animation_player.setHFlip(true);
-			collision.setOrigin(new Vector2(-(size.x/2) + 70, -(size.y/2) + 60));
+			collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
 		}
 		if (position.x > GameStage.WINDOW_WIDTH) {
 			dir_x = -1;
 			position.x = GameStage.WINDOW_WIDTH;
 			animation_player.setHFlip(false);
-			collision.setOrigin(new Vector2(-(size.x/2) + 40, -(size.y/2) + 60));
+			collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
 		}
 	}
 	
@@ -226,6 +234,8 @@ public class SmallFish extends GameObject{
 //				}		
 //			}
 			if(other instanceof Projectile) {
+				SFX_MANAGER.stopAudioPlayer("FISH HIT");
+				SFX_MANAGER.playAudioPlayer("FISH HIT");
 				other.destroy();
 			}
 		}

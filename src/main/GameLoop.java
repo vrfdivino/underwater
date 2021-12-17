@@ -19,8 +19,8 @@ public class GameLoop extends AnimationTimer {
 	public void handle(long NanoTime) {		
 		onStartOfFrame();
 		updateGameScene();
-		updateTime();
 		updateInput();
+		updateTime();
 	}
 	
 	private void onStartOfFrame() {

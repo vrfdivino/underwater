@@ -4,12 +4,11 @@ import component.AudioPlayer;
 import component.Timer;
 import constants.Assets;
 
-public class Pearl extends PowerUp {
-
-	public Pearl(double x, double y) {
+public class Star extends PowerUp{
+	public Star(double x, double y) {
 		super(x, y);
-		setSpritesAndAnimation(PowerUp.PEARL_PATH);
-		sfx = new AudioPlayer(Assets.POWERUP_3);
+		setSpritesAndAnimation(PowerUp.STAR_PATH);
+		sfx = new AudioPlayer(Assets.POWERUP_1);
 		
 		Timer duration_timer = new Timer(5);
 		duration_timer.onTimerTimeout(()->{

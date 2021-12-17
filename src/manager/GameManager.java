@@ -9,26 +9,29 @@ import gameobject.AnglerFish;
 import gameobject.Lightning;
 import gameobject.Pearl;
 import gameobject.Player;
+import gameobject.PowerUp;
 import gameobject.Projectile;
 import gameobject.SmallFish;
+import gameobject.Star;
 import javafx.scene.control.Label;
 import main.GameStage;
 import parentclass.GameObject;
-import parentclass.PowerUp;
 import runnableobject.RunnableObject;
 
 /**
  * Singleton Class.
- * Handles managing game statistics.
+ * Manage game statistics and events.
  * @author Dave
  */
 public class GameManager {
 	
 	private static GameManager instance;
 	
+	private ArrayList<RunnableObject> runnableobject_list = new ArrayList<RunnableObject>();
+	private ArrayList<RunnableObject> runnableobject_toadd = new ArrayList<RunnableObject>();
+	
 	private Player player;
 	private AnglerFish boss;
-	private boolean can_shoot;
 	private Timer spawner;
 	private Timer boss_spawner;
 	private Timer powerup_spawner;
@@ -44,58 +47,58 @@ public class GameManager {
 		return instance;
 	}
 	
-	public void spawnPlayer(ArrayList<RunnableObject> list) {
+	public void spawnPlayer() {
 		player = new Player(0, -GameStage.WINDOW_HEIGHT/4);
-		list.add(player);
-		initWeapon(list);
-		can_shoot = true;
+		runnableobject_list.add(player);
 	}
 	
-	private void initWeapon(ArrayList<RunnableObject> list) {
-		Projectile _projectile = new Projectile(player);
-		list.add(_projectile);
-	}
-	
-	public void spawnInitialEnemies(ArrayList<RunnableObject> list) {
+	public void spawnInitialEnemies() {
 		for(int i = 0; i < 7; ++i) {
-			list.add(new SmallFish(randomizeVectorPosition()));
+			addRunnableObject(new SmallFish(randomizeVectorPosition()));
 		}
 	}
 	
-	public void initIntervalEnemies(ArrayList<RunnableObject> list) {
+	public void initIntervalEnemies() {
 		spawner = new Timer(5);
 		spawner.setLoop(true);
 		spawner.onTimerTimeout(()->{
 			for(int i = 0; i < 3; ++i) {
-				list.add(new SmallFish(randomizeVectorPosition()));	
+				addRunnableObject(new SmallFish(randomizeVectorPosition()));	
 			}
-			randomizeEnemiesMovement(list);
+			//randomizeEnemiesMovement(list);
 		});
 		spawner.start();
 		TimeManager.getInstance().addTimer(spawner);
 	}
 	
-	public void initBoss(ArrayList<RunnableObject> list) {
+	public void initBoss() {
 		boss_spawner = new Timer(30);
 		boss_spawner.setLoop(false);
 		boss_spawner.onTimerTimeout(()->{
 			AnglerFish _boss = new AnglerFish(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT/2);
-			list.add(_boss);
+			runnableobject_list.add(_boss);
 			boss = _boss;
 		});
 		boss_spawner.start();
 		TimeManager.getInstance().addTimer(boss_spawner);
 	}
 	
-	public void initPowerups(ArrayList<RunnableObject> list) {
+	public void initPowerups() {
 		powerup_spawner = new Timer(10);
 		powerup_spawner.setLoop(true);
 		powerup_spawner.onTimerTimeout(()->{
-			for(RunnableObject object: list) {
+			ArrayList<RunnableObject> toremove_list = new ArrayList<RunnableObject>();
+			
+			for(RunnableObject object: runnableobject_list) {
 				if(object instanceof PowerUp) {
-					list.remove(object);
+					toremove_list.add(object);
 				}
 			}
+			
+			for (RunnableObject object: toremove_list) {
+				runnableobject_list.remove(object);
+			}
+			
 			Random r = new Random();
 			Pearl _pearl = new Pearl(
 					(double) r.nextInt((int)GameStage.WINDOW_WIDTH), 
@@ -103,18 +106,16 @@ public class GameManager {
 			Lightning _lightning = new Lightning
 					((double) r.nextInt((int)GameStage.WINDOW_WIDTH), 
 					(double) r.nextInt((int)GameStage.WINDOW_HEIGHT));
-			list.add(_pearl);
-			list.add(_lightning);
+			Star _star = new Star 
+					((double) r.nextInt((int)GameStage.WINDOW_WIDTH),
+					(double) r.nextInt((int)GameStage.WINDOW_HEIGHT));
+			addRunnableObject(_pearl);
+			addRunnableObject(_lightning);
+			addRunnableObject(_star);
 		});
 		powerup_spawner.start();
 		TimeManager.getInstance().addTimer(powerup_spawner);
 	}
-	
-	
-	public void playerReload(ArrayList<RunnableObject> list) {
-		initWeapon(list);
-	}
-	
 
 	private Vector2 randomizeVectorPosition() {
 		Random r = new Random();
@@ -123,7 +124,7 @@ public class GameManager {
 		return new Vector2(x, y);
 	}
 	
-	public void randomizeEnemiesMovement(ArrayList<RunnableObject> list) {
+	/*public void randomizeEnemiesMovement(ArrayList<RunnableObject> list) {
 		Random r = new Random();
 		for(RunnableObject object: list) {
 			if(object instanceof SmallFish) {
@@ -133,7 +134,7 @@ public class GameManager {
 //				_small_fish.getPosition().add(new Vector2(speed * TimeManager.getInstance().getDeltaTime(),0));
 			}
 		}
-	}
+	}*/
 	
 	public Player getPlayer() {
 		return player;
@@ -142,23 +143,28 @@ public class GameManager {
 		return boss;
 	}
 	
-	public boolean getCanShoot() {
-		return can_shoot;
+	public ArrayList<RunnableObject> getRunnableObjects(){
+		return runnableobject_list;
 	}
 	
-	public void setCanShoot(boolean can_shoot) {
-		this.can_shoot = can_shoot;
-		Timer delay = new Timer(0.1d);
-		delay.setLoop(false);
-		delay.onTimerTimeout(()->{
-			this.can_shoot = true;
-		});
-		delay.start();
-		TimeManager.getInstance().addTimer(delay);
+	public void addRunnableObject(RunnableObject object) {
+		runnableobject_toadd.add(object);
 	}
 	
-
-
+	public void addBufferedRunnableObjectsToAdd(){
+		ArrayList<RunnableObject> toremove_list = new ArrayList<RunnableObject>();
+		
+		if (!runnableobject_toadd.isEmpty()) {
+			for (RunnableObject object: runnableobject_toadd) {
+				runnableobject_list.add(object);
+				toremove_list.add(object);
+			}
+			
+			for (RunnableObject object: toremove_list) {
+				runnableobject_toadd.remove(object);
+			}
+		}
+	}
 
 	
 	/****** FINAL ***/

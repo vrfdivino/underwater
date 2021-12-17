@@ -37,12 +37,17 @@ public class Player extends GameObject{
 	private Image[] diver_move_sprites = new Image[9];
 	private AnimatedSprite diver_move;
 	
+	private AnimatedSprite spear_sprite;
+	
 	private double move_speed        = 10;
 	private double move_acceleration = 20;
 	private boolean can_absorb = true;
 	
 	private Vector2 direction = new Vector2();
 	private Vector2 velocity  = new Vector2();
+	
+	private Timer reload_timer;
+	private boolean can_shoot = true;
 	
 	/**
 	 * Creates a new player object.
@@ -56,7 +61,8 @@ public class Player extends GameObject{
 		setTransformations(x, y);
 		setSpritesAndAnimations();
 		setCollision();
-		SFX_MANAGER.addAudioPlayer("HIT", new AudioPlayer(Assets.HIT));
+		setOthers();
+		setAudio();
 	}
 	
 	/**
@@ -70,9 +76,25 @@ public class Player extends GameObject{
 		setTransformations(position.x, position.y);
 		setSpritesAndAnimations();
 		setCollision();
-		SFX_MANAGER.addAudioPlayer("HIT", new AudioPlayer(Assets.HIT));
+		setOthers();
+		setAudio();
 	}
 	
+	private void setOthers() {
+		reload_timer = new Timer(0.5);
+		reload_timer.onTimerTimeout(()->{
+			can_shoot = true;
+			spear_sprite.setVisible(true);
+		});
+		reload_timer.setLoop(false);
+		reload_timer.terminateOnEnd(false);
+		TIME_MANAGER.addTimer(reload_timer);
+	}
+	
+	private void setAudio() {
+		SFX_MANAGER.addAudioPlayer("HIT", new AudioPlayer(Assets.HIT));
+		SFX_MANAGER.addAudioPlayer("SHOOT", new AudioPlayer(Assets.SHOOT));
+	}
 	
 	/**
 	 * Set the position and sizing properties of the player.
@@ -98,11 +120,13 @@ public class Player extends GameObject{
 		collision.setCollide(true);
 		collision.setOrigin(new Vector2(-(size.x/2) + 80, (size.y/2) - 230));
 		collision.setSize( new Vector2(100, 190));
-		String[] collisions_objs = new String[4];
+		String[] collisions_objs = new String[6];
 		collisions_objs[0] = SmallFish.class.getName();
 		collisions_objs[1] = AnglerFish.class.getName();
 		collisions_objs[2] = Pearl.class.getName();
 		collisions_objs[3] = Lightning.class.getName();
+		collisions_objs[4] = Star.class.getName();
+		collisions_objs[5] = Spike.class.getName();
 		collision.setCollisions(collisions_objs);
 	}
 	
@@ -129,6 +153,8 @@ public class Player extends GameObject{
 		animation_player.addAnimation("HIT", diver_hit);
 		animation_player.addAnimation("IDLE", diver_idle);
 		animation_player.addAnimation("MOVE", diver_move);
+		
+		spear_sprite = new AnimatedSprite(new Image[] {new Image("/Game/Spear.png")}, 1, new Vector2(position.x + 100, position.y + 450 + 320), new Vector2(64, 20));
 	}
 	
 	/**
@@ -139,6 +165,9 @@ public class Player extends GameObject{
 	
 	@Override
 	public void update(GraphicsContext gc) {
+		updateAudio();
+		updateAnimation();
+		
 		switch(state) {							
 		case NORMAL:       normal();       break;
 		case INVULNERABLE: invulnerable(); break;
@@ -155,15 +184,8 @@ public class Player extends GameObject{
 	 */
 	
 	private void render(GraphicsContext gc) {
-		checkAnimation();
 		animation_player.render(gc);
-		if (!collision.isColliding()) {
-		}else {
-			SFX_MANAGER.stopAudioPlayer("HIT");
-			SFX_MANAGER.playAudioPlayer("HIT");
-			animation_player.playAnimation("HIT");
-			destroyCollidingObjects();
-		}
+		spear_sprite.render(gc);
 	}
 	
 	/**
@@ -176,16 +198,23 @@ public class Player extends GameObject{
 		getInput();
 		updatePosition();
 		updateCollision();
+		updateWeapon();
 	}
 	
 	// TODO
 	public void invulnerable() {
-		
+		getInput();
+		updatePosition();
+		updateCollision();
+		updateWeapon();
 	}
 	
 	// TODO
 	public void speedUp() {
-		
+		getInput();
+		updatePosition();
+		updateCollision();
+		updateWeapon();
 	}
 	
 	/**
@@ -213,6 +242,7 @@ public class Player extends GameObject{
 				move_acceleration * TIME_MANAGER.getDeltaTime());
 		position.add(velocity);
 		animation_player.setPosition(position);
+		spear_sprite.setPosition(new Vector2(position.x + 100, position.y + 450 + 320));
 	}
 	
 	/**
@@ -224,6 +254,78 @@ public class Player extends GameObject{
 	private void updateCollision() {
 		collision.setPosition(position);
 		collision_pos = collision.getPosition();
+		
+		if (animation_player.getAnimation("HIT").isPlaying())	collision.setCollide(false);
+		else	collision.setCollide(true);
+		
+		if (!collision.isColliding()) {
+			
+		} else {
+			for (GameObject other: collision.getOverlaps()) {
+				if (other instanceof Pearl) {
+					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() + 50);
+				}
+				
+				if (other instanceof Star) {
+					state = STATES.INVULNERABLE;
+					
+					String[] collisions_objs = new String[2];
+					collisions_objs[0] = Pearl.class.getName();
+					collisions_objs[1] = Lightning.class.getName();
+					collision.setCollisions(collisions_objs);
+					
+					Timer invul_timer = new Timer(3);
+					invul_timer.onTimerTimeout(()->{
+						state = STATES.NORMAL;
+						
+						String[] new_collisions_objs = new String[5];
+						new_collisions_objs[0] = SmallFish.class.getName();
+						new_collisions_objs[1] = AnglerFish.class.getName();
+						new_collisions_objs[2] = Pearl.class.getName();
+						new_collisions_objs[3] = Lightning.class.getName();
+						new_collisions_objs[4] = Star.class.getName();
+						collision.setCollisions(new_collisions_objs);
+					});
+					invul_timer.setLoop(false);
+					invul_timer.start();
+					TIME_MANAGER.addTimer(invul_timer);
+				}
+				
+				if (other instanceof Lightning) {
+					state = STATES.SPEEDUP;
+					move_speed = 20;
+					move_acceleration = 100;
+					
+					Timer speedup_timer = new Timer(5);
+					speedup_timer.onTimerTimeout(()->{
+						state = STATES.NORMAL;
+						move_speed = 10;
+						move_acceleration = 20;
+					});
+					speedup_timer.setLoop(false);
+					speedup_timer.start();
+					TIME_MANAGER.addTimer(speedup_timer);
+				}
+			}
+			
+			destroyCollidingObjects();
+		}
+		
+	}
+	
+	private void updateWeapon() {
+		if (INPUT_MANAGER.justPressed("SPACE") && can_shoot) {
+			GAME_MANAGER.addRunnableObject(new Projectile(position.x + 100, position.y + 450 + 320));
+			//GAME_MANAGER.addRunnableObject(new Spike(position.x + 100,  position.y + 450 + 320, new Vector2(1,0.25)));
+			//GAME_MANAGER.addRunnableObject(new Spike(position.x + 100,  position.y + 450 + 320, new Vector2(1,-0.25)));
+			
+			SFX_MANAGER.stopAudioPlayer("SHOOT");
+			SFX_MANAGER.playAudioPlayer("SHOOT");
+			
+			can_shoot = false;
+			spear_sprite.setVisible(false);
+			reload_timer.start();
+		}
 	}
 	
 	/**
@@ -244,6 +346,8 @@ public class Player extends GameObject{
 				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - SmallFish.DAMAGE);
 			} else if(other instanceof AnglerFish) {
 				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
+			} else if (other instanceof Spike){
+				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
 			} else {
 				other.destroy();
 			}
@@ -255,12 +359,40 @@ public class Player extends GameObject{
 	 * 
 	 * 	@author Dave Jimenez
 	 */
-	private void checkAnimation() {
+	private void updateAnimation() {
+		if (!collision.isColliding()) {
+		}else {
+			animation_player.playAnimation("HIT");
+		}
+		
 		if (animation_player.getAnimation("HIT").isPlaying()) animation_player.playAnimation("HIT");
 		else if (velocity.x == 0 && velocity.y == 0) animation_player.playAnimation("IDLE");
 		else animation_player.playAnimation("MOVE");
 	}
 	
+	private void updateAudio() {
+		if (!collision.isColliding()) {
+
+		} else {
+			for (GameObject other: collision.getOverlaps()) {
+				if (other instanceof SmallFish) {
+					SFX_MANAGER.stopAudioPlayer("HIT");
+					SFX_MANAGER.playAudioPlayer("HIT");
+				}
+				
+				if (other instanceof AnglerFish) {
+					SFX_MANAGER.stopAudioPlayer("HIT");
+					SFX_MANAGER.playAudioPlayer("HIT");
+				}
+				
+				if (other instanceof Spike) {
+					SFX_MANAGER.stopAudioPlayer("HIT");
+					SFX_MANAGER.playAudioPlayer("HIT");
+				}
+			}
+
+		}
+	}
 
 	/////////////////// GETTERS ///////////////////
 	

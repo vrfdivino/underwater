@@ -5,6 +5,8 @@ import gamescene.SplashScreen;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import manager.GameManager;
+import manager.TimeManager;
 import parentclass.GameScene;
 
 /**
@@ -65,7 +67,8 @@ public class GameStage {
 	 */
 	public void setGameScene(GameScene game_scene) {
 		this.game_scene.onExit();
-		
+		GameManager.getInstance().getRunnableObjects().clear();
+		TimeManager.getInstance().clearTimerList();
 		//Initialize new Game Scene
 		game_scene.initializeProperties();
 		gc = game_scene.getGraphicsContext();

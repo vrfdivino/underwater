@@ -46,6 +46,12 @@ public class Assets {
 	public static final String UNDERWATER      = "resources/Audio/SFX_1_Underwater.mp3";
 	public static final String SPLASH  		   = "resources/Audio/SFX_2_Splash.mp3";
 	public static final String HIT             = "resources/Audio/SFX_3_DrownHit.mp3";
+	public static final String POWERUP_1       = "resources/Audio/SFX_4_PowerUp.mp3";
+	public static final String POWERUP_2       = "resources/Audio/SFX_5_PowerUp2.mp3";
+	public static final String POWERUP_3       = "resources/Audio/SFX_7_PowerUp3.mp3";
+	public static final String FISH_HIT        = "resources/Audio/SFX_8_FISHHIT.mp3";
+	
+	public static final String SHOOT           = "resources/Audio/SFX_6_Shoot.mp3";
 	
 	public static final String BG = "/Menu/Graphics/bg.png";
 	public static final Image LOGO = new Image("/Menu/Graphics/logo.png");

@@ -25,7 +25,7 @@ public abstract class GameScene implements RunnableObject{
 	protected PlayerManager PLAYER_MANAGER = PlayerManager.getInstance();
 	protected TimeManager TIME_MANAGER = TimeManager.getInstance();
 	
-	protected ArrayList<RunnableObject> runnable_object_list = new ArrayList<RunnableObject>();
+	//protected ArrayList<RunnableObject> runnableobject_list = new ArrayList<RunnableObject>();
 	
 	protected GameStage game_stage;
 	protected Scene scene;
@@ -48,12 +48,10 @@ public abstract class GameScene implements RunnableObject{
 	 * @author Dave
 	 */
 	protected void updateObjects() {
-		for (RunnableObject object: runnable_object_list) {
-			// update speed of AnglerFish randomly
-			// below condition is not final, it should be random, not every spawn
-			// just a simulation
+		GAME_MANAGER.addBufferedRunnableObjectsToAdd();
+		for (RunnableObject object: GAME_MANAGER.getRunnableObjects()) {
 			object.update(gc);
-			
+			//System.out.println(object);
 		}
 	}
 	
@@ -64,13 +62,13 @@ public abstract class GameScene implements RunnableObject{
 	protected abstract void updateGUI();
 	
 	/**
-	 * Removes GameObject from the runnable_object_list if they are destroyed.
+	 * Removes GameObject from the runnableobject_list if they are destroyed.
 	 * To be called in update method.
 	 * @author Dave
 	 */
 	protected void checkDestroyedObjects() {
 		ArrayList<RunnableObject> toremove_list = new ArrayList<RunnableObject>(); 
-		for (RunnableObject runnable_object: runnable_object_list) {
+		for (RunnableObject runnable_object: GAME_MANAGER.getRunnableObjects()) {
 			if (runnable_object instanceof GameObject) {
 				GameObject game_object = (GameObject) runnable_object;
 				if (game_object.isDestroyed()) {
@@ -81,7 +79,7 @@ public abstract class GameScene implements RunnableObject{
 		
 		//Solve ConcurrentModificationException
 		for (RunnableObject runnable_object: toremove_list) {
-			runnable_object_list.remove(runnable_object);
+			GAME_MANAGER.getRunnableObjects().remove(runnable_object);
 		}
 	}
 	
@@ -90,10 +88,10 @@ public abstract class GameScene implements RunnableObject{
 	 * @author Dave
 	 */
 	protected void checkObjectCollisions() {
-		for (RunnableObject runnable_object: runnable_object_list) {
+		for (RunnableObject runnable_object: GAME_MANAGER.getRunnableObjects()) {
 			if (runnable_object instanceof GameObject) {
 				GameObject game_object = (GameObject) runnable_object;
-				for (RunnableObject another_object: runnable_object_list) {
+				for (RunnableObject another_object: GAME_MANAGER.getRunnableObjects()) {
 					GameObject other = (GameObject) another_object;
 					if (other != game_object) {
 						game_object.collidesWith(other);

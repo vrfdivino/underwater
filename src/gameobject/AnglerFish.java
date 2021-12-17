@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
+import component.AudioPlayer;
 import component.Timer;
+import constants.Assets;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -29,6 +31,9 @@ public class AnglerFish extends GameObject {
 	private int dir_x = -1;
 	private int speed = 125;
 	private int hp = 3000;
+	
+	private Timer reload_timer;
+	private boolean can_shoot;
 	/**
 	 * Creates a new boss fish object.
 	 * 
@@ -41,6 +46,8 @@ public class AnglerFish extends GameObject {
 		setTransformations(x, y);
 		setSpritesAndAnimations();
 		setCollision();
+		setAudio();
+		setOthers();
 	}
 	
 	/**
@@ -54,6 +61,23 @@ public class AnglerFish extends GameObject {
 		setTransformations(position.x, position.y);
 		setSpritesAndAnimations();
 		setCollision();
+		setAudio();
+		setOthers();
+	}
+	
+	private void setOthers() {
+		reload_timer = new Timer(2);
+		reload_timer.onTimerTimeout(()->{
+			can_shoot = true;
+		});
+		reload_timer.setLoop(true);
+		reload_timer.terminateOnEnd(false);
+		reload_timer.start();
+		TIME_MANAGER.addTimer(reload_timer);
+	}
+	
+	private void setAudio() {
+		SFX_MANAGER.addAudioPlayer("FISH HIT", new AudioPlayer(Assets.FISH_HIT));
 	}
 	
 	/**
@@ -112,6 +136,7 @@ public class AnglerFish extends GameObject {
 		updatePosition();
 		updateCollision();
 		checkIfDead();
+		updateFire();
 		render(gc);
 	}
 	
@@ -127,7 +152,7 @@ public class AnglerFish extends GameObject {
 		animation_player.setPosition(position);
 		animation_player.render(gc);
 		if (!collision.isColliding()) {
-			collision.renderCollision(gc);
+			//collision.renderCollision(gc);
 		} else {
 			destroyCollidingObjects();
 		}
@@ -167,6 +192,15 @@ public class AnglerFish extends GameObject {
 		collision.setPosition(position);
 	}
 	
+	private void updateFire() {
+		if (can_shoot) {
+			can_shoot = false;
+			GAME_MANAGER.addRunnableObject(new Spike(position.x + dir_x * 80,  position.y + 40, new Vector2(dir_x,-0.25)));
+			GAME_MANAGER.addRunnableObject(new Spike(position.x + dir_x * 80,  position.y + 40, new Vector2(dir_x,0.25)));
+			reload_timer.start();
+		}
+	}
+	
 	/**
 	 * Check if needs to be destroy.
 	 * 
@@ -174,7 +208,8 @@ public class AnglerFish extends GameObject {
 	 */
 	
 	private void checkIfDead() {
-		if(hp == 0) {
+		if(hp <= 0) {
+			PLAYER_MANAGER.setScore(PLAYER_MANAGER.getScore() + 10);
 			destroy();
 		}
 	}
@@ -195,11 +230,17 @@ public class AnglerFish extends GameObject {
 			// destroy bullet when hit
 			if(other instanceof Projectile) {
 				Projectile proj = (Projectile) other;
-				if(proj.getIsReleased()) {
-					other.destroy();	
-					setHp(hp - PLAYER_MANAGER.getHp());
+					
+				if (!other.isDestroyed()) {
+					setHp(hp - proj.getDamage());
+					//System.out.println(hp);
 				}
-			} else if(other instanceof Player) {
+			
+				SFX_MANAGER.stopAudioPlayer("FISH HIT");
+				SFX_MANAGER.playAudioPlayer("FISH HIT");
+				other.destroy();
+			}
+			else if(other instanceof Player) {
 //				Player player = (Player) other;
 //				if(player.getCanAbsorb()) {
 //					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);

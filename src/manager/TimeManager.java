@@ -6,7 +6,7 @@ import component.Timer;
 
 /**
  * Singleton Class
- * Handles managing time.
+ * Manages time.
  * @author Dave
  *
  */
@@ -19,6 +19,7 @@ public class TimeManager {
 	private double time_left = 61;
 	
 	private ArrayList<Timer> timer_list = new ArrayList<Timer>();
+	private ArrayList<Timer> timer_toadd = new ArrayList<Timer>();			//Buffer Timers to add to timer_list
 	
 	private TimeManager() {}
 	
@@ -40,23 +41,41 @@ public class TimeManager {
 		
 		time_elapsed += delta_time;
 		
+		//Update Timers
 		ArrayList<Timer> timer_toremove = new ArrayList<Timer>();
 		for (Timer timer: timer_list) {
 			timer.update();
-			if (timer.isFinished()) {
+			if (timer.canTerminate()) {
 				timer_toremove.add(timer);
 			}
 		}
 		
+		//Remove finished Timers
 		if (!timer_toremove.isEmpty()) {
 			for (Timer timer: timer_toremove) {
 				timer_list.remove(timer);
 			}
 		}
+		
+		//Add Buffered timers to timer_list
+		timer_toremove = new ArrayList<Timer>();
+		if (!timer_toadd.isEmpty()) {
+			for (Timer timer: timer_toadd) {
+				timer_list.add(timer);
+				timer_toremove.add(timer);
+			}
+		}
+		
+		//Empty Timer Buffer
+		if (!timer_toremove.isEmpty()) {
+			for (Timer timer: timer_toremove) {
+				timer_toadd.remove(timer);
+			}
+		}
 	}
 	
 	public void addTimer(Timer timer) {
-		timer_list.add(timer);
+		timer_toadd.add(timer);
 	}
 	
 	public void clearTimerList() {
