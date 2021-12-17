@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
+import component.Timer;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -22,16 +23,12 @@ public class AnglerFish extends GameObject {
 	/////////////////// PROPERTIES ///////////////////
 	
 	public static int DAMAGE = 50;
-	public static int HP = 100;
 	
 	private Image[] anglerfish_move_sprites = new Image[8];
 	private AnimatedSprite anglerfish_move;
 	private int dir_x = -1;
 	private int speed = 125;
-	private int hp = AnglerFish.HP;
-	private boolean is_spawn = false;
-	private boolean can_release = true;
-	
+	private int hp = 3000;
 	/**
 	 * Creates a new boss fish object.
 	 * 
@@ -199,23 +196,20 @@ public class AnglerFish extends GameObject {
 			if(other instanceof Projectile) {
 				Projectile proj = (Projectile) other;
 				if(proj.getIsReleased()) {
-//					other.destroy();	
+					other.destroy();	
+					setHp(hp - PLAYER_MANAGER.getHp());
 				}
 			} else if(other instanceof Player) {
-				Player player = (Player) other;
-				if(player.getCanAbsorb()) {
-					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
-					player.setCanAbsorb(false);
-				}		
+//				Player player = (Player) other;
+//				if(player.getCanAbsorb()) {
+//					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
+//					player.setCanAbsorb(false);
+//				}		
 			}
 		}
 	}
 	
-	public int getHP() {return this.hp;}
-	public boolean getSpawn() {return is_spawn;}
+	public int getHp() {return this.hp;}
 	public int getDir() {return dir_x;}
-	public boolean getCanRelease() { return can_release;}
-	public void setHP(int hp) {this.hp = hp;}
-	public void setSpawn(boolean spawn) {this.is_spawn = spawn;}
-	public void setCanRelease(boolean release) {this.can_release = release;}
+	public void setHp(int hp) {this.hp = hp;}
 }

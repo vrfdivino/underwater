@@ -44,6 +44,7 @@ public class EndScreen extends GameScene {
 	private Label screen_title;
 	private Label won_label;
 	private GameDB db;
+	private boolean is_won;
 	
 	/**
 	 * Create a new End screen.
@@ -61,6 +62,18 @@ public class EndScreen extends GameScene {
 		screen_title = new Label();
 		won_label = new Label();
 		this.game_stage = gameStage;
+		db = new GameDB(Database.DEV_DB);
+	}
+	
+	public EndScreen(GameStage gameStage, boolean is_won) {
+		root   = new BorderPane();
+		scene  = new Scene(root, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		gc     = canvas.getGraphicsContext2D();
+		screen_title = new Label();
+		won_label = new Label();
+		this.game_stage = gameStage;
+		this.is_won = is_won;
 		db = new GameDB(Database.DEV_DB);
 	}
 	
@@ -93,7 +106,7 @@ public class EndScreen extends GameScene {
 		 * 
 		 * 
 		 */
-		if(PLAYER_MANAGER.getIsWon()) {
+		if(is_won) {
 			buildWonGUI();
 		} else {
 			buildLoseGUI();

@@ -16,6 +16,7 @@ public class TimeManager {
 	private double delta_time = 0;
 	private double last_time = System.nanoTime();
 	private double time_elapsed = 0;
+	private double time_left = 61;
 	
 	private ArrayList<Timer> timer_list = new ArrayList<Timer>();
 	
@@ -54,10 +55,6 @@ public class TimeManager {
 		}
 	}
 	
-	public void resetTimeElapsed() {
-		time_elapsed = 0;
-	}
-	
 	public void addTimer(Timer timer) {
 		timer_list.add(timer);
 	}
@@ -70,7 +67,15 @@ public class TimeManager {
 		return time_elapsed;
 	}
 	
+	public double getTimeLeft() {
+		return time_left - time_elapsed;
+	}
+	
 	public double getDeltaTime() {
 		return delta_time;
+	}
+	
+	public void reset() {
+		time_elapsed = 0;
 	}
 }

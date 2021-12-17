@@ -34,7 +34,6 @@ public class Projectile extends GameObject {
 	private AnimatedSprite projectile_sprite;
 	private boolean is_released = false;
 	private Player ref;
-	private Timer timer;
 	
 	/**
 	 * Creates a new weapon object.
@@ -48,7 +47,6 @@ public class Projectile extends GameObject {
 		setTransformations(/*x, y*/);
 		setSpritesAndAnimations();
 		setCollision();
-		setTimer();
 	}
 	
 	/**
@@ -73,15 +71,6 @@ public class Projectile extends GameObject {
 		animation_player = new AnimationPlayer();
 		projectile_sprite = new AnimatedSprite(new Image[] {new Image("/Game/Spear.png")}, 1, position, size);
 		animation_player.addAnimation("IDLE", projectile_sprite);
-	}
-	
-	private void setTimer() {
-		timer = new Timer(Projectile.DELAY);
-		timer.setLoop(false);
-		timer.onTimerTimeout(()->{
-		    ref.setCanReload(true);
-		 });
-		TIME_MANAGER.addTimer(timer);
 	}
 	
 	/**
@@ -134,7 +123,7 @@ public class Projectile extends GameObject {
 	private void getInput() {
 		if(INPUT_MANAGER.pressedInt("SPACE") == 1) {
 			is_released = true;
-			timer.start();
+			GAME_MANAGER.setCanShoot(false);
 		}
 	}
 	
@@ -195,11 +184,10 @@ public class Projectile extends GameObject {
 			// destroy fish immediately
 			if(other instanceof SmallFish && is_released) {
 				other.destroy();
+				// TODO
+//				PLAYER_MANAGER.setScore(PLAYER_MANAGER.getScore() + 1);
 			} else if(other instanceof AnglerFish) {
-				// if collides with the bullet, deduct its own life
-				AnglerFish af = (AnglerFish) other;
-				af.setHP(af.getHP() - Projectile.DAMAGE);
-				System.out.println(af.getHP());
+				// TODO
 			}
 		}
 	}

@@ -8,6 +8,8 @@ import component.Timer;
 import constants.Assets;
 import datatype.Vector2;
 import gameobject.AnglerFish;
+import gameobject.Lightning;
+import gameobject.Pearl;
 import gameobject.Player;
 import gameobject.Projectile;
 import gameobject.SpikeBall;
@@ -27,7 +29,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.GameStage;
-import manager.GameManager;
 import parentclass.GameScene;
 
 public class Level_001 extends GameScene{
@@ -42,7 +43,6 @@ public class Level_001 extends GameScene{
 	private Label hp_label;
 	private Label score_label;
 	private MenuButton back_button;	
-	private Timer timer;
 
 	public Level_001(GameStage gameStage){
 		
@@ -55,26 +55,18 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initOtherProperties() {
-		TIME_MANAGER.resetTimeElapsed();
-		GAME_MANAGER.reset();
-		PLAYER_MANAGER.reset();
-		initSpawner();
-		initBossSpawner();
+		initTimer();
+		initPlayer();
+		initGame();
 	}
 	
 	@Override
 	protected void initObjectProperties() {
-		player = new Player(100, -450);
-		boss = new AnglerFish(1200, 400);
-		Projectile projectile = new Projectile(player);
-		runnable_object_list.add(player);
-		runnable_object_list.add(projectile);
-		spawnInitialEnemies();
+		player = GAME_MANAGER.getPlayer();
 	}
 	
 	@Override
 	protected void initGUIProperties() {
-		
 		background = new AnimatedSprite(new Image[] {new Image(Assets.BACKGROUND_002)}, 1, new Vector2(1024/2, 3072/2), new Vector2(1024, 3072));
 		
 		back_button = new MenuButton(game_stage,  Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
@@ -90,7 +82,6 @@ public class Level_001 extends GameScene{
 				
 		pane.setCenter(canvas);
 		pane.setTop(_top);
-		
 	}
 	
 	/**
@@ -110,7 +101,7 @@ public class Level_001 extends GameScene{
 		ImageView _timer = new ImageView(_timer_image);
 		timer_label = new Label();
 		timer_label.setTextFill(Color.web("#f1f2b6", 1.0));
-		timer_label.setText("01:00");
+		timer_label.setText("00:59");
 		timer_label.setFont(Font.loadFont(Assets.SQUARED, 30));
 		StackPane.setMargin(timer_label, new Insets(0, -90, 0, 0));
 		_timer_pane.getChildren().add(_timer);
@@ -135,7 +126,7 @@ public class Level_001 extends GameScene{
 		ImageView _score = new ImageView(_score_image);
 		this.score_label = new Label();
 		score_label.setTextFill(Color.web("#f1f2b6", 1.0));
-		score_label.setText(String.valueOf(PLAYER_MANAGER.getFishKilled()));
+		score_label.setText(String.valueOf(PLAYER_MANAGER.getScore()));
 		score_label.setFont(Font.loadFont(Assets.SQUARED, 30));
 		StackPane.setMargin(score_label, new Insets(0, -100, 0, 0));
 		_score_pane.getChildren().add(_score);
@@ -147,7 +138,6 @@ public class Level_001 extends GameScene{
 	
 	@Override
 	protected void initAudioProperties() {
-		
 		AudioPlayer _under_pressure = new AudioPlayer(Assets.UNDER_PRESSURE, false);
 		AudioPlayer _underwater = new AudioPlayer(Assets.UNDERWATER, true);
 		AudioPlayer _splash = new AudioPlayer(Assets.SPLASH);
@@ -159,7 +149,6 @@ public class Level_001 extends GameScene{
 		AUDIO_MANAGER.playAudioPlayer("Under Pressure");
 		SFX_MANAGER.playAudioPlayer("Underwater");
 		SFX_MANAGER.playAudioPlayer("Splash");
-		
 	}
 	
 	@Override
@@ -174,33 +163,25 @@ public class Level_001 extends GameScene{
 	public void update(GraphicsContext gc) { 	
 		
 		onStartOfFrame();
-		
 		updateGUI();
 		updateObjects();
+		updateWeapon();
+		updateBoss();
 		
 		checkObjectCollisions();
 		checkDestroyedObjects();
+		checkIfWon();
 		
-//		spawnEnemy();
-//		spawnBoss();
-		reloadProjectile();
-		
-		checkIfEndGame();
 		
 		limitPlayerMovement();
 		
 		pane.requestFocus();
-		System.out.println(PLAYER_MANAGER.getHp());
 		
 	}
 	@Override
 	protected void updateGUI() {
-		
 		scrollBackground();
-		updateTimerLabel();
-		updateHPLabel();
-		updateScoreLabel();
-		
+		updatePlayerStats();
 	}
 	
 	/**
@@ -208,7 +189,6 @@ public class Level_001 extends GameScene{
 	 * @author dave
 	 */
 	private void limitPlayerMovement() {
-		
 		if (player.getPosition().x <= 64) {
 			player.setPosition(new Vector2(64, player.getPosition().y));
 			player.setVelocity(new Vector2(0,player.getVelocity().y));
@@ -241,162 +221,81 @@ public class Level_001 extends GameScene{
 		background.render(gc);
 	}
 	
-	/**
-	 * 
-	 * Update the timer in the status bar.
-	 * 
-	 * @author vondivino
-	 */
-	private void updateTimerLabel() {
-		int _time_left = GAME_MANAGER.getTimeLeft();
-		
-		if (_time_left <= 0) {
-			timer_label.setText("00:00");
-		}else if (_time_left >= 10) {
-			timer_label.setText("00:" + _time_left);
-		} else {
-			timer_label.setText("00:0" + _time_left);
-		}
-	}
+	
+	
+	///////////////// ALL INITIALIZERS ////////////////
 	
 	/**
+	 * Initialize the game timer.
+	 * This handles the update of the timer label.
 	 * 
-	 * TODO:
-	 * Implement this one if the enemy is available.
-	 * 
-	 * @author vondivino
+	 * @author Von Divino
 	 */
-	private void spawnEnemy() {
-		if(GAME_MANAGER.getSpawn()) {
-			GAME_MANAGER.spawnEnemy(runnable_object_list);
-		}
-	}
-	
-	/**
-	 * 
-	 * Update the HP in the status bar.
-	 * 
-	 * @author vondivino
-	 */
-	private void updateHPLabel() {
-		hp_label.setText(String.valueOf(PLAYER_MANAGER.getHp()));
-	}
-	
-
-	/**
-	 * 
-	 * Check if the game should be ended.
-	 * 
-	 * @author vondivino
-	 */
-	private void checkIfEndGame() {
-//		if(GAME_MANAGER.getTimeLeft() <= -1 || PLAYER_MANAGER.getHp() <= 0 || PLAYER_MANAGER.getStrength() <= 0) {
-//			if(PLAYER_MANAGER.getStrength() <= 0 || PLAYER_MANAGER.getHp() <= 0) {
-//				PLAYER_MANAGER.setIsWon(false);	
-//			} else {
-//				PLAYER_MANAGER.setIsWon(true);
-//			}
-//			game_stage.setGameScene(new EndScreen(game_stage));
-//		}
-	}
-	
-	/**
-	 * 
-	 * TODO:
-	 * Implement once the player can shoot enemies.
-	 * 
-	 * @author vondivino
-	 */
-	private void updateScoreLabel() {
-		
-	}
-	
-	/**
-	 * 
-	 * Spawn boss.
-	 * 
-	 * @author vondivino
-	 */
-	private void spawnBoss() {
-		if(GAME_MANAGER.getTimeLeft() ==( 60 - 30) && !GAME_MANAGER.getSpawnBoss()) {
-			GAME_MANAGER.spawnBoss(runnable_object_list);
-			GAME_MANAGER.setSpawnBoss(true);
-		} 
-	}
 	
 	private void initTimer() {
-		timer = new Timer(1);
+		TIME_MANAGER.reset();
+		Timer timer = new Timer(1);
 		timer.setLoop(true);
 		timer.onTimerTimeout(()->{
-		    GAME_MANAGER.setTimeLeft(-1);
+			int _time_left = (int) TIME_MANAGER.getTimeLeft();
+			if (_time_left == 60)
+				timer_label.setText("01:00");
+			else if (_time_left <= 0) 
+				timer_label.setText("00:00");
+			else if (_time_left >= 10) 
+				timer_label.setText("00:" + _time_left);
+			else 
+				timer_label.setText("00:0" + _time_left);
 		 });
 		timer.start();
 		TIME_MANAGER.addTimer(timer);
 	}
 	
-	
-	/************** FINAL ****/
-	
-	
-	
 	/**
-	 * Spawn initial small fish enemies.
+	 * Initialize the player.
+	 * This handles the player initial stats.
 	 * 
 	 * @author Von Divino
 	 */
-	private void spawnInitialEnemies() {
+	private void initPlayer() {
+		PLAYER_MANAGER.initializeStats();
+	}
+	
+	/**
+	 * Initialize the game.
+	 * This handles the game objects.
+	 * 
+	 * @author Von Divino
+	 */
+	private void initGame() {
+		GAME_MANAGER.spawnPlayer(runnable_object_list);
 		GAME_MANAGER.spawnInitialEnemies(runnable_object_list);
+		GAME_MANAGER.initIntervalEnemies(runnable_object_list);
+		GAME_MANAGER.initBoss(runnable_object_list);
+		GAME_MANAGER.initPowerups(runnable_object_list);
 	}
 	
-	private void initSpawner() {
-		Timer spawner = new Timer(3);
-		spawner.setLoop(true);
-		spawner.onTimerTimeout(()->{
-		    for(int i = 0; i < 3; ++i) GAME_MANAGER.spawnEnemy(runnable_object_list);
-		 });
-		spawner.start();
-		TIME_MANAGER.addTimer(spawner);
-	}
-	
-	private void initBossSpawner() {
-		Timer boss_spawner = new Timer(5);
-		boss_spawner.setLoop(true);
-		boss_spawner.onTimerTimeout(()->{
-			if(boss.getCanRelease()) {
-			    SpikeBall spike_ball = new SpikeBall(boss);
-			    runnable_object_list.add(spike_ball);
-			    releaseSpikeBall(spike_ball);
-			    boss.setCanRelease(false);
-			}
-		    if(!boss.getSpawn()) {
-		    	runnable_object_list.add(boss);
-		    	boss.setSpawn(true);
-		    }
-		 });
-		boss_spawner.start();
-		TIME_MANAGER.addTimer(boss_spawner);
-	}
-	
-	
-	private void reloadProjectile() {
-		if(player.getCanReload() == true) {
-			Projectile new_projectile = new Projectile(player);
-			runnable_object_list.add(new_projectile);
-			player.setCanReload(false);
+	private void updateWeapon() {
+		if(GAME_MANAGER.getCanShoot()) {
+			GAME_MANAGER.playerReload(runnable_object_list);
 		}
 	}
 	
-	private void releaseSpikeBall(SpikeBall sb) {
-		Timer releaser = new Timer(5);
-		releaser.setLoop(true);
-		releaser.onTimerTimeout(()->{
-			if(boss.getDir() < 0) {
-				sb.setRelease(true);
-				boss.setCanRelease(true);
-			}
-		 });
-		releaser.start();
-		TIME_MANAGER.addTimer(releaser);
+	private void updatePlayerStats() {
+		hp_label.setText(String.valueOf(PLAYER_MANAGER.getHp()));
+		score_label.setText(String.valueOf(PLAYER_MANAGER.getScore()));
 	}
 	
+	private void updateBoss() {
+	}
+	
+	private void checkIfWon() {
+		if((int) TIME_MANAGER.getTimeLeft() == 0) {
+			if(PLAYER_MANAGER.getHp() > 0) {
+				game_stage.setGameScene(new EndScreen(game_stage, true));
+			} else {
+				game_stage.setGameScene(new EndScreen(game_stage, false));
+			}
+		}
+	}
 } 

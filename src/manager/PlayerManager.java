@@ -1,5 +1,7 @@
 package manager;
 
+import java.util.Random;
+
 /**
  * Handles managing player states.
  * 
@@ -7,16 +9,15 @@ package manager;
  */
 public class PlayerManager {
 
-	public static int STARTING_HP = 100;
 	
 	private static PlayerManager instance;
-	private int hp = PlayerManager.STARTING_HP;
-	private int strength;
-	private int fish_killed;
+	
+	private int hp;
+	private int score;
 	private boolean is_won;
+	private boolean modifiable;
 	
 	private PlayerManager() {
-		reset();
 	}
 	
 	public static PlayerManager getInstance() {
@@ -28,52 +29,20 @@ public class PlayerManager {
 	}
 	
 	public int getHp() {return hp;}
+	public int getScore() {return score;}
+	public boolean getIsWon() {return is_won;}
+	
+	public void setHp(int hp) {this.hp = hp;}
+	public void setScore(int score) {this.score = score;};
+	public void setIsWon(boolean is_won) {this.is_won = is_won;};
 	
 
-	public void setHp(int hp) {this.hp = hp;}
-	
-	public int getFishKilled() {
-		return fish_killed;
-	}
-	
-	public void setFishKilled(int factor) {
-		this.fish_killed += factor;
-	}
-	
-	/**
-	 * 
-	 * Use this getter end the EndScreen.
-	 * This is used to decide whether a Win or Lose GUI to render.
-	 * 
-	 * @return
-	 * @author vondivino
-	 */
-	public boolean getIsWon() {
-		return is_won;
-	}
-	
-	
-	/**
-	 * 
-	 * This should be called in game play screen.
-	 * In this project, it should be in Level_001.
-	 * 
-	 * @param is_won
-	 * @author vondivino
-	 */
-	public void setIsWon(boolean is_won) {
-		this.is_won = is_won;
-	}
-	
-	/**
-	 * 
-	 * Reset the properties of a player.
-	 * 
-	 * @author vondivino
-	 */
-	public void reset() {
-		hp = PlayerManager.STARTING_HP;
-		fish_killed = 0;
+	public void initializeStats() {
+		Random r = new Random();
+		int x = r.nextInt(151) + 100;
+		hp = x > 150 ? 150 : x;
+		score = 0;
 		is_won = false;
+		modifiable = true;
 	}
 }

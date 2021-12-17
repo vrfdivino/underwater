@@ -39,7 +39,6 @@ public class Player extends GameObject{
 	
 	private double move_speed        = 10;
 	private double move_acceleration = 20;
-	private boolean can_reload = false;
 	private boolean can_absorb = true;
 	
 	private Vector2 direction = new Vector2();
@@ -99,7 +98,12 @@ public class Player extends GameObject{
 		collision.setCollide(true);
 		collision.setOrigin(new Vector2(-(size.x/2) + 80, (size.y/2) - 230));
 		collision.setSize( new Vector2(100, 190));
-		collision.setCollisions(new String[] {AnglerFish.class.getName()});
+		String[] collisions_objs = new String[4];
+		collisions_objs[0] = SmallFish.class.getName();
+		collisions_objs[1] = AnglerFish.class.getName();
+		collisions_objs[2] = Pearl.class.getName();
+		collisions_objs[3] = Lightning.class.getName();
+		collision.setCollisions(collisions_objs);
 	}
 	
 	/**
@@ -235,9 +239,14 @@ public class Player extends GameObject{
 		//Solves ConcurrentModificationError
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);	
-			// From von: I comment this out for the mean time, 
-			// OBJECTS (enemies and boss) should be destroy when they are shoot, not collide
-			// other.destroy();
+			if(other instanceof SmallFish) {
+				other.destroy();
+				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - SmallFish.DAMAGE);
+			} else if(other instanceof AnglerFish) {
+				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
+			} else {
+				other.destroy();
+			}
 		}
 	}
 	
@@ -257,7 +266,6 @@ public class Player extends GameObject{
 	
 	public Vector2 getPosition() {return position;}
 	public Vector2 getVelocity() {return velocity;}
-	public boolean getCanReload() {return can_reload;}
 	public boolean getCanAbsorb() {return can_absorb;}
 	
 	/////////////////// SETTERS ///////////////////
@@ -266,7 +274,6 @@ public class Player extends GameObject{
 	public void setPosition(Vector2 position) {this.position.set(position);}
 	public void setVelocity(double x, double y) {this.velocity.set(x, y);}
 	public void setVelocity(Vector2 velocity) {this.velocity.set(velocity);}
-	public void setCanReload(boolean can_reload) {this.can_reload = can_reload;}
 	public void setCanAbsorb(boolean can_absorb) {
 		this.can_absorb = can_absorb;
 		Timer timer = new Timer(1);

@@ -23,7 +23,7 @@ public class SmallFish extends GameObject{
 	
 	/////////////////// PROPERTIES ///////////////////
 	
-	public static int DAMAGE = 50;
+	public static int DAMAGE = 30;
 	
 	private Image[] smallfish_move_sprites = new Image[8];
 	private AnimatedSprite smallfish_move;
@@ -213,17 +213,20 @@ public class SmallFish extends GameObject{
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
 			// destroy bullet when hit
+//			if(other instanceof Projectile) {
+//				Projectile proj = (Projectile) other;
+//				if(proj.getIsReleased()) {
+//					other.destroy();	
+//				}
+//			} else if(other instanceof Player) {
+//				Player player = (Player) other;
+//				if(player.getCanAbsorb()) {
+//					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - SmallFish.DAMAGE);
+//					player.setCanAbsorb(false);
+//				}		
+//			}
 			if(other instanceof Projectile) {
-				Projectile proj = (Projectile) other;
-				if(proj.getIsReleased()) {
-					other.destroy();	
-				}
-			} else if(other instanceof Player) {
-				Player player = (Player) other;
-				if(player.getCanAbsorb()) {
-					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - SmallFish.DAMAGE);
-					player.setCanAbsorb(false);
-				}		
+				other.destroy();
 			}
 		}
 	}
