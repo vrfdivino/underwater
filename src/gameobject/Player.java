@@ -274,17 +274,22 @@ public class Player extends GameObject{
 					collisions_objs[1] = Lightning.class.getName();
 					collision.setCollisions(collisions_objs);
 					
+					animation_player.setAlpha(0.75);
+					
 					Timer invul_timer = new Timer(3);
 					invul_timer.onTimerTimeout(()->{
 						state = STATES.NORMAL;
 						
-						String[] new_collisions_objs = new String[5];
+						String[] new_collisions_objs = new String[6];
 						new_collisions_objs[0] = SmallFish.class.getName();
 						new_collisions_objs[1] = AnglerFish.class.getName();
 						new_collisions_objs[2] = Pearl.class.getName();
 						new_collisions_objs[3] = Lightning.class.getName();
 						new_collisions_objs[4] = Star.class.getName();
+						new_collisions_objs[5] = Spike.class.getName();
 						collision.setCollisions(new_collisions_objs);
+						
+						animation_player.setAlpha(1.0);
 					});
 					invul_timer.setLoop(false);
 					invul_timer.start();
@@ -316,8 +321,6 @@ public class Player extends GameObject{
 	private void updateWeapon() {
 		if (INPUT_MANAGER.justPressed("SPACE") && can_shoot) {
 			GAME_MANAGER.addRunnableObject(new Projectile(position.x + 100, position.y + 450 + 320));
-			//GAME_MANAGER.addRunnableObject(new Spike(position.x + 100,  position.y + 450 + 320, new Vector2(1,0.25)));
-			//GAME_MANAGER.addRunnableObject(new Spike(position.x + 100,  position.y + 450 + 320, new Vector2(1,-0.25)));
 			
 			SFX_MANAGER.stopAudioPlayer("SHOOT");
 			SFX_MANAGER.playAudioPlayer("SHOOT");
@@ -348,6 +351,7 @@ public class Player extends GameObject{
 				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
 			} else if (other instanceof Spike){
 				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
+				other.destroy();
 			} else {
 				other.destroy();
 			}

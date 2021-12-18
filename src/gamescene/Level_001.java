@@ -1,18 +1,12 @@
 package gamescene;
 
-import java.util.Random;
-
 import component.AnimatedSprite;
 import component.AudioPlayer;
 import component.Timer;
 import constants.Assets;
 import datatype.Vector2;
 import gameobject.AnglerFish;
-import gameobject.Lightning;
-import gameobject.Pearl;
 import gameobject.Player;
-import gameobject.Projectile;
-import gameobject.SpikeBall;
 import gui.MenuButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

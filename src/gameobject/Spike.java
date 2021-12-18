@@ -60,7 +60,7 @@ public class Spike extends GameObject{
 	
 	public void render(GraphicsContext gc) {
 		spike_sprite.render(gc);
-		collision.renderCollision(gc);
+		//collision.renderCollision(gc);
 	}
 	
 	private void updatePosition() {
@@ -76,7 +76,7 @@ public class Spike extends GameObject{
 		collision.setPosition(position);
 		
 		if (collision.isColliding()) {
-			destroy();
+			//destroy();
 		}
 
 	}
