@@ -66,7 +66,7 @@ public class EndScreen extends GameScene {
 		screen_title = new Label();
 		won_label = new Label();
 		this.game_stage = gameStage;
-		db = new GameDB(Database.DEV_DB);
+		db = new GameDB(Database.PROD_DB);
 	}
 	
 	public EndScreen(GameStage gameStage, boolean is_won) {

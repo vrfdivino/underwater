@@ -52,7 +52,7 @@ public class Vector2 {
 	/**
 	 * Set the x and y position.
 	 * 
-	 * @param vector The vector position
+	 * @param vector2 The vector position
 	 * @author Dave Jimenez
 	 */
 	

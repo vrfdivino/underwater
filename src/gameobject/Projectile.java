@@ -36,7 +36,8 @@ public class Projectile extends GameObject {
 	/**
 	 * Creates a new weapon object.
 	 * 
-	 * @param parent The parent object to be attached.
+	 * @param x The x position.
+	 * @param y The y position.
 	 * @author Von Divino, Dave Jimenez
 	 */
 	

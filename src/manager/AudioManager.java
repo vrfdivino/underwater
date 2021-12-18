@@ -31,7 +31,7 @@ public class AudioManager {
 	/**
 	 * Adds an audio player.
 	 * 
-	 * @param The name of the audio player.
+	 * @param name The name of the audio player.
 	 * @param audioPlayer The audio player.
 	 * @author Dave Jimenez
 	 */

@@ -60,7 +60,7 @@ public class Scoreboard extends GameScene {
 		canvas = new Canvas(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 		gc     = canvas.getGraphicsContext2D();	
 		game_stage = gameStage;
-		db     = new GameDB(Database.DEV_DB);
+		db     = new GameDB(Database.PROD_DB);
 		screen_title = new Label();
 	}
 	
