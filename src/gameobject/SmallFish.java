@@ -33,13 +33,12 @@ public class SmallFish extends GameObject{
 	private int speed = 125;
 	private Timer timer;
 	
-	
 	/**
 	 * Creates a new small fish object.
 	 * 
 	 * @param x The starting x position.
 	 * @param y The starting y position.
-	 * @author Von Divino
+	 * @author Von Divino, Dave Jimenez
 	 */
 	
 	public SmallFish(double x, double y) {
@@ -54,7 +53,7 @@ public class SmallFish extends GameObject{
 	 * Creates a new small fish object.
 	 * 
 	 * @param position The vector position.
-	 * @author Von Divino
+	 * @author Von Divino, Dave Jimenez
 	 */
 	
 	public SmallFish(Vector2 position) {
@@ -64,6 +63,12 @@ public class SmallFish extends GameObject{
 		initTimer();
 		setAudio();
 	}
+	
+	/**
+	 * Set the audio property of the small fish.
+	 * 
+	 * @author Dave Jimenez
+	 */
 	
 	private void setAudio() {
 		SFX_MANAGER.addAudioPlayer("FISH HIT", new AudioPlayer(Assets.FISH_HIT));
@@ -86,12 +91,11 @@ public class SmallFish extends GameObject{
 	/**
 	 * Set the set of sprite and animation of the small fish.
 	 * 
-	 * 	@author Von Divino
+	 * 	@author Dave Jimenez
 	 */
 	
 	private void setSpritesAndAnimations() {
 		animation_player = new AnimationPlayer();
-		// TODO
 		smallfish_move_sprites[0] = new Image("/Enemy/Sprites/Fish.png");
 		smallfish_move = new AnimatedSprite(smallfish_move_sprites, 1, position, size);
 		animation_player.addAnimation("MOVE", smallfish_move);
@@ -101,14 +105,12 @@ public class SmallFish extends GameObject{
 	/**
 	 * Set the collision object attach to the small fish.
 	 * 
-	 * 	@author Von Divino
+	 * 	@author Von Divino, Dave Jimenez
 	 */
 	
 	private void setCollision() {
 		collision.setCollide(true);
-		// TODO
 		collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
-		// TODO
 		collision.setSize(new Vector2(144, 96));
 		String[] collisions_objs = new String[2];
 		collisions_objs[0] = Player.class.getName();
@@ -120,14 +122,14 @@ public class SmallFish extends GameObject{
 	 * Adds an independent state manipulator for the small fish.
 	 * In this case, the small fish should have varying speed.
 	 * 
-	 * @author Von Divino
+	 * @author Von Divino, Dave Jimenez
 	 */
+	
 	public void initTimer() {
 		Random r = new Random();
 		timer = new Timer(r.nextInt(10));
 		timer.onTimerTimeout(()->{
 			speed = r.nextInt(125) + 125;
-			//System.out.println("changing speed");
 		 });
 		timer.setLoop(true);
 		timer.start();
@@ -151,7 +153,7 @@ public class SmallFish extends GameObject{
 	 * Describe how to render a small fish object.
 	 * 
 	 * @param gc The graphics context from the canvas.
-	 * @author Von Divino
+	 * @author Dave Jimenez
 	 */
 	
 	private void render(GraphicsContext gc) {
@@ -159,16 +161,7 @@ public class SmallFish extends GameObject{
 		animation_player.setPosition(position);
 		animation_player.render(gc);
 		if (!collision.isColliding()) {
-			//collision.renderCollision(gc);
 		} else {
-			// deduct strength of the player 
-			// PLAYER_MANAGER.setStrength(-SmallFish.DAMAGE);
-			// PLAYER_MANAGER.setHp(-20);
-			//collision.renderCollision(gc, Color.DARKORANGE, 0.5);
-			
-			// TODO:
-			// if it collides with the player then the player should take the damage.
-			// if it collides with a bullet then this instance should be destroyed.
 			destroyCollidingObjects();
 		}
 	}
@@ -176,15 +169,14 @@ public class SmallFish extends GameObject{
 	/**
 	 * Update the position of the small fish.
 	 * 
-	 * @author Von Divino
+	 * @author Dave Jimenez
 	 */
 	
 	private void updatePosition() {
 		position.add(new Vector2(speed * dir_x * TIME_MANAGER.getDeltaTime(),0));
-		double gutter = GameStage.WINDOW_WIDTH/3-100;
-		if (position.x < gutter)	{
+		if (position.x < 0)	{
 			dir_x = 1;
-			position.x = gutter;
+			position.x = 0;
 			animation_player.setHFlip(true);
 			collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
 		}
@@ -209,30 +201,16 @@ public class SmallFish extends GameObject{
 	/**
 	 * Destroy the objects that collides with the weapon.
 	 * 
-	 * 	@author Von Divino
+	 * 	@author Dave Jimenez
 	 */
 	
 	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collision.getOverlaps()) {
 			toremove_list.add(other);
-//			System.out.println(other);
 		}
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
-			// destroy bullet when hit
-//			if(other instanceof Projectile) {
-//				Projectile proj = (Projectile) other;
-//				if(proj.getIsReleased()) {
-//					other.destroy();	
-//				}
-//			} else if(other instanceof Player) {
-//				Player player = (Player) other;
-//				if(player.getCanAbsorb()) {
-//					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - SmallFish.DAMAGE);
-//					player.setCanAbsorb(false);
-//				}		
-//			}
 			if(other instanceof Projectile) {
 				SFX_MANAGER.stopAudioPlayer("FISH HIT");
 				SFX_MANAGER.playAudioPlayer("FISH HIT");

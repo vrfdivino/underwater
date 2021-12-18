@@ -5,7 +5,6 @@ import component.AudioPlayer;
 import component.Timer;
 import constants.Assets;
 import datatype.Vector2;
-import gameobject.AnglerFish;
 import gameobject.Player;
 import gui.MenuButton;
 import javafx.geometry.Insets;
@@ -25,7 +24,17 @@ import javafx.scene.text.Font;
 import main.GameStage;
 import parentclass.GameScene;
 
-public class Level_001 extends GameScene{
+/**
+ * The level 01 screen.
+ * Inherits all the props and methods in GameScene.
+ *  
+ * @author Dave Jimenez, Von Divino
+ */
+
+public class Level_001 extends GameScene {
+	
+	/////////////////// PROPERTIES ///////////////////
+	
 	private static final int X_BOUND_MIN = 64;
 	private static final int X_BOUND_MAX = 965;
 	private static final int Y_BOUND_MIN = -730;
@@ -34,7 +43,6 @@ public class Level_001 extends GameScene{
 	private AnimatedSprite background;
 	private double bg_scroll_speed = 36;
 	private Player player;
-	private AnglerFish boss;
 	
 	private BorderPane pane;
 	private Label timer_label;
@@ -42,6 +50,13 @@ public class Level_001 extends GameScene{
 	private Label score_label;
 	private MenuButton back_button;	
 
+	/**
+	 * Creates a new Level_001 object.
+	 * 
+	 * @param gameStage The game stage.
+	 * @author Dave Jimenez
+	 */
+	
 	public Level_001(GameStage gameStage){
 		
 		pane = new BorderPane();
@@ -51,6 +66,12 @@ public class Level_001 extends GameScene{
 		this.game_stage = gameStage;
 	}
 	
+	/**
+	 * Initialize other screen properties.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	@Override
 	protected void initOtherProperties() {
 		initTimer();
@@ -58,10 +79,22 @@ public class Level_001 extends GameScene{
 		initGame();
 	}
 	
+	/**
+	 * Initialize screen objects.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	@Override
 	protected void initObjectProperties() {
 		player = GAME_MANAGER.getPlayer();
 	}
+	
+	/**
+	 * Initialize screen GUI.
+	 * 
+	 * @author Dave Jimenez
+	 */
 	
 	@Override
 	protected void initGUIProperties() {
@@ -83,14 +116,13 @@ public class Level_001 extends GameScene{
 	}
 	
 	/**
-	 * 
 	 * A helper function to build the status bar.
 	 * 
-	 * @return
-	 * @author vondivino, dave
+	 * @return HBox The status bar itself.
+	 * @author Von Divino, Dave Jimenez
 	 */
+	
 	private HBox buildStatusBar() {
-		
 		HBox _statusBar = new HBox();
 		
 		/// TIMER PANE ///
@@ -105,7 +137,6 @@ public class Level_001 extends GameScene{
 		_timer_pane.getChildren().add(_timer);
 		_timer_pane.getChildren().add(timer_label);
 
-		
 		/// HP PANE ///
 		StackPane _hp_pane = new StackPane();
 		Image _hp_image = new Image(Assets.HP);
@@ -134,6 +165,12 @@ public class Level_001 extends GameScene{
 		return _statusBar;
 	}
 	
+	/**
+	 * Initialize screen audio properties.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	@Override
 	protected void initAudioProperties() {
 		AudioPlayer _under_pressure = new AudioPlayer(Assets.UNDER_PRESSURE, false);
@@ -149,32 +186,42 @@ public class Level_001 extends GameScene{
 		SFX_MANAGER.playAudioPlayer("Splash");
 	}
 	
+	/**
+	 * Trigger on exit.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	@Override
 	public void onExit() {
-		
 		AUDIO_MANAGER.stopAll();
 		SFX_MANAGER.stopAll();
-		
 	}
+	
+	/**
+	 * Update the screen.
+	 * 
+	 * @author Dave Jimenez, Von Divino
+	 */
 	
 	@Override 
 	public void update(GraphicsContext gc) { 	
-		
 		onStartOfFrame();
 		updateGUI();
 		updateObjects();
-		updateBoss();
-		
 		checkObjectCollisions();
 		checkDestroyedObjects();
 		checkIfWon();
-		
-		
 		limitPlayerMovement();
-		
 		pane.requestFocus();
-		
 	}
+	
+	/**
+	 * Update GUI.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	@Override
 	protected void updateGUI() {
 		scrollBackground();
@@ -182,9 +229,11 @@ public class Level_001 extends GameScene{
 	}
 	
 	/**
+	 * Limit player movement across boundaries.
 	 * 
-	 * @author dave
+	 * @author Dave Jimenez
 	 */
+	
 	private void limitPlayerMovement() {
 		if (player.getPosition().x <= Level_001.X_BOUND_MIN) {
 			player.setPosition(new Vector2(Level_001.X_BOUND_MIN, player.getPosition().y));
@@ -203,13 +252,14 @@ public class Level_001 extends GameScene{
 			player.setPosition(new Vector2(player.getPosition().x, Level_001.Y_BOUND_MAX));
 			player.setVelocity(new Vector2(player.getVelocity().x, 0));
 		}
-		
 	}
 	
 	/**
+	 * Simulate a scrolling background effect.
 	 * 
-	 * @author dave
+	 * @author Dave Jimenez
 	 */
+	
 	private void scrollBackground() {
 		background.getPosition().add(new Vector2(0, -bg_scroll_speed * TIME_MANAGER.getDeltaTime()));
 		if (background.getPosition().y <= -565) {
@@ -217,10 +267,6 @@ public class Level_001 extends GameScene{
 		}
 		background.render(gc);
 	}
-	
-	
-	
-	///////////////// ALL INITIALIZERS ////////////////
 	
 	/**
 	 * Initialize the game timer.
@@ -254,6 +300,7 @@ public class Level_001 extends GameScene{
 	 * 
 	 * @author Von Divino
 	 */
+	
 	private void initPlayer() {
 		PLAYER_MANAGER.initializeStats();
 	}
@@ -264,6 +311,7 @@ public class Level_001 extends GameScene{
 	 * 
 	 * @author Von Divino
 	 */
+	
 	private void initGame() {
 		GAME_MANAGER.spawnPlayer();
 		GAME_MANAGER.spawnInitialEnemies();
@@ -272,13 +320,22 @@ public class Level_001 extends GameScene{
 		GAME_MANAGER.initPowerups();
 	}
 	
+	/**
+	 * Update the player stats.
+	 * 
+	 * @author Von Divino
+	 */
+	
 	private void updatePlayerStats() {
 		hp_label.setText(String.valueOf(PLAYER_MANAGER.getHp()));
 		score_label.setText(String.valueOf(PLAYER_MANAGER.getScore()));
 	}
 	
-	private void updateBoss() {
-	}
+	/**
+	 * Check if the game won or lose.
+	 * 
+	 * @author Von Divino, Dave Jimenez
+	 */
 	
 	private void checkIfWon() {
 		if(PLAYER_MANAGER.getHp() <= 0) {

@@ -14,16 +14,20 @@ import component.AnimatedSprite;
 import constants.Assets;
 import constants.Layout;
 import gui.MenuButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import main.GameStage;
 import parentclass.GameScene;
 import services.Database;
 import services.GameDB;
+import services.PlayerData;
 
 /**
  * The End screen.
@@ -62,7 +66,7 @@ public class EndScreen extends GameScene {
 		screen_title = new Label();
 		won_label = new Label();
 		this.game_stage = gameStage;
-		db = new GameDB(Database.DEV_DB);
+		db = new GameDB(Database.PROD_DB);
 	}
 	
 	public EndScreen(GameStage gameStage, boolean is_won) {
@@ -94,9 +98,9 @@ public class EndScreen extends GameScene {
 				new SplashScreen(game_stage));
 		layout = new VBox();
 		
-		screen_title.setTextFill(Color.web("#f1f2b6", 1.0));
-		screen_title.setText("End screen");
-		screen_title.setFont(Font.loadFont(Assets.SQUARED, 30));
+		screen_title.setTextFill(Color.web("#2f325d", 1.0));
+		screen_title.setText("Game Over");
+		screen_title.setFont(Font.loadFont(Assets.SQUARED, 48));
 		layout.getChildren().add(screen_title);
 		
 		/**
@@ -155,26 +159,36 @@ public class EndScreen extends GameScene {
 	 */
 	
 	private void buildWonGUI() {
-		Label _label1 = new Label("Username:");
+		Label _label1 = new Label("Enter Your Name:");
 		TextField _textField = new TextField();
 		Button _submitButton = new Button("Submit");
 		
+		_label1.setTextFill(Color.web("#528c9f", 1.0));
+		_label1.setFont(Font.loadFont(Assets.SQUARED,16));
+		_label1.setWrapText(true);
+		_label1.setTextAlignment(TextAlignment.CENTER);
+		_label1.setBackground(new Background(new BackgroundFill(Color.web("#f1f2b6"),new CornerRadii(5d),null)));
+		_label1.setPadding(new Insets(10d));
 		_submitButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	
-		    	// get user name and commit to the database
-		        if(db.connecToDb()) {
-		        	db.createTable();
-		        	db.closeDb();
-		        }
-		        _textField.clear();
-		        
-		        // after saving redirect to the splash
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	try {
+		    		if(db.connectToDb()) {
+			        	db.createTable();
+			        	db.insertData(new PlayerData(_textField.getText(), PLAYER_MANAGER.getScore()));
+			        	db.closeDb();
+			        }
+			        _textField.clear();	
+		    	} catch (Exception err) {
+		    		
+		    	}
 		    }
 		});
-		HBox _inputPane = new HBox();
+		VBox _inputPane = new VBox();
 		_inputPane.getChildren().addAll(_label1, _textField, _submitButton);
 		_inputPane.setSpacing(10);
+		_inputPane.setAlignment(Pos.CENTER);
+		_inputPane.setMaxWidth(300d);
 		
 		buildWonLabel("You Won!", Color.GREEN);
 		layout.getChildren().add(_inputPane);
@@ -204,12 +218,21 @@ public class EndScreen extends GameScene {
 		layout.getChildren().add(won_label);
 	}
 	
+	/**
+	 * Trigger on exit.
+	 * 
+	 * @author Von Divino
+	 */
+	
+	@Override
+	public void onExit() {
+		db.closeDb();
+	}
+	
 	@Override
 	protected void initOtherProperties() {}
 	@Override
 	protected void initObjectProperties() {}
 	@Override
 	protected void initAudioProperties() {}
-	@Override
-	public void onExit() {}
 }

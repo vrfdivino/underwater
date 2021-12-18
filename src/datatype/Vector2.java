@@ -52,7 +52,7 @@ public class Vector2 {
 	/**
 	 * Set the x and y position.
 	 * 
-	 * @param vector The vector position
+	 * @param vector2 The vector position
 	 * @author Dave Jimenez
 	 */
 	
@@ -177,6 +177,7 @@ public class Vector2 {
 	 * @return ( Vector2 ) Next Vector2 value towards target position 
 	 * @author Dave Jimenez
 	 */
+	
 	public Vector2 moveTowards(Vector2 current_pos, Vector2 target_pos, double delta) {
 		Vector2 _origin_pos = new Vector2(target_pos.x - current_pos.x, target_pos.y - current_pos.y);
 		Vector2 _final_pos = new Vector2();

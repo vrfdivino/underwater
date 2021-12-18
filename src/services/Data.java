@@ -1,8 +1,7 @@
 package services;
 
-public class Data {
-	
-	
-	
-
+public abstract class Data {
+	public PlayerData getPlayerData() {
+		return (PlayerData) this;
+	}
 }

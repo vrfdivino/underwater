@@ -74,9 +74,9 @@ public class About extends GameScene {
 				new SplashScreen(game_stage));
 		layout = new VBox();
 		
-		screen_title.setTextFill(Color.web("#f1f2b6", 1.0));
-		screen_title.setText(Content.ABOUT_TITLE);
-		screen_title.setFont(Font.loadFont(Assets.SQUARED, 30));
+		screen_title.setTextFill(Color.web("#2f325d", 1.0));
+		screen_title.setText("About Us");
+		screen_title.setFont(Font.loadFont(Assets.SQUARED, 48));
 		layout.getChildren().add(screen_title);
 		
 		for(String content: new Content().getAboutContent()) {

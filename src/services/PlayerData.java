@@ -2,14 +2,20 @@ package services;
 
 import java.util.HashMap;
 
+/**
+ * The player model data.
+ * 
+ * @author Von Divino
+ */
+
 public class PlayerData extends Data {
 	private int id;
 	private String name;
 	private int score;
 	
-	public PlayerData(String name) {
+	public PlayerData(String name, int score) {
 		this.name  = name;
-		this.score = 0;
+		this.score = score;
 	}
 	
 	PlayerData(int id, String name, int score) {
