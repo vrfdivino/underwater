@@ -176,7 +176,6 @@ public class EndScreen extends GameScene {
 		    		if(db.connectToDb()) {
 			        	db.createTable();
 			        	db.insertData(new PlayerData(_textField.getText(), PLAYER_MANAGER.getScore()));
-			        	db.closeDb();
 			        }
 			        _textField.clear();	
 		    	} catch (Exception err) {
@@ -226,7 +225,9 @@ public class EndScreen extends GameScene {
 	
 	@Override
 	public void onExit() {
-		db.closeDb();
+		if(is_won) {
+			db.closeDb();
+		}	
 	}
 	
 	@Override

@@ -104,7 +104,6 @@ public class Scoreboard extends GameScene {
 				PlayerData player = d.getPlayerData();
 				players.add(player);
 			}
-			db.closeDb();
 		}
 	}
 	
