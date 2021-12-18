@@ -36,7 +36,6 @@ public class Instruction extends GameScene {
 	private BorderPane root;
 	private VBox layout;
 	private MenuButton back_button;
-	private AnimatedSprite title;
 	private AnimatedSprite background;
 	private Label screen_title;
 	
@@ -65,7 +64,6 @@ public class Instruction extends GameScene {
 	@Override
 	protected void initGUIProperties() {
 		background = Layout.STATIC_BACKGROUND;
-		title = Layout.STATIC_TITLE;
 		back_button = new MenuButton(game_stage, 
 				Assets.BACK_SELECTED, 
 				Assets.BACK_PRESSED,  
@@ -74,8 +72,8 @@ public class Instruction extends GameScene {
 		layout = new VBox();
 		
 		screen_title.setTextFill(Color.web("#2f325d", 1.0));
-		screen_title.setText(Content.INSTSRUCTION_TITLE);
-		screen_title.setFont(Font.loadFont(Assets.SQUARED, 30));
+		screen_title.setText("Instructions");
+		screen_title.setFont(Font.loadFont(Assets.SQUARED, 48));
 		layout.getChildren().add(screen_title);
 		
 		int _idx = 0;
@@ -127,7 +125,6 @@ public class Instruction extends GameScene {
 	@Override
 	protected void updateGUI() {
 		background.render(gc);
-		title.render(gc);
 	}
 	
 	@Override
