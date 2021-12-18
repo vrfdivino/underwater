@@ -73,6 +73,7 @@ public class AnimationPlayer {
 	public boolean isVisible() {return is_visible;}
 	public AnimatedSprite getAnimation(String name) {return animations.get(name);}
 	public String getCurrentAnimationName() {return current_animation;}
+	public double getRotation() {return rotation;}
 	public double getAlpha() {return alpha;}
 	public ArrayList<String> getAllAnimationNames() {
 		ArrayList<String> animNames = new ArrayList<String>();

@@ -27,6 +27,7 @@ public class Timer {
 	 * 
 	 * @param Dave Jimenez
 	 */
+	
 	public Timer(double duration) {
 		this.duration = duration;
 	}
@@ -52,6 +53,7 @@ public class Timer {
 	 * 
 	 * @author Dave Jimenez
 	 */
+	
 	public void start() {
 		can_start = true;
 		current_time = 0;
@@ -64,6 +66,7 @@ public class Timer {
 	 * @param e The callback function.
 	 * @author Dave Jimenez
 	 */
+	
 	public void onTimerTimeout(TimeoutEvent e) {
 		timeout_event = e;
 	}

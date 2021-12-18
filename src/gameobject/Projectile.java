@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import component.AnimatedSprite;
 import component.AnimationPlayer;
-import component.Timer;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -15,7 +14,7 @@ import parentclass.GameObject;
  * The weapon shoots by the player.
  * It inherits the base properties and methods from the GameObject.
  * 
- * @author Von Divino
+ * @author Von Divino, Dave Jimenez
  */
 
 public class Projectile extends GameObject {
@@ -33,17 +32,15 @@ public class Projectile extends GameObject {
 	
 	private AnimatedSprite projectile_sprite;
 	private boolean is_released = false;
-	//private Player ref;
 	
 	/**
 	 * Creates a new weapon object.
 	 * 
 	 * @param parent The parent object to be attached.
-	 * @author Von Divino
+	 * @author Von Divino, Dave Jimenez
 	 */
 	
 	public Projectile(double x, double y) {
-		//setRef(ref);
 		setTransformations(x, y);
 		setSpritesAndAnimations();
 		setCollision();
@@ -52,13 +49,12 @@ public class Projectile extends GameObject {
 	/**
 	 * Set the starting position and size of the weapon.
 	 * 
-	 * @author Von Divino
+	 * @author Von Divino, Dave Jimenez
 	 */
 	
 	private void setTransformations(double x, double y) {
 		size.set(Projectile.HEIGHT, Projectile.WIDTH);
 		rotation = Projectile.STARTING_ROT;
-		//position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
 		position.set(x, y);
 	}
 	
@@ -82,7 +78,6 @@ public class Projectile extends GameObject {
 	
 	@Override
 	public void update(GraphicsContext gc) {
-		getInput();
 		updateCollision();
 		render(gc);
 	}
@@ -91,7 +86,7 @@ public class Projectile extends GameObject {
 	 * Describe how to render a weapon object.
 	 * 
 	 * @param gc The graphics context from the canvas.
-	 * @author Von Divino
+	 * @author Von Divino, Dave Jimenez
 	 */
 	
 	private void render(GraphicsContext gc) {
@@ -99,60 +94,32 @@ public class Projectile extends GameObject {
 		if(!is_released) {
 			updatePosition();
 			animation_player.setPosition(position);	
-		} else {
-			//setReleasePosition();
-		}
+		} 
 		if (!collision.isColliding()) {
 		} else {
-			//System.out.println("Colliding");
 			destroyCollidingObjects();
 		}
 		animation_player.render(gc);
 	}
 	
+	/**
+	 * Update the position of the projectile.
+	 * 
+	 * @author Dave Jimenez
+	 */
 	
 	private void updatePosition() {
-		/*position.set(ref.getPosition().x + Projectile.DIVER_X_OFFSET, 
-				ref.getPosition().y + Projectile.DIVER_Y_OFFSET);
-		*/
 		position.set(position.x + SPEED, position.y);
-		
 		if (position.x > GameStage.WINDOW_WIDTH + 50) {
 			destroy();
 		}
 	}
 	
-	/**
-	 * Get the input press by the user.
-	 * Only handles the SPACE key.
-	 * 
-	 * @author Von Divino
-	 */
-	
-	private void getInput() {
 
-	}
-	
-	/**
-	 * Set the position when the weapon is being released.
-	 * 
-	 * @author Von Divino
-	 */
-	
-	/*
-	private void setReleasePosition() {
-		if(position.x < GameStage.WINDOW_WIDTH + Projectile.DIVER_X_OFFSET) {
-			position.x += Projectile.SPEED;
-			animation_player.setPosition(position);
-		} else {
-			destroy();
-		}
-	}
-	*/
 	/**
 	 * Set the collision object attach to the weapon.
 	 * 
-	 * 	@author Von Divino
+	 * 	@author Von Divino, Dave Jimenez
 	 */
 	
 	private void setCollision() {
@@ -186,8 +153,6 @@ public class Projectile extends GameObject {
 		for (GameObject other: collision.getOverlaps()) {
 			toremove_list.add(other);
 		}
-		
-		//System.out.println(collision.getOverlaps());
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
 			// destroy fish immediately
@@ -196,10 +161,7 @@ public class Projectile extends GameObject {
 				SFX_MANAGER.stopAudioPlayer("FISH HIT");
 				SFX_MANAGER.playAudioPlayer("FISH HIT");
 				other.destroy();
-				// TODO
-//				PLAYER_MANAGER.setScore(PLAYER_MANAGER.getScore() + 1);
 			} else if(other instanceof AnglerFish) {
-				// TODO
 				SFX_MANAGER.stopAudioPlayer("FISH HIT");
 				SFX_MANAGER.playAudioPlayer("FISH HIT");
 			}
@@ -208,11 +170,6 @@ public class Projectile extends GameObject {
 	
 	/////////////////// GETTERS ///////////////////
 	
-	//public Player getRef() {return ref;}
 	public boolean getIsReleased() {return is_released;}
 	public int getDamage() {return DAMAGE;}
-	
-	/////////////////// SETTERS ///////////////////
-	
-	//public void setRef(Player ref) {this.ref = ref;}
 }

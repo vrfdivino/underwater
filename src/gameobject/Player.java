@@ -80,6 +80,11 @@ public class Player extends GameObject{
 		setAudio();
 	}
 	
+	/**
+	 * Set other properties.
+	 * 
+	 * @author Dave Jimenez
+	 */
 	private void setOthers() {
 		reload_timer = new Timer(0.5);
 		reload_timer.onTimerTimeout(()->{
@@ -90,6 +95,12 @@ public class Player extends GameObject{
 		reload_timer.terminateOnEnd(false);
 		TIME_MANAGER.addTimer(reload_timer);
 	}
+	
+	/**
+	 * Set audio effects properties.
+	 * 
+	 * @author Dave Jimenez
+	 */
 	
 	private void setAudio() {
 		SFX_MANAGER.addAudioPlayer("HIT", new AudioPlayer(Assets.HIT));
@@ -135,6 +146,7 @@ public class Player extends GameObject{
 	 * 
 	 * 	@author Dave Jimenez
 	 */
+	
 	private void setSpritesAndAnimations() {
 		animation_player = new AnimationPlayer();
 		// hit sprite
@@ -201,7 +213,12 @@ public class Player extends GameObject{
 		updateWeapon();
 	}
 	
-	// TODO
+	/**
+	 * The invulnerable state.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	public void invulnerable() {
 		getInput();
 		updatePosition();
@@ -209,7 +226,12 @@ public class Player extends GameObject{
 		updateWeapon();
 	}
 	
-	// TODO
+	/**
+	 * The speed up state.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	public void speedUp() {
 		getInput();
 		updatePosition();
@@ -313,15 +335,17 @@ public class Player extends GameObject{
 		
 	}
 	
+	/**
+	 * Update the weapon of the player.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	private void updateWeapon() {
 		if (INPUT_MANAGER.justPressed("SPACE") && can_shoot) {
 			GAME_MANAGER.addRunnableObject(new Projectile(position.x + 100, position.y + 450 + 320));
-			//GAME_MANAGER.addRunnableObject(new Spike(position.x + 100,  position.y + 450 + 320, new Vector2(1,0.25)));
-			//GAME_MANAGER.addRunnableObject(new Spike(position.x + 100,  position.y + 450 + 320, new Vector2(1,-0.25)));
-			
 			SFX_MANAGER.stopAudioPlayer("SHOOT");
-			SFX_MANAGER.playAudioPlayer("SHOOT");
-			
+			SFX_MANAGER.playAudioPlayer("SHOOT");	
 			can_shoot = false;
 			spear_sprite.setVisible(false);
 			reload_timer.start();
@@ -333,6 +357,7 @@ public class Player extends GameObject{
 	 * 
 	 * 	@author Dave Jimenez
 	 */
+	
 	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collision.getOverlaps()) {
@@ -359,6 +384,7 @@ public class Player extends GameObject{
 	 * 
 	 * 	@author Dave Jimenez
 	 */
+	
 	private void updateAnimation() {
 		if (!collision.isColliding()) {
 		}else {
@@ -370,6 +396,12 @@ public class Player extends GameObject{
 		else animation_player.playAnimation("MOVE");
 	}
 	
+	/**
+	 * Update audio properties.
+	 * 
+	 * 	@author Dave Jimenez
+	 */
+	
 	private void updateAudio() {
 		if (!collision.isColliding()) {
 
@@ -379,12 +411,10 @@ public class Player extends GameObject{
 					SFX_MANAGER.stopAudioPlayer("HIT");
 					SFX_MANAGER.playAudioPlayer("HIT");
 				}
-				
 				if (other instanceof AnglerFish) {
 					SFX_MANAGER.stopAudioPlayer("HIT");
 					SFX_MANAGER.playAudioPlayer("HIT");
 				}
-				
 				if (other instanceof Spike) {
 					SFX_MANAGER.stopAudioPlayer("HIT");
 					SFX_MANAGER.playAudioPlayer("HIT");

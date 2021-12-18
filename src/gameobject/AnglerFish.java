@@ -34,6 +34,7 @@ public class AnglerFish extends GameObject {
 	
 	private Timer reload_timer;
 	private boolean can_shoot;
+	
 	/**
 	 * Creates a new boss fish object.
 	 * 
@@ -65,6 +66,12 @@ public class AnglerFish extends GameObject {
 		setOthers();
 	}
 	
+	/**
+	 * Set other properties for the boss fish.
+	 * 
+	 * @author Dave Jimenez
+	 */
+	
 	private void setOthers() {
 		reload_timer = new Timer(2);
 		reload_timer.onTimerTimeout(()->{
@@ -75,6 +82,12 @@ public class AnglerFish extends GameObject {
 		reload_timer.start();
 		TIME_MANAGER.addTimer(reload_timer);
 	}
+	
+	/**
+	 * Set audio sound fx for the boss fish.
+	 * 
+	 * @author Dave Jimenez
+	 */
 	
 	private void setAudio() {
 		SFX_MANAGER.addAudioPlayer("FISH HIT", new AudioPlayer(Assets.FISH_HIT));
@@ -166,14 +179,12 @@ public class AnglerFish extends GameObject {
 	
 	private void updatePosition() {
 		position.add(new Vector2(speed * dir_x * TIME_MANAGER.getDeltaTime(),0));
-		
 		if (position.x < 0)	{
 			dir_x = 1;
 			position.x = 0;
 			animation_player.setHFlip(true);
 			collision.setOrigin(new Vector2(-(size.x/2) + 70, -(size.y/2) + 60));
 		}
-		
 		if (position.x > GameStage.WINDOW_WIDTH) {
 			dir_x = -1;
 			position.x = GameStage.WINDOW_WIDTH;
@@ -227,28 +238,22 @@ public class AnglerFish extends GameObject {
 		}
 		for (GameObject other: toremove_list) {
 			collision.removeOverlap(other);
-			// destroy bullet when hit
 			if(other instanceof Projectile) {
 				Projectile proj = (Projectile) other;
-					
 				if (!other.isDestroyed()) {
 					setHp(hp - proj.getDamage());
-					//System.out.println(hp);
 				}
 			
 				SFX_MANAGER.stopAudioPlayer("FISH HIT");
 				SFX_MANAGER.playAudioPlayer("FISH HIT");
 				other.destroy();
 			}
-			else if(other instanceof Player) {
-//				Player player = (Player) other;
-//				if(player.getCanAbsorb()) {
-//					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
-//					player.setCanAbsorb(false);
-//				}		
+			else if(other instanceof Player) {	
 			}
 		}
 	}
+	
+	/////////////////// GETTERS & SETTERS ///////////////////
 	
 	public int getHp() {return this.hp;}
 	public int getDir() {return dir_x;}

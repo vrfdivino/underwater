@@ -2,7 +2,6 @@ package main;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import services.GameServer;
 
 public class Main extends Application{
 	public static void main(String[] args) {
@@ -12,11 +11,6 @@ public class Main extends Application{
 	@Override
 	public void start(Stage stage) throws Exception {
 		GameStage game_stage = new GameStage();		
-		
-		// PLEASE DO NOT EDIT UNTIL PRODUCTION
-		// We can choose to add a web server or embed data in GUI.
-		// GameServer gameServer = new GameServer();
-		// gameServer.listen();
 		
 		game_stage.setStage(stage);
 		game_stage.start();

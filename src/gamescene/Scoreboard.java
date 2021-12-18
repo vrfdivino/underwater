@@ -53,7 +53,6 @@ public class Scoreboard extends GameScene {
 	
 	@Override
 	protected void initGUIProperties() {
-		
 		background = Layout.STATIC_BACKGROUND;
 		title = Layout.STATIC_TITLE;
 		back_button = new MenuButton(game_stage, Assets.BACK_SELECTED, Assets.BACK_PRESSED,  Assets.BACK_UNSELECTED,  new SplashScreen(game_stage));
@@ -65,7 +64,6 @@ public class Scoreboard extends GameScene {
 		root.getChildren().add(canvas);		
 		root.setCenter(layout);
 	}
-
 
 	/**
 	 * Updates the screen.
@@ -79,7 +77,6 @@ public class Scoreboard extends GameScene {
 		updateObjects();	
 		updateGUI();
 		root.requestFocus();
-		
 	}
 	
 	/**

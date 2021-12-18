@@ -1,9 +1,6 @@
 package parentclass;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import gameobject.AnglerFish;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,56 +13,74 @@ import manager.SFXManager;
 import manager.TimeManager;
 import runnableobject.RunnableObject;
 
+/**
+ * The class which all the game scnees inherits.
+ * 
+ * @author Dave Jimenez
+ *
+ */
+
 public abstract class GameScene implements RunnableObject{
-	//Initialize Singletons
+	
+	/////////////////// PROPERTIES ///////////////////
+	
 	protected InputManager INPUT_MANAGER = InputManager.getInstance();
 	protected AudioManager AUDIO_MANAGER = AudioManager.getInstance();
 	protected SFXManager SFX_MANAGER = SFXManager.getInstance();
 	protected GameManager GAME_MANAGER = GameManager.getInstance();
 	protected PlayerManager PLAYER_MANAGER = PlayerManager.getInstance();
 	protected TimeManager TIME_MANAGER = TimeManager.getInstance();
-	
-	//protected ArrayList<RunnableObject> runnableobject_list = new ArrayList<RunnableObject>();
-	
 	protected GameStage game_stage;
 	protected Scene scene;
 	protected GraphicsContext gc;
 	protected Canvas canvas;
+	
+	/**
+	 * This should be called in every scenes.
+	 * 
+	 */
 	
 	@Override
 	public void update(GraphicsContext gc) {}
 	
 	/**
 	 * To be called at the start of update method.
-	 * @author Dave
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	protected void onStartOfFrame() {
 		gc.clearRect(0, 0, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 	}
 	
 	/**
-	 * To be called in update method
-	 * @author Dave
+	 * To be called in update method.
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	protected void updateObjects() {
 		GAME_MANAGER.addBufferedRunnableObjectsToAdd();
 		for (RunnableObject object: GAME_MANAGER.getRunnableObjects()) {
 			object.update(gc);
-			//System.out.println(object);
 		}
 	}
 	
 	/**
 	 * To be called in update method.
-	 * @author Dave
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	protected abstract void updateGUI();
 	
 	/**
 	 * Removes GameObject from the runnableobject_list if they are destroyed.
 	 * To be called in update method.
-	 * @author Dave
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	protected void checkDestroyedObjects() {
 		ArrayList<RunnableObject> toremove_list = new ArrayList<RunnableObject>(); 
 		for (RunnableObject runnable_object: GAME_MANAGER.getRunnableObjects()) {
@@ -77,16 +92,17 @@ public abstract class GameScene implements RunnableObject{
 			}
 		}
 		
-		//Solve ConcurrentModificationException
 		for (RunnableObject runnable_object: toremove_list) {
 			GAME_MANAGER.getRunnableObjects().remove(runnable_object);
 		}
 	}
 	
 	/**
-	 * Checks the collision for each GameObject if it collides with other GameObjects
-	 * @author Dave
+	 * Checks the collision for each GameObject if it collides with other GameObjects.
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	protected void checkObjectCollisions() {
 		for (RunnableObject runnable_object: GAME_MANAGER.getRunnableObjects()) {
 			if (runnable_object instanceof GameObject) {
@@ -102,9 +118,11 @@ public abstract class GameScene implements RunnableObject{
 	}
 	
 	/**
-	 * Initializes the scene properties. Called only after switching GameScenes
-	 * @author Dave
+	 * Initializes the scene properties. Called only after switching GameScenes.
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	public void initializeProperties() {
 		initOtherProperties();
 		initObjectProperties();
@@ -119,16 +137,14 @@ public abstract class GameScene implements RunnableObject{
 	
 	/**
 	 * Do not call in update method. Called only when switching GameScenes.
-	 * @author Dave
+	 * 
+	 * @author Dave Jimenez
 	 */
+	
 	public abstract void onExit();
 	
-	//Getters
-	public Scene getScene(){
-		return scene;
-	}
+	/////// GETTERS ///////
 	
-	public GraphicsContext getGraphicsContext() {
-		return gc;
-	}
+	public Scene getScene() {return scene;}
+	public GraphicsContext getGraphicsContext() {return gc;}
 }
