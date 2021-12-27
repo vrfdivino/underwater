@@ -13,7 +13,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/charl/Desktop/JavaLibs/JavaJSON/java-json.jar"/>
 	<classpathentry kind="lib" path="C:/Users/charl/Desktop/JavaLibs/SQLiteJDBC/sqlite-jdbc-3.36.0.3.jar"/>
+=======
+>>>>>>> 6b303db6ad91690554e22fbf381996a2bd5ca2a8
 	<classpathentry kind="output" path="bin"/>
 </classpath>
