@@ -41,7 +41,6 @@ public class Player extends GameObject{
 	
 	private double move_speed        = 10;
 	private double move_acceleration = 20;
-	private boolean can_absorb = true;
 	
 	private Vector2 direction = new Vector2();
 	private Vector2 velocity  = new Vector2();
@@ -404,7 +403,6 @@ public class Player extends GameObject{
 	
 	public Vector2 getPosition() {return position;}
 	public Vector2 getVelocity() {return velocity;}
-	public boolean getCanAbsorb() {return can_absorb;}
 	
 	/////////////////// SETTERS ///////////////////
 	
