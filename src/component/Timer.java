@@ -12,7 +12,7 @@ public class Timer {
 	
 	/////////////////// PROPERTIES ///////////////////
 	
-	TimeManager TIME_MANAGER = TimeManager.getInstance();
+	private TimeManager TIME_MANAGER = TimeManager.getInstance();
 	private double duration;
 	private double current_time;
 	private TimeoutEvent timeout_event;

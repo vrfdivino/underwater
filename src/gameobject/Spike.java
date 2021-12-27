@@ -17,7 +17,7 @@ import parentclass.GameObject;
 public class Spike extends GameObject {
 	
 	/////////////////// PROPERTIES ///////////////////
-	
+	public static int DAMAGE = 50;
 	private AnimatedSprite spike_sprite;
 	
 	private double move_speed = 10;

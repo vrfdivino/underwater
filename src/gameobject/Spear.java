@@ -23,15 +23,10 @@ public class Spear extends GameObject {
 	
 	public static int HEIGHT = 64;
 	public static int WIDTH = 20;
-	public static int DIVER_X_OFFSET = 100;
-	public static int DIVER_Y_OFFSET = 450 + 320;
 	public static int SPEED = 14;
-	public static int STARTING_ROT = 0;
 	public static int DAMAGE = 500;
-	public static double DELAY = 0.1d;
 	
 	private AnimatedSprite projectile_sprite;
-	private boolean is_released = false;
 	
 	/**
 	 * Creates a new weapon object.
@@ -55,7 +50,7 @@ public class Spear extends GameObject {
 	
 	private void setTransformations(double x, double y) {
 		size.set(Spear.HEIGHT, Spear.WIDTH);
-		rotation = Spear.STARTING_ROT;
+		rotation = 0;
 		position.set(x, y);
 	}
 	
@@ -92,13 +87,11 @@ public class Spear extends GameObject {
 	
 	private void render(GraphicsContext gc) {
 		animation_player.playAnimation("IDLE");
-		if(!is_released) {
-			updatePosition();
-			animation_player.setPosition(position);	
-		} 
+		updatePosition();
+		animation_player.setPosition(position);	
 		if (!collider.isColliding()) {
 		} else {
-			destroyCollidingObjects();
+			onCollision();
 		}
 		animation_player.render(gc);
 	}
@@ -149,7 +142,7 @@ public class Spear extends GameObject {
 	 * 	@author Dave Jimenez
 	 */
 	
-	private void destroyCollidingObjects() {
+	private void onCollision() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collider.getOverlaps()) {
 			toremove_list.add(other);
@@ -171,6 +164,5 @@ public class Spear extends GameObject {
 	
 	/////////////////// GETTERS ///////////////////
 	
-	public boolean getIsReleased() {return is_released;}
 	public int getDamage() {return DAMAGE;}
 }

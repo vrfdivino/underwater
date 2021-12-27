@@ -20,7 +20,6 @@ public class BoxCollider2D {
 	private Vector2 position = Vector2.ZERO;
 	private Vector2 origin = new Vector2();
 	private Vector2 size = new Vector2();
-	public Vector2 test_value = new Vector2(100, 0);
 	private ArrayList<String> collides_with = new ArrayList<String>();
 	private ArrayList<GameObject> overlaps = new ArrayList<GameObject>();
 	
