@@ -31,7 +31,7 @@ public class Content {
 		instruction_content.add("To start, click the new game button.");
 		
 		instruction_content.add("Game Play");
-		instruction_content.add("Have you played space impact on an old Nokia phone before? Under Pressure plays the same. Use your arrow keys to move the diver and press space to shoot the enemies.");
+		instruction_content.add("Have you played space impact on an old Nokia phone before? Under Pressure plays the same. Use your arrow keys to move the diver and press space to shoot the enemies. Collect Powerups to boost your survival such as the Pearl to increase your health by 50, the Lightning powerup to speed up for 5 seconds, and the Star to become invincible for 3 seconds. Be quick though as these disappear after 5 seconds on screen.");
 	
 		instruction_content.add("How To Win?");
 		instruction_content.add("Your goal is to kill the enemies as fast as you can, as much as you can in a minute. Good luck!");

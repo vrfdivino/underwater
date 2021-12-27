@@ -171,7 +171,6 @@ public class Vector2 {
 	 * Moves the vector from the specified current position towards the target position at delta increments. 
 	 * Primarily used for getting smooth movements when paired with speed and acceleration.
 	 * 
-	 * @param current_pos Vector2
 	 * @param target_pos Vector2
 	 * @param delta double
 	 * @return ( Vector2 ) Next Vector2 value towards target position 
