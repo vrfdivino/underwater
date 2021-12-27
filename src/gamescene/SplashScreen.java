@@ -175,9 +175,11 @@ public class SplashScreen extends GameScene {
 				(Observable observable) -> {
 				//Using x^4 as input for volume. This allows for a linear loudness experience
 				AUDIO_MANAGER.setVolume(volumeScaleFactor * volume_slider.getValue() * volume_slider.getValue() * volume_slider.getValue() * volume_slider.getValue()); 
-				SFX_MANAGER.setVolume(volumeScaleFactor * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue());
 			}
 		);
+		sfxvolume_slider.valueProperty().addListener((Observable observable) -> {
+			SFX_MANAGER.setVolume(volumeScaleFactor * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue() * sfxvolume_slider.getValue());
+		});
 	}
 	
 	/**
