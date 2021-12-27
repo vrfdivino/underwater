@@ -309,7 +309,7 @@ public class Player extends GameObject{
 					TIME_MANAGER.addTimer(speedup_timer);
 				}
 			}
-			onCollision();
+			destroyCollidingObjects();
 		}
 		
 	}
@@ -340,7 +340,7 @@ public class Player extends GameObject{
 	 * 	@author Dave Jimenez
 	 */
 	
-	private void onCollision() {
+	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collider.getOverlaps()) {
 			toremove_list.add(other);

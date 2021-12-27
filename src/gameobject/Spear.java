@@ -91,7 +91,7 @@ public class Spear extends GameObject {
 		animation_player.setPosition(position);	
 		if (!collider.isColliding()) {
 		} else {
-			onCollision();
+			destroyCollidingObjects();
 		}
 		animation_player.render(gc);
 	}
@@ -142,7 +142,7 @@ public class Spear extends GameObject {
 	 * 	@author Dave Jimenez
 	 */
 	
-	private void onCollision() {
+	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collider.getOverlaps()) {
 			toremove_list.add(other);

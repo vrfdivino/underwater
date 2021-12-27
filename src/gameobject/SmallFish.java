@@ -162,7 +162,7 @@ public class SmallFish extends GameObject{
 		animation_player.render(gc);
 		if (!collider.isColliding()) {
 		} else {
-			onCollision();
+			destroyCollidingObjects();
 		}
 	}
 	
@@ -204,7 +204,7 @@ public class SmallFish extends GameObject{
 	 * 	@author Dave Jimenez
 	 */
 	
-	private void onCollision() {
+	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		for (GameObject other: collider.getOverlaps()) {
 			toremove_list.add(other);

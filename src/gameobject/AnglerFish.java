@@ -167,7 +167,7 @@ public class AnglerFish extends GameObject {
 		if (!collider.isColliding()) {
 			//collision.renderCollision(gc);
 		} else {
-			onCollision();
+			destroyCollidingObjects();
 		}
 	}
 	
@@ -232,7 +232,7 @@ public class AnglerFish extends GameObject {
 	 * @author Dave Jimenez, Von Divino
 	 */
 	
-	private void onCollision() {
+	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
 		
 		for (GameObject other: collider.getOverlaps()) {
