@@ -74,12 +74,12 @@ public class PowerUp extends GameObject {
 	 */
 	
 	private void setCollision() {
-		collision.setCollide(true);
-		collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2) + 10));
-		collision.setSize( new Vector2(92, 100));
+		collider.setCanCollide(true);
+		collider.setOrigin(new Vector2(-(size.x/2), -(size.y/2) + 10));
+		collider.setSize( new Vector2(92, 100));
 		String[] collisions_objs = new String[1];
 		collisions_objs[0] = Player.class.getName();
-		collision.setCollisions(collisions_objs);
+		collider.setCollisionMasks(collisions_objs);
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class PowerUp extends GameObject {
 	 */
 	
 	private void updateCollision() {
-		collision.setPosition(position);
+		collider.setPosition(position);
 	}
 	
 	/**
@@ -124,7 +124,7 @@ public class PowerUp extends GameObject {
 	 */
 	
 	private void updateAudio() {
-		if (collision.isColliding()) {
+		if (collider.isColliding()) {
 			AUDIO_MANAGER.removeAudioPlayer("POWERUP");
 			AUDIO_MANAGER.addAudioPlayer("POWERUP", sfx);
 			AUDIO_MANAGER.stopAudioPlayer("POWERUP");

@@ -20,7 +20,7 @@ public class Timer {
 	private boolean can_loop = false;
 	private boolean finished = false;
 	private boolean terminate_on_end = true;
-	private boolean terminate = false;
+	private boolean terminated = false;
 
 	/**
 	 * Creates a new Timer instance.
@@ -41,8 +41,8 @@ public class Timer {
 	public void update() {
 		if (can_start) current_time += TIME_MANAGER.getDeltaTime();
 		if (current_time >= duration && !finished) { 
-			timeout_event.onTimerTimeoutMethod();
-			if (!can_loop && terminate_on_end) terminate = true;
+			timeout_event.onTimerTimeout();
+			if (!can_loop && terminate_on_end) terminated = true;
 			else if (!can_loop)	finished = true;
 			current_time = 0;
 		}
@@ -67,18 +67,18 @@ public class Timer {
 	 * @author Dave Jimenez
 	 */
 	
-	public void onTimerTimeout(TimeoutEvent e) {
+	public void setOnTimerTimeout(TimeoutEvent e) {
 		timeout_event = e;
 	}
 	
 	public interface TimeoutEvent {
-		public void onTimerTimeoutMethod();
+		public void onTimerTimeout();
 	}
 	
 	/////////////////// GETTERS ///////////////////
 	
 	public boolean isFinished() {return finished;}
-	public boolean canTerminate() {return terminate;}
+	public boolean isTerminated() {return terminated;}
 	
 	/////////////////// SETTERS ///////////////////
 	

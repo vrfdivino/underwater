@@ -135,8 +135,6 @@ public class EndScreen extends GameScene {
 
 	@Override 
 	public void update(GraphicsContext gc) { 		
-		onStartOfFrame();
-		updateObjects();	
 		updateGUI();
 	}
 	

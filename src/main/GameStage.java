@@ -48,7 +48,7 @@ public class GameStage {
 	 * @author Dave Jimenez
 	 */
 	
-	public void setStage(Stage stage) {
+	void setStage(Stage stage) {
 		stage.getIcons().add(new Image(Assets.ICON));
 		stage.setTitle(GameStage.APP_NAME);
 		stage.setScene(this.game_scene.getScene());
@@ -89,5 +89,5 @@ public class GameStage {
 	
 	public Stage getStage() {return stage;}
 	public GameScene getGameScene() {return game_scene;}
-	GraphicsContext getGraphicsContext() {return gc;}
+	public GraphicsContext getGraphicsContext() {return gc;}
 }

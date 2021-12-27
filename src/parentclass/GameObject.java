@@ -1,7 +1,7 @@
 package parentclass;
 
 import component.AnimationPlayer;
-import component.Collision;
+import component.BoxCollider2D;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import manager.AudioManager;
@@ -28,28 +28,27 @@ public class GameObject implements RunnableObject {
 	protected SFXManager SFX_MANAGER = SFXManager.getInstance();
 	protected PlayerManager PLAYER_MANAGER = PlayerManager.getInstance();
 	protected TimeManager TIME_MANAGER = TimeManager.getInstance();
+	
 	protected AnimationPlayer animation_player;
-	protected Collision collision = new Collision();
-	protected Vector2 collision_pos;
+	protected BoxCollider2D collider = new BoxCollider2D();
+	
 	protected Vector2 size = new Vector2();
 	protected Vector2 position = new Vector2();
 	protected double rotation = 0;
-	
-	/////////////////// GETTERS & SETTERS ///////////////////
-	
 	protected boolean is_destroyed = false;
-	public Collision getCollision() {return collision;}
-	public Vector2 getCollisionPosition() {return collision_pos;}
-	public void collidesWith(GameObject other) {collision.overlaps(other);}
+	
+	@Override
+	public void update(GraphicsContext gc) {}
+	public void collidesWith(GameObject other) {collider.overlaps(other);}
 	public void destroy() {
 		animation_player.setVisible(false);
-		collision.setCollide(false);
+		collider.setCanCollide(false);
 		is_destroyed = true;
 	}
+	/////////////////// GETTERS ///////////////////
 	
 	public boolean isDestroyed() {return is_destroyed;}
 	public Vector2 getPosition() {return position;}
-	@Override
-	public void update(GraphicsContext gc) {}
+	public BoxCollider2D getCollider() {return collider;}
 	
 }

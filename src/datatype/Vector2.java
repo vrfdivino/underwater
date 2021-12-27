@@ -178,22 +178,22 @@ public class Vector2 {
 	 * @author Dave Jimenez
 	 */
 	
-	public Vector2 moveTowards(Vector2 current_pos, Vector2 target_pos, double delta) {
-		Vector2 _origin_pos = new Vector2(target_pos.x - current_pos.x, target_pos.y - current_pos.y);
+	public Vector2 moveTowards(Vector2 target_pos, double delta) {
+		Vector2 _origin_pos = new Vector2(target_pos.x - x, target_pos.y - y);
 		Vector2 _final_pos = new Vector2();
 		Vector2 _direction = _origin_pos.normalize();
 		//Check if next delta increment will overshoot. If overshoot then the final position will be the target position.
 		if (_direction.x > 0) {
 			if (_direction.y > 0) {
-				if (current_pos.x + (delta * _direction.x) <= target_pos.x && current_pos.y + (delta * _direction.y) <= target_pos.y) {
-					_final_pos = new Vector2(current_pos.x + (delta * _direction.x), current_pos.y + (delta * _direction.y));
+				if (x + (delta * _direction.x) <= target_pos.x && y + (delta * _direction.y) <= target_pos.y) {
+					_final_pos = new Vector2(x + (delta * _direction.x), y + (delta * _direction.y));
 				} else {
 					_final_pos = target_pos;
 				}
 			}
 			else {
-				if (current_pos.x + (delta * _direction.x) <= target_pos.x && current_pos.y + (delta * _direction.y) >= target_pos.y) {
-					_final_pos = new Vector2(current_pos.x + (delta * _direction.x), current_pos.y + (delta * _direction.y));
+				if (x + (delta * _direction.x) <= target_pos.x && y + (delta * _direction.y) >= target_pos.y) {
+					_final_pos = new Vector2(x + (delta * _direction.x), y + (delta * _direction.y));
 				} else {
 					_final_pos = target_pos;
 				}
@@ -201,15 +201,15 @@ public class Vector2 {
 
 		} else {
 			if (_direction.y > 0) {
-				if (current_pos.x + (delta * _direction.x) >= target_pos.x && current_pos.y + (delta * _direction.y) <= target_pos.y) {
-					_final_pos = new Vector2(current_pos.x + (delta * _direction.x), current_pos.y + (delta * _direction.y));
+				if (x + (delta * _direction.x) >= target_pos.x && y + (delta * _direction.y) <= target_pos.y) {
+					_final_pos = new Vector2(x + (delta * _direction.x), y + (delta * _direction.y));
 				} else {
 					_final_pos = target_pos;
 				}
 			}
 			else {
-				if (current_pos.x + (delta * _direction.x) >= target_pos.x && current_pos.y + (delta * _direction.y) >= target_pos.y) {
-					_final_pos = new Vector2(current_pos.x + (delta * _direction.x), current_pos.y + (delta * _direction.y));
+				if (x + (delta * _direction.x) >= target_pos.x && y + (delta * _direction.y) >= target_pos.y) {
+					_final_pos = new Vector2(x + (delta * _direction.x), y + (delta * _direction.y));
 				} else {
 					_final_pos = target_pos;
 				}

@@ -157,9 +157,7 @@ public class SplashScreen extends GameScene {
 	
 	@Override 
 	public void update(GraphicsContext gc) { 		
-		onStartOfFrame();
-		updateGUI();
-		updateObjects();	
+		updateGUI();	
 		pane.requestFocus();
 		
 	}
@@ -191,7 +189,7 @@ public class SplashScreen extends GameScene {
 	private void animateTitle() {
 		if (title.getPosition().y > point_1.y)	title_dir = Vector2.UP;
 		if (title.getPosition().y < point_2.y) 	title_dir = Vector2.DOWN;
-		title_vel.moveTowards(title_vel, new Vector2(title_max_spd * title_dir.x, title_max_spd * title_dir.y), 5 * TIME_MANAGER.getDeltaTime());
+		title_vel.moveTowards(new Vector2(title_max_spd * title_dir.x, title_max_spd * title_dir.y), 5 * TIME_MANAGER.getDeltaTime());
 		title.getPosition().add(title_vel);
 		title.render(gc);
 	}

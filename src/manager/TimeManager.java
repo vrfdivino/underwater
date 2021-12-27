@@ -41,7 +41,7 @@ public class TimeManager {
 	 */
 	
 	private void setDeltaTime(double current_time) {
-		delta_time = ((current_time - last_time)/1000000)/1000;
+		delta_time = ((current_time - last_time)/1000000000);
 		last_time = current_time;
 	}
 	
@@ -60,7 +60,7 @@ public class TimeManager {
 		ArrayList<Timer> timer_toremove = new ArrayList<Timer>();
 		for (Timer timer: timer_list) {
 			timer.update();
-			if (timer.canTerminate()) {
+			if (timer.isTerminated()) {
 				timer_toremove.add(timer);
 			}
 		}

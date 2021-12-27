@@ -45,6 +45,7 @@ public class PlayerManager {
 	public int getHp() {return hp;}
 	public int getScore() {return score;}
 	public boolean getIsWon() {return is_won;}
+	
 	public void setHp(int hp) {this.hp = hp;}
 	public void setScore(int score) {this.score = score;};
 	public void setIsWon(boolean is_won) {this.is_won = is_won;};

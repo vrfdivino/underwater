@@ -110,16 +110,18 @@ public class Scoreboard extends GameScene {
 	
 	private VBox buildPlayers() {
 		VBox _player_box = new VBox();
-		for(PlayerData player: players) {
-			Label _player_label = new Label();
-			_player_label.setText(player.getName() + " - " + player.getScore() + " pts");
-			_player_label.setTextFill(Color.web("#528c9f", 1.0));
-			_player_label.setFont(Font.loadFont(Assets.SQUARED,16));
-			_player_label.setWrapText(true);
-			_player_label.setTextAlignment(TextAlignment.CENTER);
-			_player_label.setBackground(new Background(new BackgroundFill(Color.web("#f1f2b6"),new CornerRadii(5d),null)));
-			_player_label.setPadding(new Insets(10d));
-			_player_box.getChildren().add(_player_label);
+		if (!players.isEmpty()) {
+			for(PlayerData player: players) {
+				Label _player_label = new Label();
+				_player_label.setText(player.getName() + " - " + player.getScore() + " pts");
+				_player_label.setTextFill(Color.web("#528c9f", 1.0));
+				_player_label.setFont(Font.loadFont(Assets.SQUARED,16));
+				_player_label.setWrapText(true);
+				_player_label.setTextAlignment(TextAlignment.CENTER);
+				_player_label.setBackground(new Background(new BackgroundFill(Color.web("#f1f2b6"),new CornerRadii(5d),null)));
+				_player_label.setPadding(new Insets(10d));
+				_player_box.getChildren().add(_player_label);
+			}
 		}
 		_player_box.setSpacing(10d);
 		_player_box.setAlignment(Pos.CENTER);
@@ -134,8 +136,6 @@ public class Scoreboard extends GameScene {
 
 	@Override
 	public void update(GraphicsContext gc) { 		
-		onStartOfFrame();
-		updateObjects();	
 		updateGUI();
 		root.requestFocus();
 	}

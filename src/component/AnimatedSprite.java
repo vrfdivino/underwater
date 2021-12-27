@@ -40,12 +40,12 @@ public class AnimatedSprite {
 	 * Creates a new AnimatedSprite.
 	 * A constructor that uses x and y coordinates.
 	 * 
-	 * @param textures An array of Image objects.
-	 * @param fps Determines the speed of the animation.
-	 * @param x Starting x position.
-	 * @param y Starting y position.
-	 * @param width The width of the sprite.
-	 * @param height The height of the sprite.
+	 * @param textures ( Image[] ) An array of Image objects.
+	 * @param fps      ( int ) Determines the speed of the animation.
+	 * @param x        ( double ) Starting x position.
+	 * @param y        ( double ) Starting y position.
+	 * @param width    ( double ) The width of the sprite.
+	 * @param height   ( double ) The height of the sprite.
 	 * @author Dave Jimenez
 	 */
 	
@@ -61,10 +61,10 @@ public class AnimatedSprite {
 	 * Creates a new AnimatedSprite.
 	 * A constructor that uses vector.
 	 * 
-	 * @param textures An array of Image objects.
-	 * @param fps Determines the speed of the animation.
-	 * @param position Starting vector position.
-	 * @param size The vector size.
+	 * @param textures ( Image[] ) An array of Image objects.
+	 * @param fps      ( int ) Determines the speed of the animation.
+	 * @param position ( Vector2 ) Starting vector position.
+	 * @param size     ( Vector2 ) The vector size.
 	 * @author Dave Jimenez
 	 */
 	
@@ -77,7 +77,7 @@ public class AnimatedSprite {
 	}
 	
 	/**
-	 * Stops the Animated and resets current frame to the first frame.
+	 * Stops the AnimatedSprite and resets current frame to the first frame.
 	 * 
 	 * @author Dave Jimenez
 	 */
@@ -107,7 +107,7 @@ public class AnimatedSprite {
 	/**
 	 * Starts the AnimatedSprite at the specified frame. Defaults at the first frame.
 	 * 
-	 * @param frame The frame to be rendered.
+	 * @param frame ( int ) The frame to be rendered.
 	 * @author Dave
 	 */
 	
@@ -122,7 +122,7 @@ public class AnimatedSprite {
 	/**
 	 * Renders the AnimatedSprite into the Canvas.
 	 * 
-	 * @param gc The graphics context of the canvas.
+	 * @param gc ( GraphicsContext ) GraphicsContext of the canvas.
 	 * @author Dave Jimenez
 	 */
 	
@@ -132,7 +132,9 @@ public class AnimatedSprite {
 			double _y_offset;
 			double _x_scale_factor;
 			double _y_scale_factor;
-			if (isHflip()) { //Flips the Image accordingly
+			
+			//Flips the Image accordingly
+			if (isHflip()) { 
 				_x_offset = this.size.x;
 				_x_scale_factor = -1;
 			}

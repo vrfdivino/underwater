@@ -84,6 +84,7 @@ public class About extends GameScene {
 			_labelContent.setText(content);
 			_labelContent.setTextFill(Color.web("#528c9f", 1.0));
 			_labelContent.setFont(Font.loadFont(Assets.SQUARED, 20));
+			_labelContent.setLineSpacing(0);
 			_labelContent.setWrapText(true);
 			_labelContent.setTextAlignment(TextAlignment.CENTER);
 			_labelContent.setBackground(new Background(new BackgroundFill(Color.web("#f1f2b6"),new CornerRadii(5d),null)));
@@ -110,8 +111,6 @@ public class About extends GameScene {
 	
 	@Override 
 	public void update(GraphicsContext gc) { 		
-		onStartOfFrame();
-		updateObjects();	
 		updateGUI();
 		root.requestFocus();
 	}
@@ -126,7 +125,7 @@ public class About extends GameScene {
 	protected void updateGUI() {
 		// TODO Auto-generated method stub
 		background.render(gc);
-		title.render(gc);
+		//title.render(gc);
 
 	}
 	

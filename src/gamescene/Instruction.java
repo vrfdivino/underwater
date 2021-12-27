@@ -109,8 +109,6 @@ public class Instruction extends GameScene {
 	
 	@Override 
 	public void update(GraphicsContext gc) { 		
-		onStartOfFrame();
-		updateObjects();	
 		updateGUI();
 		root.requestFocus();
 		

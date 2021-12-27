@@ -84,12 +84,12 @@ public class Spike extends GameObject {
 	 */
 	
 	private void setCollisions() {
-		collision.setCollide(true);
-		collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
-		collision.setSize( new Vector2(80, 80));
+		collider.setCanCollide(true);
+		collider.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
+		collider.setSize( new Vector2(80, 80));
 		String[] collisions_objs = new String[1];
 		collisions_objs[0] = Player.class.getName();
-		collision.setCollisions(collisions_objs);
+		collider.setCollisionMasks(collisions_objs);
 	}
 	
 	/**
@@ -138,9 +138,9 @@ public class Spike extends GameObject {
 	 */
 	
 	private void updateCollision() {
-		collision.setPosition(position);	
-		if (collision.isColliding()) {
-			//destroy();
+		collider.setPosition(position);	
+		if (collider.isColliding()) {
+			destroy();
 		}
 	}
 }

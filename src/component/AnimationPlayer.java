@@ -28,8 +28,8 @@ public class AnimationPlayer {
 	/**
 	 * Adds a new AnimatedSprite with an identifier.
 	 * 
-	 * @param name Identifier of the AnimatedSprite to add.
-	 * @param animation The AnimatedSprite to add.
+	 * @param name      ( String ) Identifier of the AnimatedSprite to add.
+	 * @param animation ( AnimatedSprite ) The AnimatedSprite to add.
 	 * @author Dave Jimenez
 	 */
 	
@@ -41,7 +41,7 @@ public class AnimationPlayer {
 	/**
 	 * Plays the specified AnimatedSprite.
 	 * 
-	 * @param name Name of the AnimatedSprite.
+	 * @param name ( String ) Name of the AnimatedSprite.
 	 * @author Dave Jimenez
 	 */
 	

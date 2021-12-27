@@ -25,9 +25,8 @@ public class Pearl extends PowerUp {
 		setSpritesAndAnimation(PowerUp.PEARL_PATH);
 		sfx = new AudioPlayer(Assets.POWERUP_3);
 		Timer duration_timer = new Timer(5);
-		duration_timer.onTimerTimeout(()->{
-			animated_sprite.setVisible(false);
-			collision.setCollide(false);
+		duration_timer.setOnTimerTimeout(()->{
+			destroy();
 		});
 		duration_timer.setLoop(false);
 		duration_timer.start();

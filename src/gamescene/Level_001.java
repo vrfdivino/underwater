@@ -65,7 +65,6 @@ public class Level_001 extends GameScene {
 		gc = canvas.getGraphicsContext2D();
 		this.game_stage = gameStage;
 	}
-	
 	/**
 	 * Initialize other screen properties.
 	 * 
@@ -74,9 +73,9 @@ public class Level_001 extends GameScene {
 	
 	@Override
 	protected void initOtherProperties() {
-		initTimer();
 		initPlayer();
 		initGame();
+		initTimer();
 	}
 	
 	/**
@@ -110,7 +109,8 @@ public class Level_001 extends GameScene {
 		_statusBar.setAlignment(Pos.CENTER);
 		HBox _top = new HBox();
 		_top.getChildren().addAll(_metaBox, _statusBar);
-				
+		
+		timer_label.setText("01:00");
 		pane.setCenter(canvas);
 		pane.setTop(_top);
 	}
@@ -206,11 +206,7 @@ public class Level_001 extends GameScene {
 	
 	@Override 
 	public void update(GraphicsContext gc) { 	
-		onStartOfFrame();
 		updateGUI();
-		updateObjects();
-		checkObjectCollisions();
-		checkDestroyedObjects();
 		checkIfWon();
 		limitPlayerMovement();
 		pane.requestFocus();
@@ -279,11 +275,10 @@ public class Level_001 extends GameScene {
 		TIME_MANAGER.reset();
 		Timer timer = new Timer(1);
 		timer.setLoop(true);
-		timer.onTimerTimeout(()->{
+		timer.setOnTimerTimeout(()->{
 			int _time_left = (int) TIME_MANAGER.getTimeLeft();
-			if (_time_left == 60)
-				timer_label.setText("01:00");
-			else if (_time_left <= 0) 
+			
+			if (_time_left <= 0) 
 				timer_label.setText("00:00");
 			else if (_time_left >= 10) 
 				timer_label.setText("00:" + _time_left);

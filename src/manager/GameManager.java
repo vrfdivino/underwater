@@ -76,7 +76,7 @@ public class GameManager {
 	public void initIntervalEnemies() {
 		spawner = new Timer(5);
 		spawner.setLoop(true);
-		spawner.onTimerTimeout(()->{
+		spawner.setOnTimerTimeout(()->{
 			for(int i = 0; i < 3; ++i) {
 				addRunnableObject(new SmallFish(randomizeVectorPosition()));	
 			}
@@ -94,7 +94,7 @@ public class GameManager {
 	public void initBoss() {
 		boss_spawner = new Timer(30);
 		boss_spawner.setLoop(false);
-		boss_spawner.onTimerTimeout(()->{
+		boss_spawner.setOnTimerTimeout(()->{
 			AnglerFish _boss = new AnglerFish(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT/2);
 			runnableobject_list.add(_boss);
 			boss = _boss;
@@ -112,7 +112,7 @@ public class GameManager {
 	public void initPowerups() {
 		powerup_spawner = new Timer(10);
 		powerup_spawner.setLoop(true);
-		powerup_spawner.onTimerTimeout(()->{
+		powerup_spawner.setOnTimerTimeout(()->{
 			ArrayList<RunnableObject> toremove_list = new ArrayList<RunnableObject>();
 			for(RunnableObject object: runnableobject_list) {
 				if(object instanceof PowerUp) {

@@ -1,6 +1,7 @@
 package services;
 
 import java.sql.*;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -32,14 +33,14 @@ public class GameDB implements Database {
 	@Override
 	public boolean connectToDb() {
 		boolean success = false;
+
 		try {
-			Class.forName(Database.DB_API);
+			Class.forName("org.sqlite.JDBC");
 			this.conn = DriverManager.getConnection(this.database);
 			this.stmt = conn.createStatement();
 			success = !success;
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		} catch (Exception eString) {
+		    System.err.println("Could not init JDBC driver - driver not found");
 		}
 		return success;
 	}
@@ -55,7 +56,7 @@ public class GameDB implements Database {
 	public boolean closeDb() {
 		boolean success = false;
 		try {
-			this.stmt.close();
+			//this.stmt.close();
 			this.conn.close();
 			success = !success;
 		} catch (Exception e) {

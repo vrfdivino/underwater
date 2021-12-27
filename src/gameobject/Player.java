@@ -87,7 +87,7 @@ public class Player extends GameObject{
 	 */
 	private void setOthers() {
 		reload_timer = new Timer(0.5);
-		reload_timer.onTimerTimeout(()->{
+		reload_timer.setOnTimerTimeout(()->{
 			can_shoot = true;
 			spear_sprite.setVisible(true);
 		});
@@ -128,9 +128,9 @@ public class Player extends GameObject{
 	 */
 	
 	private void setCollision() {
-		collision.setCollide(true);
-		collision.setOrigin(new Vector2(-(size.x/2) + 80, (size.y/2) - 230));
-		collision.setSize( new Vector2(100, 190));
+		collider.setCanCollide(true);
+		collider.setOrigin(new Vector2(-(size.x/2) + 80, (size.y/2) - 230));
+		collider.setSize( new Vector2(100, 190));
 		String[] collisions_objs = new String[6];
 		collisions_objs[0] = SmallFish.class.getName();
 		collisions_objs[1] = AnglerFish.class.getName();
@@ -138,7 +138,7 @@ public class Player extends GameObject{
 		collisions_objs[3] = Lightning.class.getName();
 		collisions_objs[4] = Star.class.getName();
 		collisions_objs[5] = Spike.class.getName();
-		collision.setCollisions(collisions_objs);
+		collider.setCollisionMasks(collisions_objs);
 	}
 	
 	/**
@@ -182,8 +182,12 @@ public class Player extends GameObject{
 		
 		switch(state) {							
 		case NORMAL:       normal();       break;
-		case INVULNERABLE: invulnerable(); break;
-		case SPEEDUP:      speedUp();      break;
+		case INVULNERABLE:
+			break;
+		case SPEEDUP:
+			break;
+		default:
+			break;
 		}
 		render(gc);
 	}
@@ -191,7 +195,7 @@ public class Player extends GameObject{
 	/**
 	 * Describe how to render a player object.
 	 * 
-	 * @param gc The graphics context from the canvas.
+	 * @param gc ( GraphicsContext ) The graphics context from the canvas.
 	 * @author Dave Jimenez
 	 */
 	
@@ -207,32 +211,6 @@ public class Player extends GameObject{
 	 */
 	
 	public void normal() {
-		getInput();
-		updatePosition();
-		updateCollision();
-		updateWeapon();
-	}
-	
-	/**
-	 * The invulnerable state.
-	 * 
-	 * @author Dave Jimenez
-	 */
-	
-	public void invulnerable() {
-		getInput();
-		updatePosition();
-		updateCollision();
-		updateWeapon();
-	}
-	
-	/**
-	 * The speed up state.
-	 * 
-	 * @author Dave Jimenez
-	 */
-	
-	public void speedUp() {
 		getInput();
 		updatePosition();
 		updateCollision();
@@ -259,10 +237,12 @@ public class Player extends GameObject{
 	
 	private void updatePosition() {
 		direction = direction.normalize();
-		velocity.moveTowards(velocity, 
+		velocity.moveTowards( 
 				new Vector2(direction.x * move_speed, direction.y * move_speed),
 				move_acceleration * TIME_MANAGER.getDeltaTime());
 		position.add(velocity);
+		
+		//Update Sprite Position
 		animation_player.setPosition(position);
 		spear_sprite.setPosition(new Vector2(position.x + 100, position.y + 450 + 320));
 	}
@@ -274,33 +254,31 @@ public class Player extends GameObject{
 	 */
 	
 	private void updateCollision() {
-		collision.setPosition(position);
-		collision_pos = collision.getPosition();
+		collider.setPosition(position);
 		
-		if (animation_player.getAnimation("HIT").isPlaying())	collision.setCollide(false);
-		else	collision.setCollide(true);
+		if (animation_player.getAnimation("HIT").isPlaying())	collider.setCanCollide(false);
+		else	collider.setCanCollide(true);
 		
-		if (!collision.isColliding()) {
+		if (!collider.isColliding()) {
 			
 		} else {
-			for (GameObject other: collision.getOverlaps()) {
+			for (GameObject other: collider.getOverlaps()) {
 				if (other instanceof Pearl) {
 					PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() + 50);
 				}
 				
 				if (other instanceof Star) {
-					state = STATES.INVULNERABLE;
 					
 					String[] collisions_objs = new String[2];
 					collisions_objs[0] = Pearl.class.getName();
 					collisions_objs[1] = Lightning.class.getName();
-					collision.setCollisions(collisions_objs);
+					collider.setCollisionMasks(collisions_objs);
 					
 					animation_player.setAlpha(0.75);
 					
 					Timer invul_timer = new Timer(3);
-					invul_timer.onTimerTimeout(()->{
-						state = STATES.NORMAL;
+					invul_timer.setLoop(false);
+					invul_timer.setOnTimerTimeout(()->{
 						
 						String[] new_collisions_objs = new String[6];
 						new_collisions_objs[0] = SmallFish.class.getName();
@@ -309,32 +287,28 @@ public class Player extends GameObject{
 						new_collisions_objs[3] = Lightning.class.getName();
 						new_collisions_objs[4] = Star.class.getName();
 						new_collisions_objs[5] = Spike.class.getName();
-						collision.setCollisions(new_collisions_objs);
+						collider.setCollisionMasks(new_collisions_objs);
 						
 						animation_player.setAlpha(1.0);
 					});
-					invul_timer.setLoop(false);
 					invul_timer.start();
 					TIME_MANAGER.addTimer(invul_timer);
 				}
 				
 				if (other instanceof Lightning) {
-					state = STATES.SPEEDUP;
 					move_speed = 20;
 					move_acceleration = 100;
 					
 					Timer speedup_timer = new Timer(5);
-					speedup_timer.onTimerTimeout(()->{
-						state = STATES.NORMAL;
+					speedup_timer.setLoop(false);
+					speedup_timer.setOnTimerTimeout(()->{
 						move_speed = 10;
 						move_acceleration = 20;
 					});
-					speedup_timer.setLoop(false);
 					speedup_timer.start();
 					TIME_MANAGER.addTimer(speedup_timer);
 				}
 			}
-			
 			destroyCollidingObjects();
 		}
 		
@@ -348,11 +322,14 @@ public class Player extends GameObject{
 	
 	private void updateWeapon() {
 		if (INPUT_MANAGER.justPressed("SPACE") && can_shoot) {
-			GAME_MANAGER.addRunnableObject(new Projectile(position.x + 100, position.y + 450 + 320));
+			GAME_MANAGER.addRunnableObject(new Spear(position.x + 100, position.y + 450 + 320));
+			
 			SFX_MANAGER.stopAudioPlayer("SHOOT");
 			SFX_MANAGER.playAudioPlayer("SHOOT");	
+			
 			can_shoot = false;
 			spear_sprite.setVisible(false);
+			
 			reload_timer.start();
 		}
 	}
@@ -365,12 +342,12 @@ public class Player extends GameObject{
 	
 	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
-		for (GameObject other: collision.getOverlaps()) {
+		for (GameObject other: collider.getOverlaps()) {
 			toremove_list.add(other);
 		}
 		//Solves ConcurrentModificationError
 		for (GameObject other: toremove_list) {
-			collision.removeOverlap(other);	
+			collider.removeOverlap(other);	
 			if(other instanceof SmallFish) {
 				other.destroy();
 				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - SmallFish.DAMAGE);
@@ -392,7 +369,7 @@ public class Player extends GameObject{
 	 */
 	
 	private void updateAnimation() {
-		if (!collision.isColliding()) {
+		if (!collider.isColliding()) {
 		}else {
 			animation_player.playAnimation("HIT");
 		}
@@ -409,24 +386,17 @@ public class Player extends GameObject{
 	 */
 	
 	private void updateAudio() {
-		if (!collision.isColliding()) {
+		if (!collider.isColliding()) {
 
 		} else {
-			for (GameObject other: collision.getOverlaps()) {
-				if (other instanceof SmallFish) {
-					SFX_MANAGER.stopAudioPlayer("HIT");
-					SFX_MANAGER.playAudioPlayer("HIT");
-				}
-				if (other instanceof AnglerFish) {
-					SFX_MANAGER.stopAudioPlayer("HIT");
-					SFX_MANAGER.playAudioPlayer("HIT");
-				}
-				if (other instanceof Spike) {
+			for (GameObject other: collider.getOverlaps()) {
+				if (other instanceof SmallFish ||
+					other instanceof AnglerFish ||
+					other instanceof Spike) {
 					SFX_MANAGER.stopAudioPlayer("HIT");
 					SFX_MANAGER.playAudioPlayer("HIT");
 				}
 			}
-
 		}
 	}
 
@@ -442,14 +412,4 @@ public class Player extends GameObject{
 	public void setPosition(Vector2 position) {this.position.set(position);}
 	public void setVelocity(double x, double y) {this.velocity.set(x, y);}
 	public void setVelocity(Vector2 velocity) {this.velocity.set(velocity);}
-	public void setCanAbsorb(boolean can_absorb) {
-		this.can_absorb = can_absorb;
-		Timer timer = new Timer(1);
-		timer.setLoop(false);
-		timer.onTimerTimeout(()->{
-		   this.can_absorb = true;
-		 });
-		timer.start();
-		TIME_MANAGER.addTimer(timer);
-	}
 }

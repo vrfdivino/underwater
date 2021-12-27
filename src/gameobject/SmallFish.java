@@ -109,13 +109,13 @@ public class SmallFish extends GameObject{
 	 */
 	
 	private void setCollision() {
-		collision.setCollide(true);
-		collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
-		collision.setSize(new Vector2(144, 96));
+		collider.setCanCollide(true);
+		collider.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
+		collider.setSize(new Vector2(144, 96));
 		String[] collisions_objs = new String[2];
 		collisions_objs[0] = Player.class.getName();
-		collisions_objs[1] = Projectile.class.getName();
-		collision.setCollisions(collisions_objs);
+		collisions_objs[1] = Spear.class.getName();
+		collider.setCollisionMasks(collisions_objs);
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class SmallFish extends GameObject{
 	public void initTimer() {
 		Random r = new Random();
 		timer = new Timer(r.nextInt(10));
-		timer.onTimerTimeout(()->{
+		timer.setOnTimerTimeout(()->{
 			speed = r.nextInt(125) + 125;
 		 });
 		timer.setLoop(true);
@@ -160,7 +160,7 @@ public class SmallFish extends GameObject{
 		animation_player.playAnimation("MOVE");
 		animation_player.setPosition(position);
 		animation_player.render(gc);
-		if (!collision.isColliding()) {
+		if (!collider.isColliding()) {
 		} else {
 			destroyCollidingObjects();
 		}
@@ -178,13 +178,13 @@ public class SmallFish extends GameObject{
 			dir_x = 1;
 			position.x = 0;
 			animation_player.setHFlip(true);
-			collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
+			collider.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
 		}
 		if (position.x > GameStage.WINDOW_WIDTH) {
 			dir_x = -1;
 			position.x = GameStage.WINDOW_WIDTH;
 			animation_player.setHFlip(false);
-			collision.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
+			collider.setOrigin(new Vector2(-(size.x/2), -(size.y/2)));
 		}
 	}
 	
@@ -195,7 +195,7 @@ public class SmallFish extends GameObject{
 	 */
 	
 	private void updateCollision() {
-		collision.setPosition(position);
+		collider.setPosition(position);
 	}
 	
 	/**
@@ -206,12 +206,12 @@ public class SmallFish extends GameObject{
 	
 	private void destroyCollidingObjects() {
 		ArrayList<GameObject> toremove_list = new ArrayList<GameObject>();
-		for (GameObject other: collision.getOverlaps()) {
+		for (GameObject other: collider.getOverlaps()) {
 			toremove_list.add(other);
 		}
 		for (GameObject other: toremove_list) {
-			collision.removeOverlap(other);
-			if(other instanceof Projectile) {
+			collider.removeOverlap(other);
+			if(other instanceof Spear) {
 				SFX_MANAGER.stopAudioPlayer("FISH HIT");
 				SFX_MANAGER.playAudioPlayer("FISH HIT");
 				other.destroy();
