@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"component"},{"l":"constants"},{"l":"datatype"},{"l":"gameobject"},{"l":"gamescene"},{"l":"gui"},{"l":"main"},{"l":"manager"},{"l":"parentclass"},{"l":"runnableobject"},{"l":"services"}];updateSearchResults();
