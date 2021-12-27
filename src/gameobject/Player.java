@@ -354,7 +354,7 @@ public class Player extends GameObject{
 			} else if(other instanceof AnglerFish) {
 				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
 			} else if (other instanceof Spike){
-				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - AnglerFish.DAMAGE);
+				PLAYER_MANAGER.setHp(PLAYER_MANAGER.getHp() - Spike.DAMAGE);
 				other.destroy();
 			} else {
 				other.destroy();
