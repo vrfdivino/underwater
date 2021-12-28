@@ -96,7 +96,7 @@ public class GameManager {
 		boss_spawner.setLoop(false);
 		boss_spawner.setOnTimerTimeout(()->{
 			AnglerFish _boss = new AnglerFish(GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT/2);
-			runnableobject_list.add(_boss);
+			addRunnableObject(_boss);
 			boss = _boss;
 		});
 		boss_spawner.start();
