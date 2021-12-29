@@ -75,6 +75,7 @@ public class Spear extends GameObject {
 	@Override
 	public void update(GraphicsContext gc) {
 		updateCollision();
+		updatePosition();
 		render(gc);
 	}
 	
@@ -87,12 +88,12 @@ public class Spear extends GameObject {
 	
 	private void render(GraphicsContext gc) {
 		animation_player.playAnimation("IDLE");
-		updatePosition();
 		animation_player.setPosition(position);	
 		if (!collider.isColliding()) {
 		} else {
 			destroyCollidingObjects();
 		}
+		collider.renderCollision(gc);
 		animation_player.render(gc);
 	}
 	
@@ -118,7 +119,7 @@ public class Spear extends GameObject {
 	
 	private void setCollision() {
 		collider.setCanCollide(true);
-		collider.setOrigin(new Vector2(-(size.x/2) + 20, -(size.y/2) + 10));
+		collider.setOrigin(new Vector2(-(size.x/2) + 20, -(size.y/2)));
 		collider.setSize( new Vector2(64, 20));
 		String[] collisions_objs = new String[2];
 		collisions_objs[0] = SmallFish.class.getName();

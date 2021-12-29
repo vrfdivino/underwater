@@ -178,9 +178,10 @@ public class Vector2 {
 	 */
 	
 	public Vector2 moveTowards(Vector2 target_pos, double delta) {
-		Vector2 _origin_pos = new Vector2(target_pos.x - x, target_pos.y - y);
+		Vector2 _direction = new Vector2(target_pos.x - x, target_pos.y - y);
+		_direction = _direction.normalize();
+
 		Vector2 _final_pos = new Vector2();
-		Vector2 _direction = _origin_pos.normalize();
 		//Check if next delta increment will overshoot. If overshoot then the final position will be the target position.
 		if (_direction.x > 0) {
 			if (_direction.y > 0) {

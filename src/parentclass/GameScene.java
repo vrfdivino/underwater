@@ -30,6 +30,7 @@ public abstract class GameScene implements RunnableObject{
 	protected GameManager GAME_MANAGER = GameManager.getInstance();
 	protected PlayerManager PLAYER_MANAGER = PlayerManager.getInstance();
 	protected TimeManager TIME_MANAGER = TimeManager.getInstance();
+
 	protected GameStage game_stage;
 	protected Scene scene;
 	protected GraphicsContext gc;

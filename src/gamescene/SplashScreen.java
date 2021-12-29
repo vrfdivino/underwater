@@ -47,6 +47,7 @@ public class SplashScreen extends GameScene {
 	private Vector2 title_vel = Vector2.ZERO;
 	private double title_max_spd = 2;
 	private Vector2 title_dir = Vector2.ZERO;
+
 	private Vector2 point_1 = new Vector2(GameStage.WINDOW_WIDTH, 250+32);
 	private Vector2 point_2 = new Vector2(GameStage.WINDOW_WIDTH, 250+24);
 	
@@ -76,12 +77,32 @@ public class SplashScreen extends GameScene {
 	@Override
 	protected void initGUIProperties() {
 		background = Layout.STATIC_BACKGROUND;
-		title = new AnimatedSprite(new Image[] {new Image(Assets.TITLECARD)}, 1, new Vector2(GameStage.WINDOW_HEIGHT/2, -186), new Vector2(720, 364));
+		title = new AnimatedSprite(
+				new Image[] {new Image(Assets.TITLECARD)}, 
+				1, 
+				new Vector2(GameStage.WINDOW_HEIGHT/2, -186), 
+				new Vector2(720, 364));
 		
-		newgame_button  = new MenuButton(game_stage, Assets.NEW_GAME_SELECTED,  Assets.NEW_GAME_PRESSED, Assets.NEW_GAME_UNSELECTED,  new Level_001(game_stage));
-		scoreboard_button = new MenuButton(game_stage, Assets.SCOREBOARD_SELECTED, Assets.SCOREBOARD_PRESSED, Assets.SCOREBOARD_UNSELECTED, new Scoreboard(game_stage));
-		about_button       = new MenuButton(game_stage,  Assets.ABOUT_SELECTED, Assets.ABOUT_PRESSED, Assets.ABOUT_UNSELECTED,        new About(game_stage));
-		instruction_button = new MenuButton(game_stage,  Assets.INSTRUCTION_SELECTED, Assets.INSTRUCTION_PRESSED, Assets.INSTRUCTION_UNSELECTED,  new Instruction(game_stage));
+		newgame_button = new MenuButton(game_stage, 
+				Assets.NEW_GAME_SELECTED,  
+				Assets.NEW_GAME_PRESSED, 
+				Assets.NEW_GAME_UNSELECTED,  
+				new Level_001(game_stage));
+		scoreboard_button = new MenuButton(game_stage, 
+				Assets.SCOREBOARD_SELECTED, 
+				Assets.SCOREBOARD_PRESSED, 
+				Assets.SCOREBOARD_UNSELECTED, 
+				new Scoreboard(game_stage));
+		about_button = new MenuButton(game_stage,  
+				Assets.ABOUT_SELECTED, 
+				Assets.ABOUT_PRESSED, 
+				Assets.ABOUT_UNSELECTED,        
+				new About(game_stage));
+		instruction_button = new MenuButton(game_stage,  
+				Assets.INSTRUCTION_SELECTED, 
+				Assets.INSTRUCTION_PRESSED, 
+				Assets.INSTRUCTION_UNSELECTED,  
+				new Instruction(game_stage));
 		
 		volume_slider    = new Slider(0.30, 0.8, AUDIO_MANAGER.getVolume());
 		sfxvolume_slider = new Slider(0.30, 0.8, SFX_MANAGER.getVolume());
@@ -159,7 +180,6 @@ public class SplashScreen extends GameScene {
 	public void update(GraphicsContext gc) { 		
 		updateGUI();	
 		pane.requestFocus();
-		
 	}
 	
 	/**
@@ -191,8 +211,10 @@ public class SplashScreen extends GameScene {
 	private void animateTitle() {
 		if (title.getPosition().y > point_1.y)	title_dir = Vector2.UP;
 		if (title.getPosition().y < point_2.y) 	title_dir = Vector2.DOWN;
+
 		title_vel.moveTowards(new Vector2(title_max_spd * title_dir.x, title_max_spd * title_dir.y), 5 * TIME_MANAGER.getDeltaTime());
 		title.getPosition().add(title_vel);
+
 		title.render(gc);
 	}
 	

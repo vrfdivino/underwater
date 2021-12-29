@@ -24,6 +24,7 @@ public class MenuButton extends Button{
 	
 	private GameStage game_stage;
 	private GameScene game_scene_to_load;
+
 	private String button_hover_style;
 	private String button_pressed_style;
 	private String button_released_style;

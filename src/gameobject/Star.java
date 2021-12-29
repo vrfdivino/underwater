@@ -24,13 +24,5 @@ public class Star extends PowerUp {
 		super(x, y);
 		setSpritesAndAnimation(PowerUp.STAR_PATH);
 		sfx = new AudioPlayer(Assets.POWERUP_1);
-		Timer duration_timer = new Timer(5);
-		duration_timer.setOnTimerTimeout(()->{
-			animated_sprite.setVisible(false);
-			collider.setCanCollide(false);
-		});
-		duration_timer.setLoop(false);
-		duration_timer.start();
-		TIME_MANAGER.addTimer(duration_timer);
 	}
 }

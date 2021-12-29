@@ -164,6 +164,7 @@ public class SmallFish extends GameObject{
 		} else {
 			destroyCollidingObjects();
 		}
+		collider.renderCollision(gc);
 	}
 	
 	/**

@@ -201,6 +201,7 @@ public class Player extends GameObject{
 	private void render(GraphicsContext gc) {
 		animation_player.render(gc);
 		spear_sprite.render(gc);
+		collider.renderCollision(gc);
 	}
 	
 	/**

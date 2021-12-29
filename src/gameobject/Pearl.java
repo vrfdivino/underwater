@@ -24,12 +24,5 @@ public class Pearl extends PowerUp {
 		super(x, y);
 		setSpritesAndAnimation(PowerUp.PEARL_PATH);
 		sfx = new AudioPlayer(Assets.POWERUP_3);
-		Timer duration_timer = new Timer(5);
-		duration_timer.setOnTimerTimeout(()->{
-			destroy();
-		});
-		duration_timer.setLoop(false);
-		duration_timer.start();
-		TIME_MANAGER.addTimer(duration_timer);
 	}
 }

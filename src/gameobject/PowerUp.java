@@ -3,6 +3,7 @@ package gameobject;
 import component.AnimatedSprite;
 import component.AnimationPlayer;
 import component.AudioPlayer;
+import component.Timer;
 import datatype.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -39,6 +40,17 @@ public class PowerUp extends GameObject {
 	public PowerUp(double x, double y) {
 		setTransformations(x, y);
 		setCollision();
+		setOthers();
+	}
+	private void setOthers() {
+		
+		Timer duration_timer = new Timer(5);
+		duration_timer.setOnTimerTimeout(()->{
+			destroy();
+		});
+		duration_timer.setLoop(false);
+		duration_timer.start();
+		TIME_MANAGER.addTimer(duration_timer);
 	}
 	
 	/**
