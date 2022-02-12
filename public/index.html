@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Pressure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: tomato;
+            color: white;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-shadow: 1px 1px 10px black;
+        }
+
+        .scoreboard {
+            width: 30%;
+        }
+
+        .player {
+            width: 100%;
+            margin: 1rem 0;
+            background-color: white;
+            padding: 1rem 0.5rem;
+            color: black;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .ranking {
+            float: left;
+            font-weight: bolder;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Under Presure Scoreboard</h1>
+    <div class="scoreboard">
+
+    </div>
+    <script>
+
+        const scoreboard = document.querySelector(".scoreboard");
+
+        const fetchScoreboard = async () =>  {
+            let response = await fetch('/api')
+            let data = await response.json();
+            return data;
+        };
+
+        fetchScoreboard().then(players => {
+            scoreboard.innerHTML = null;
+            players.forEach((player, idx) => {
+                const div = document.createElement("div");
+                div.classList.add("player")
+                div.innerHTML = `<span class="ranking">${idx + 1}</span>${player.name} - ${player.score}`;
+                scoreboard.append(div);
+            });
+        });
+    </script>
+</body>
+</html>
